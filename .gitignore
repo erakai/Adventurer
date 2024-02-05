@@ -1,0 +1,9 @@
+build/
+bin/*
+external/
+Makefile
+
+.vscode/
+
+.DS_Store
+**/*/.DS_STORE
