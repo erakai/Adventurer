@@ -2,16 +2,18 @@ project (adventurer-engine)
 
 # Source list for the engine
 set(LIB_SOURCES
-  src/adv_game.cpp)
+  src/core/game.cpp
+  src/core/scene.cpp)
 
 # The library
 add_library(${PROJECT_NAME} ${LIB_SOURCES})
 
-# Set include dir + link sdl
+# Set include dir
 target_include_directories(${PROJECT_NAME}
   PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
 
+# Link to sdl
 target_include_directories(${PROJECT_NAME}
   ${ADV_SDL_INCLUDE}
 )

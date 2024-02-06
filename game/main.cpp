@@ -1,9 +1,8 @@
-#include "adv_game.hpp"
+#include <iostream>
 
 int main()
 {
-  AdvGame gm;
-  gm.run();
+  std::cout << "sup\n";
 
   return 0;
 }
