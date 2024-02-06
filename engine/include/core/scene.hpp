@@ -1,6 +1,6 @@
 #pragma once
 
-#include "updatable.hpp"
+#include "node.hpp"
 
 #include <string>
 #include <vector>
@@ -8,13 +8,13 @@
 namespace adv
 {
 
-class Scene: public Updatable
+class Scene: public Node
 {
   public:
     Scene(std::string name) :
       title(name) {}
     
-    void add_child(Updatable* u);
+    void add_child(Node* u);
 
     void update(long delta) override;
     void render(long delta) override;
@@ -23,7 +23,7 @@ class Scene: public Updatable
 
   private:
     std::string title;
-    std::vector<Updatable*> children;
+    std::vector<Node*> children;
 
 };
 

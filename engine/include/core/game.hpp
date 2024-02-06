@@ -1,6 +1,6 @@
 #pragma once
 
-#include "updatable.hpp"
+#include "node.hpp"
 #include "config.hpp"
 #include "scene.hpp"
 #include "display/display.hpp"
@@ -15,7 +15,7 @@ using namespace std;
 namespace adv
 {
 
-class Game: public Updatable
+class Game: public Node
 {
   public:
     Game(Config conf);
@@ -24,8 +24,8 @@ class Game: public Updatable
     void update(long delta) override;
     void render(long delta) override;
 
-    Scene scene();
-    void add_scene(Scene scene);
+    std::shared_ptr<Scene> scene();
+    void add_scene(std::shared_ptr<Scene> scene);
     void set_scene(std::string name);
 
   private:
@@ -39,10 +39,10 @@ class Game: public Updatable
     Display display;
 
     // Current scene that is being shown and needs updating
-    Scene current_scene; 
+    std::shared_ptr<Scene> current_scene; 
 
     // Map of all scenes in the game
-    std::map<std::string, Scene> scene_map;
+    std::map<std::string, std::shared_ptr<Scene>> scene_map;
 };
 
 };

@@ -3,7 +3,10 @@ project (adventurer-engine)
 # Source list for the engine
 set(LIB_SOURCES
   src/core/game.cpp
-  src/core/scene.cpp)
+  src/core/scene.cpp
+  src/core/node.cpp
+  src/utils/logger.cpp
+)
 
 # The library
 add_library(${PROJECT_NAME} ${LIB_SOURCES})
