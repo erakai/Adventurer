@@ -5,7 +5,9 @@ set(LIB_SOURCES
   src/core/game.cpp
   src/core/scene.cpp
   src/core/node.cpp
+  src/core/input.cpp
   src/utils/logger.cpp
+  src/display/display.cpp
 )
 
 # The library

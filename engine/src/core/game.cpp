@@ -1,17 +1,22 @@
 #include "core/game.hpp"
-#include "utils/logger.hpp"
 
 using namespace adv;
 
 Game::Game(Config conf) : 
-  conf(conf)
+  conf(conf), display(conf.screen_width, conf.screen_height, conf.title)
 {
   current_scene = std::shared_ptr<Scene>(new Scene(conf.title));
 }
 
 void Game::run(void)
 {
-  while (true)
+  if (!display.is_initialized())
+  {
+    logger::log("CANNOT RUN GAME - DISPLAY NOT INITIALIZED");
+  }
+
+  running = true;
+  while (running)
   {
     auto current_frame = chrono::duration_cast<chrono::milliseconds>(
       chrono::system_clock::now().time_since_epoch()
@@ -19,6 +24,8 @@ void Game::run(void)
 
     long delta = (current_frame - last_frame).count();
 
+    // TODO: Revisit frame timing logic
+    // Potentially use SDL timer?
     long sleep_for = (1000 / conf.frames_per_second) - delta;
     if (sleep_for > 0) std::this_thread::sleep_for(std::chrono::milliseconds(sleep_for));
 
@@ -32,6 +39,7 @@ void Game::run(void)
 void Game::update(long delta)
 {
   current_scene->update(delta);
+  running = input::poll_event_loop();
 }
 
 void Game::render(long delta)

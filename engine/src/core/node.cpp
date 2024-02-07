@@ -11,6 +11,15 @@ void Node::update_children(long delta)
   }
 }
 
+void Node::render_children(long delta)
+{
+  for (auto &n: children)
+  {
+    n->render(delta);
+    n->render_children(delta);
+  }
+}
+
 void Node::add_child(std::shared_ptr<Node> n)
 {
   children.push_back(n);

@@ -14,6 +14,7 @@ class Node
     virtual void render(long delta) = 0;
 
     void update_children(long delta);
+    void render_children(long delta);
     void add_child(std::shared_ptr<Node> n);
     void remove_child(std::shared_ptr<Node> n);
   

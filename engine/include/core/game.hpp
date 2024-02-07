@@ -3,7 +3,9 @@
 #include "node.hpp"
 #include "config.hpp"
 #include "scene.hpp"
+#include "input.hpp"
 #include "display/display.hpp"
+#include "utils/logger.hpp"
 
 #include <iostream>
 #include <chrono>
@@ -29,6 +31,9 @@ class Game: public Node
     void set_scene(std::string name);
 
   private:
+    // Controls game loop
+    bool running;
+
     // Config (globals) for the game
     Config conf;
 

@@ -14,8 +14,5 @@ void Scene::update(long delta)
 
 void Scene::render(long delta)
 {
-  for (auto &u: children)
-  {
-    u->render(delta);
-  }
+  render_children(delta);
 }
