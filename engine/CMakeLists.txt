@@ -4,10 +4,12 @@ project (adventurer-engine)
 set(LIB_SOURCES
   src/core/game.cpp
   src/core/scene.cpp
-  src/core/node.cpp
   src/core/input.cpp
+  src/nodes/node.cpp
+  src/nodes/object.cpp
   src/utils/logger.cpp
   src/display/display.cpp
+  src/world/position.cpp
 )
 
 # The library

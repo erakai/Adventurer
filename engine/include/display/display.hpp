@@ -2,7 +2,7 @@
 
 #include "SDL.h"
 
-#include "core/node.hpp"
+#include "nodes/node.hpp"
 #include "core/scene.hpp"
 #include "utils/logger.hpp"
 

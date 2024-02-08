@@ -10,8 +10,8 @@ class Node
 {
   public:
     virtual ~Node() {}
-    virtual void update(long delta) = 0;
-    virtual void render(long delta) = 0;
+    virtual void update(long delta) {}
+    virtual void render(long delta) {}
 
     void update_children(long delta);
     void render_children(long delta);

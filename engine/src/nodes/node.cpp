@@ -1,4 +1,4 @@
-#include "core/node.hpp"
+#include "nodes/node.hpp"
 
 using namespace adv;
 
