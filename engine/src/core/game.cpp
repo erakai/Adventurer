@@ -44,7 +44,7 @@ void Game::update(long delta)
 
 void Game::render(long delta)
 {
-  display.render_scene(current_scene, delta);
+  display.render_scene(current_scene, delta, PositionRect(0, 0, conf.screen_width, conf.screen_height));
 }
 
 std::shared_ptr<Scene> Game::scene()

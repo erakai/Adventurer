@@ -4,6 +4,7 @@
 
 #include "nodes/node.hpp"
 #include "core/scene.hpp"
+#include "world/position_rect.hpp"
 #include "utils/logger.hpp"
 
 #include <string>
@@ -17,7 +18,7 @@ class Display
     Display(int screen_width, int screen_height, std::string title);
     ~Display();
 
-    void render_scene(std::shared_ptr<Scene> scene, long delta);
+    void render_scene(std::shared_ptr<Scene> scene, const long delta, const PositionRect camera_pos);
     bool is_initialized() { return initialized; }
 
   private:

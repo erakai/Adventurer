@@ -17,14 +17,14 @@ using namespace std;
 namespace adv
 {
 
-class Game: public Node
+class Game
 {
   public:
     Game(Config conf);
 
     void run(void);
-    void update(long delta) override;
-    void render(long delta) override;
+    void update(long delta);
+    void render(long delta);
 
     std::shared_ptr<Scene> scene();
     void add_scene(std::shared_ptr<Scene> scene);

@@ -37,12 +37,12 @@ Display::~Display()
   SDL_Quit();
 }
 
-void Display::render_scene(std::shared_ptr<Scene> scene, long delta)
+void Display::render_scene(std::shared_ptr<Scene> scene, const long delta, const PositionRect camera_pos)
 {
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
   SDL_RenderClear(renderer);
 
-  scene->render(delta);
+  scene->render(delta, camera_pos);
 
   SDL_RenderPresent(renderer);
   SDL_UpdateWindowSurface(window);

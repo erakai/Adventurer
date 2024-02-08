@@ -1,6 +1,7 @@
 #pragma once
 
 #include "nodes/node.hpp"
+#include "world/position_rect.hpp"
 
 #include <string>
 #include <vector>
@@ -17,7 +18,7 @@ class Scene: public Node
     void add_child(Node* u);
 
     void update(long delta) override;
-    void render(long delta) override;
+    void render(long delta, PositionRect viewport) override;
 
     std::string name() { return title; }
 

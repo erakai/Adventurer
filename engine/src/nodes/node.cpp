@@ -11,12 +11,12 @@ void Node::update_children(long delta)
   }
 }
 
-void Node::render_children(long delta)
+void Node::render_children(long delta, PositionRect viewport)
 {
   for (auto &n: children)
   {
-    n->render(delta);
-    n->render_children(delta);
+    n->render(delta, viewport);
+    n->render_children(delta, viewport);
   }
 }
 

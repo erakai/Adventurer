@@ -6,10 +6,10 @@ set(LIB_SOURCES
   src/core/scene.cpp
   src/core/input.cpp
   src/nodes/node.cpp
-  src/nodes/object.cpp
+  src/nodes/game_object.cpp
   src/utils/logger.cpp
   src/display/display.cpp
-  src/world/position.cpp
+  src/world/position_rect.cpp
 )
 
 # The library
