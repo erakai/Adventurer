@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-int main()
+int main(int argv, char** args)
 {
   std::cout << "Booting Adventurer...\n";
 

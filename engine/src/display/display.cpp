@@ -22,7 +22,6 @@ Display::Display(int screen_width, int screen_height, std::string title)
   }
 
   SDL_SetWindowTitle(window, title.c_str());
-  screen_surface = SDL_GetWindowSurface(window);
 
   initialized = true;
 }
@@ -45,5 +44,4 @@ void Display::render_scene(std::shared_ptr<Scene> scene, const long delta, const
   scene->render(renderer, delta, camera_pos);
 
   SDL_RenderPresent(renderer);
-  SDL_UpdateWindowSurface(window);
 }

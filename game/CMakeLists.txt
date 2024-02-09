@@ -10,9 +10,16 @@ add_executable(${PROJECT_NAME} ${GAME_SOURCES})
 
 # Move one directory up for convenience
 cmake_path(GET PROJECT_BINARY_DIR PARENT_PATH MOVE_TO)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${MOVE_TO}/adventurer
-)
+if (WIN32)
+  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${MOVE_TO}/adventurer.exe
+  )
+else()
+  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${MOVE_TO}/adventurer
+  )
+endif()
+
 
 # Add game engine
 target_link_libraries(${PROJECT_NAME} PRIVATE adventurer-engine)

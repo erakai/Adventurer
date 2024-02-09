@@ -8,6 +8,7 @@
 #include "utils/logger.hpp"
 
 #include <string>
+#include <memory>
 
 namespace adv
 {
@@ -26,8 +27,6 @@ class Display
 
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
-    SDL_Surface* screen_surface = nullptr;
-    
 };
 
 };

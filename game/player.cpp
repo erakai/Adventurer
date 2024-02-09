@@ -12,7 +12,6 @@ Player::Player() : Entity(20)
   input::key_hook(input);
 }
 
-
 void Player::render(SDL_Renderer* renderer, long delta, PositionRect viewport)
 {
   update_display_position(viewport);
