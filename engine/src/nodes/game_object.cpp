@@ -14,6 +14,11 @@ PositionRect& GameObject::pos()
   return position;
 }
 
+PositionRect& GameObject::display_pos()
+{
+  return display_position;
+}
+
 void GameObject::update_display_position(PositionRect camera_pos)
 {
   display_position.x((position.x() - camera_pos.x()) / globals::WORLD_DIST_PER_DISPLAY_PIXEL);

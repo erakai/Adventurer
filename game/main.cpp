@@ -1,6 +1,8 @@
 #include "core/game.hpp"
 #include "core/config.hpp"
 
+#include "player.hpp"
+
 #include <iostream>
 
 int main()
@@ -10,6 +12,8 @@ int main()
   adv::Config conf;
   adv::Game game(conf);
 
+  std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player());
+  game.scene()->add_child(player);
   game.run();
 
   return 0;

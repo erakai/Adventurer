@@ -2,6 +2,7 @@ project (adventurer-game)
 
 # Determine source list
 set(GAME_SOURCES
+   player.cpp
    main.cpp)
 
 # The binary

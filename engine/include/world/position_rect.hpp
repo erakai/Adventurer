@@ -11,6 +11,7 @@ When used as a viewport, (x,y) is world position of camera, (width, height) is d
 class PositionRect
 {
   public:
+    PositionRect() {}
     PositionRect(int x, int y) : _x(x), _y(y) {}
     PositionRect(int x, int y, int width, int height) : 
       _x(x), _y(y), _width(width), _height(height) {}

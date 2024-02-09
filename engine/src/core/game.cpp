@@ -24,8 +24,7 @@ void Game::run(void)
 
     long delta = (current_frame - last_frame).count();
 
-    // TODO: Revisit frame timing logic
-    // Potentially use SDL timer?
+    // TODO: Revisit frame timing logic. Potentially use SDL timer?
     long sleep_for = (1000 / conf.frames_per_second) - delta;
     if (sleep_for > 0) std::this_thread::sleep_for(std::chrono::milliseconds(sleep_for));
 
@@ -38,8 +37,8 @@ void Game::run(void)
 
 void Game::update(long delta)
 {
-  current_scene->update(delta);
   running = input::poll_event_loop();
+  current_scene->update(delta);
 }
 
 void Game::render(long delta)

@@ -7,6 +7,7 @@ set(LIB_SOURCES
   src/core/input.cpp
   src/nodes/node.cpp
   src/nodes/game_object.cpp
+  src/nodes/entity.cpp
   src/utils/logger.cpp
   src/display/display.cpp
   src/world/position_rect.cpp

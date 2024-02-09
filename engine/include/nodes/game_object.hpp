@@ -9,6 +9,7 @@ namespace adv
 class GameObject: public Node
 {
   public:
+    GameObject() {}
     GameObject(PositionRect pos);
     virtual ~GameObject() {}
 
@@ -18,6 +19,7 @@ class GameObject: public Node
     };
 
     PositionRect& pos();
+    PositionRect& display_pos();
     void update_display_position(PositionRect camera_pos);
 
   private:

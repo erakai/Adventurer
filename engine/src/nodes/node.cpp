@@ -11,12 +11,12 @@ void Node::update_children(long delta)
   }
 }
 
-void Node::render_children(long delta, PositionRect viewport)
+void Node::render_children(SDL_Renderer* renderer, long delta, PositionRect viewport)
 {
   for (auto &n: children)
   {
-    n->render(delta, viewport);
-    n->render_children(delta, viewport);
+    n->render(renderer, delta, viewport);
+    n->render_children(renderer, delta, viewport);
   }
 }
 

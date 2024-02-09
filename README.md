@@ -20,6 +20,7 @@ mkdir build
 cd build
 cmake ..
 make
+./adventurer
 ```
 
 If you are getting weird errors with VSCode, try setting the intellisense C++ configuration provider to cmake tools.
