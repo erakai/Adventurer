@@ -1,6 +1,6 @@
 #pragma once
 
-#include "nodes/node.hpp"
+#include "node.hpp"
 #include "world/position_rect.hpp"
 
 #include <string>

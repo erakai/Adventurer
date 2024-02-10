@@ -3,7 +3,7 @@
 #include "config.hpp"
 #include "scene.hpp"
 #include "input.hpp"
-#include "nodes/node.hpp"
+#include "node.hpp"
 #include "display/display.hpp"
 #include "utils/logger.hpp"
 

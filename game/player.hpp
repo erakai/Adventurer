@@ -1,6 +1,6 @@
 #pragma once
 
-#include "nodes/entity.hpp"
+#include "objs/entity.hpp"
 #include "core/input.hpp"
 
 #include <iostream>

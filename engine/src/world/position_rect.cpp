@@ -2,12 +2,12 @@
 
 using namespace adv;
 
-int PositionRect::x()
+int PositionRect::x() const
 {
   return _x;
 }
 
-int PositionRect::y()
+int PositionRect::y() const
 {
   return _y;
 }

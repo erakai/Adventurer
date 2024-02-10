@@ -1,7 +1,9 @@
 #pragma once
 
-#include "node.hpp"
+#include "collider.hpp"
+#include "core/node.hpp"
 #include "world/position_rect.hpp"
+#include "utils/globals.hpp"
 
 namespace adv
 {
@@ -9,13 +11,12 @@ namespace adv
 class GameObject: public Node
 {
   public:
-    GameObject() {}
+    GameObject() : collider(position) {}
     GameObject(PositionRect pos);
     virtual ~GameObject() {}
 
-    // https://gamedev.stackexchange.com/questions/74858/how-can-i-improve-my-collision-detections-performance
     virtual bool check_collision(GameObject obj) {
-      return false;
+      return collider.check_collision(obj.collider);
     };
 
     PositionRect& pos();
@@ -26,6 +27,7 @@ class GameObject: public Node
     PositionRect position;
     PositionRect display_position;
 
+    Collider collider;
 };
 
 };

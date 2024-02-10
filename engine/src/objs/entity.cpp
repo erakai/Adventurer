@@ -1,4 +1,4 @@
-#include "nodes/entity.hpp"
+#include "objs/entity.hpp"
 
 #include <iostream>
 

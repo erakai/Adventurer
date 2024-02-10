@@ -18,8 +18,8 @@ class PositionRect
     PositionRect(const PositionRect& pos) :
       _x(pos._x), _y(pos._y), _width(pos._width), _height(pos._height) {}
 
-    int x();
-    int y();
+    int x() const;
+    int y() const;
     void x(int new_x);
     void y(int new_y);
 

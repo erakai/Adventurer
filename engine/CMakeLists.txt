@@ -5,9 +5,10 @@ set(LIB_SOURCES
   src/core/game.cpp
   src/core/scene.cpp
   src/core/input.cpp
-  src/nodes/node.cpp
-  src/nodes/game_object.cpp
-  src/nodes/entity.cpp
+  src/core/node.cpp
+  src/objs/game_object.cpp
+  src/objs/entity.cpp
+  src/objs/collider.cpp
   src/utils/logger.cpp
   src/display/display.cpp
   src/world/position_rect.cpp

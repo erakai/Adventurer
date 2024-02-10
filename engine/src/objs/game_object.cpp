@@ -1,9 +1,9 @@
-#include "nodes/game_object.hpp"
-#include "utils/globals.hpp"
+#include "objs/game_object.hpp"
 
 using namespace adv;
 
-GameObject::GameObject(PositionRect pos) : position(pos), display_position(pos)
+GameObject::GameObject(PositionRect pos) :
+  position(pos), display_position(pos), collider(position)
 {
   display_position.x(display_position.x() / globals::WORLD_DIST_PER_DISPLAY_PIXEL);
   display_position.y(display_position.y() / globals::WORLD_DIST_PER_DISPLAY_PIXEL);
