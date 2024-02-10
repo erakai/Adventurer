@@ -11,7 +11,6 @@ set(LIB_SOURCES
   src/objs/collider.cpp
   src/utils/logger.cpp
   src/display/display.cpp
-  src/world/position_rect.cpp
 )
 
 # The library

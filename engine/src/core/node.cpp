@@ -11,7 +11,7 @@ void Node::update_children(long delta)
   }
 }
 
-void Node::render_children(SDL_Renderer* renderer, long delta, PositionRect viewport)
+void Node::render_children(SDL_Renderer* renderer, long delta, Rect viewport)
 {
   for (auto &n: children)
   {

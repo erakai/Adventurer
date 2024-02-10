@@ -12,7 +12,8 @@ class Entity: public GameObject
 {
   public:
     Entity() {}
-    Entity(int speed);
+    Entity(int speed) : speed(speed) {} ;
+    Entity(int speed, Rect rect) : GameObject(rect), speed(speed) {};
     virtual ~Entity() {}
 
     void move(long delta);

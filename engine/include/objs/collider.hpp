@@ -1,6 +1,6 @@
 #pragma once
 
-#include "world/position_rect.hpp"
+#include "utils/point.hpp"
 
 #include <vector>
 
@@ -18,17 +18,20 @@ struct BoundingBox
 class Collider
 {
   public:
-    Collider(PositionRect& pos) :
+    Collider(Point& pos) :
       owner_pos(pos) {}
-    Collider(PositionRect& pos, std::vector<BoundingBox> boxes) :
+    Collider(Point& pos, std::vector<BoundingBox> boxes) :
       owner_pos(pos), _boxes(boxes) {}
-    Collider(PositionRect& pos, int layer) :
+    Collider(Point& pos, int layer) :
       owner_pos(pos), _layer(layer) {}
-    Collider(PositionRect& pos, int layer, std::vector<BoundingBox> boxes) : 
+    Collider(Point& pos, int layer, std::vector<BoundingBox> boxes) : 
       owner_pos(pos), _layer(layer), _boxes(boxes) {}
 
     bool check_collision(Collider other);
-    BoundingBox adjust_to_owner(BoundingBox box);
+    bool check_collision(Point my_pos, Collider other);
+
+    BoundingBox adjust_box(BoundingBox box, const Point pos);
+    BoundingBox adjust_box_to_owner(BoundingBox box);
 
     std::vector<BoundingBox> boxes();
     int layer();
@@ -38,12 +41,11 @@ class Collider
     Collider& add_box(BoundingBox box);
 
   private:
-    const PositionRect& owner_pos;
+    const Point& owner_pos;
 
     int _layer = 1;
     bool _can_collide = true;
     std::vector<BoundingBox> _boxes;
-
 
 };
 

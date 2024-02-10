@@ -1,6 +1,6 @@
 #pragma once
 
-#include "world/position_rect.hpp"
+#include "utils/rect.hpp"
 #include "SDL_render.h"
 
 #include <algorithm>
@@ -15,10 +15,10 @@ class Node
   public:
     virtual ~Node() {}
     virtual void update(long delta) {}
-    virtual void render(SDL_Renderer* renderer, long delta, PositionRect viewport) {}
+    virtual void render(SDL_Renderer* renderer, long delta, Rect viewport) {}
 
     void update_children(long delta);
-    void render_children(SDL_Renderer* renderer, long delta, PositionRect viewport);
+    void render_children(SDL_Renderer* renderer, long delta, Rect viewport);
     void add_child(std::shared_ptr<Node> n);
     void remove_child(std::shared_ptr<Node> n);
   

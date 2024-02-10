@@ -4,10 +4,6 @@
 
 using namespace adv;
 
-Entity::Entity(int speed) : speed(speed)
-{
-}
-
 void Entity::update(long delta)
 {
   move(delta);

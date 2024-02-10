@@ -2,21 +2,18 @@
 
 using namespace adv;
 
-Player::Player() : Entity(20)
+Player::Player(int side_length) : Entity(20, Rect(100, 100, side_length, side_length)), side_length(side_length)
 {
-  pos().x(100);
-  pos().y(100);
-  
   std::function<void(input::KeyEventType e)> input = [this] (input::KeyEventType k) 
     { handle_input(k);};
   input::key_hook(input);
 }
 
-void Player::render(SDL_Renderer* renderer, long delta, PositionRect viewport)
+void Player::render(SDL_Renderer* renderer, long delta, Rect viewport)
 {
   update_display_position(viewport);
 
-  SDL_Rect fillRect = { display_pos().x(), display_pos().y(), 50, 50 };
+  SDL_Rect fillRect = { display_pos().x(), display_pos().y(), side_length, side_length };
   SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );        
   SDL_RenderFillRect( renderer, &fillRect );
 }
