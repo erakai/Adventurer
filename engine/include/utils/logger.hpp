@@ -4,6 +4,10 @@
 
 #include <string>
 #include <iostream>
+#include <filesystem>
+#include <source_location>
+#include <chrono>
+#include <format>
 
 namespace adv
 {
@@ -11,8 +15,14 @@ namespace adv
 namespace logger
 {
 
-void log(std::string s);
-void log_sdl(std::string s);
+extern std::chrono::time_point<std::chrono::system_clock> boot_time;
+
+void log(std::string message, 
+         const std::source_location location = std::source_location::current());
+void log_sdl(std::string message,
+         const std::source_location location = std::source_location::current());
+
+std::string get_current_time();
 
 };
 

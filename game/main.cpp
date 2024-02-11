@@ -7,9 +7,8 @@
 
 int main(int argv, char** args)
 {
-  std::cout << "Booting Adventurer...\n";
-
   adv::Config conf;
+  conf.title = "Some Squares";
   adv::Game game(conf);
 
   std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(50));

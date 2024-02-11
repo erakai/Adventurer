@@ -25,6 +25,7 @@ class Game
     void run(void);
     void update(long delta);
     void render(long delta);
+    void close();
 
     std::shared_ptr<Scene> scene();
     void add_scene(std::shared_ptr<Scene> scene);

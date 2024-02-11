@@ -1,6 +1,7 @@
 #pragma once
 
 #include "node.hpp"
+#include "utils/logger.hpp"
 
 #include <string>
 #include <vector>
@@ -12,7 +13,9 @@ class Scene: public Node
 {
   public:
     Scene(std::string name) :
-      title(name) {}
+      title(name) {
+        logger::log("Scene (\"" + name + "\") created");
+      }
     
     void update(long delta) override;
     void render(SDL_Renderer* renderer, long delta, Rect viewport) override;

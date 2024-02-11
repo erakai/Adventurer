@@ -13,7 +13,7 @@ class Config
     int screen_width = 1280;
     int screen_height = 720;
 
-    int frames_per_second = 60;
+    int frames_per_second = 120;
 };
 
 };

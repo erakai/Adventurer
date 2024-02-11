@@ -24,6 +24,7 @@ Display::Display(int screen_width, int screen_height, std::string title)
   SDL_SetWindowTitle(window, title.c_str());
 
   initialized = true;
+  logger::log("Display initialized");
 }
 
 Display::~Display()

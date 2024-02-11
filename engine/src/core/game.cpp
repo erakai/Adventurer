@@ -12,9 +12,16 @@ void Game::run(void)
 {
   if (!display.is_initialized())
   {
-    logger::log("CANNOT RUN GAME - DISPLAY NOT INITIALIZED");
+    logger::log("Cannot run game - display not initialized.");
+    close();
+    return;
   }
+  
+  last_frame = chrono::duration_cast<chrono::milliseconds>(
+    chrono::system_clock::now().time_since_epoch()
+  );
 
+  logger::log("Beginning game loop...");
   running = true;
   while (running)
   {
@@ -33,6 +40,13 @@ void Game::run(void)
 
     last_frame = current_frame;
   }
+
+  close();
+}
+
+void Game::close()
+{
+  logger::log("Shutting down...");
 }
 
 void Game::update(long delta)
