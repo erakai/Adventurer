@@ -2,7 +2,7 @@
 
 using namespace adv;
 
-Player::Player(int side_length) : Entity(20, Rect(100, 100, side_length, side_length)), side_length(side_length)
+Player::Player(int side_length) : Entity(2000, Rect(100, 100, side_length, side_length)), side_length(side_length)
 {
   std::function<void(input::KeyEventType e)> input = [this] (input::KeyEventType k) 
     { handle_input(k);};

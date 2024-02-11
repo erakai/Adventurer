@@ -20,6 +20,7 @@ class Rect
 
     Point tl() const { return p1; }
     Point br() const { return p2; }
+    Point center() const { return Point(center_x(), center_y()); }
 
     int x1() const { return p1.x(); }
     int y1() const { return p1.y(); }
@@ -33,6 +34,8 @@ class Rect
 
     int width() const { return std::abs(p2.x() - p1.x()); }
     int height() const { return std::abs(p2.y() - p1.y()); }
+    float center_x() const { return (x1() + (width() / 2)); }
+    float center_y() const { return (y1() + (height() / 2)); }
 
     bool operator== (const Rect& rhs) const 
     {

@@ -12,7 +12,7 @@ int main(int argv, char** args)
   adv::Game game(conf);
 
   std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(50));
-  game.scene()->add_child(player);
+  game.scene()->add_child_object(player);
   game.run();
 
   return 0;

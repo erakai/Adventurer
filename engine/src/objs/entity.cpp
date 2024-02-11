@@ -1,7 +1,5 @@
 #include "objs/entity.hpp"
 
-#include <iostream>
-
 using namespace adv;
 
 void Entity::update(long delta)
@@ -11,12 +9,19 @@ void Entity::update(long delta)
 
 void Entity::move(long delta)
 {
+  if (velocity.mag() == 0) return;
   Vector2f dir = velocity.normalized();
 
-  dir *= speed;
+  float moved = (speed / 1000.0) * delta;
+  dir *= moved;
 
-  pos().x(pos().x() + dir.x);
-  pos().y(pos().y() + dir.y);
+  Point new_position(pos().x() + dir.x, pos().y() + dir.y);
+  if (check_collisions(new_position).size() == 0)
+  {
+    pos().x(pos().x() + dir.x);
+    pos().y(pos().y() + dir.y);
+  }
+
 };
 
 Vector2f& Entity::vel()

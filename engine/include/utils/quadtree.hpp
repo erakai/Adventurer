@@ -3,6 +3,8 @@
 #include "objs/game_object.hpp"
 #include "globals.hpp"
 #include "rect.hpp"
+#include "globals.hpp"
+#include "logger.hpp"
 
 #include <vector>
 #include <memory>
@@ -14,23 +16,25 @@ namespace adv
 class QuadTree  
 {
   public:
-    QuadTree(Rect bounds);
-    QuadTree(int level, Rect bounds);
+    QuadTree(Rect bounds) : bounds(bounds) {};
+    QuadTree(int level, Rect bounds) :
+      level(level), bounds(bounds) {};
 
     void clear();
     void insert(std::shared_ptr<GameObject> obj);
-    std::vector<std::shared_ptr<GameObject>> retrieve_nearby(std::shared_ptr<GameObject> obj);
+    std::vector<std::shared_ptr<GameObject>> retrieve_nearby(const GameObject obj);
   
   private:
     void split();
-    int getIndex(std::shared_ptr<GameObject> obj);
-    std::vector<std::shared_ptr<GameObject>> retrieve(std::vector<std::shareD_ptr<GameObject>> return_objs,
-                                                      std::shared_ptr<GameObject> obj);
+    int get_index(GameObject obj);
+    void retrieve(std::vector<std::shared_ptr<GameObject>> &return_objs,
+                  const GameObject obj);
 
+    int level = 0;
     Rect bounds;
-    int level;
     std::vector<std::shared_ptr<GameObject>> objects;
-    QuadTree nodes[4];
+    bool has_split = false;
+    std::shared_ptr<QuadTree> nodes[4] = {};
 
 };
 

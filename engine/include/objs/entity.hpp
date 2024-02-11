@@ -21,7 +21,9 @@ class Entity: public GameObject
     Vector2f& vel();
 
   private:
+    // speed is how many world pixels you can move per second
     int speed;
+
     Vector2f velocity;
 
 };
