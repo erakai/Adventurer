@@ -6,26 +6,46 @@ void Scene::update(long delta)
 {
   update_children(delta);
 
-  collision_tree->clear();
+  recreate_tree(moving_collision_tree, moving_scene_objects); 
 
-  auto it = scene_objects.begin();
-  while (it != scene_objects.end())
+  if (must_update_stationary_tree)
+  {
+    recreate_tree(stationary_collision_tree, stationary_scene_objects);
+    must_update_stationary_tree = false;
+  }
+  else
+  {
+    for (auto &s: stationary_scene_objects)
+    {
+      if (s->is_marked_for_death())
+      {
+        recreate_tree(stationary_collision_tree, stationary_scene_objects);
+        must_update_stationary_tree = false;
+        break;
+      }
+    }
+  }
+}
+
+void Scene::recreate_tree(
+  std::shared_ptr<QuadTree> tree,
+  std::vector<std::shared_ptr<GameObject>> &objs)
+{
+  tree->clear();
+
+  auto it = objs.begin();
+  while (it != objs.end())
   {
     auto obj = it->get();
     if (obj->is_marked_for_death())
     {
-      it = scene_objects.erase(it);
+      it = objs.erase(it);
     }
     else
     {
-      collision_tree->insert(*it);
+      tree->insert(*it);
       it++;
     }
-
-  }
-  for (auto &obj: scene_objects)
-  {
-    collision_tree->insert(obj);
   }
 }
 
@@ -33,13 +53,21 @@ void Scene::render(SDL_Renderer* renderer, long delta, Rect viewport)
 {
   render_children(renderer, delta, viewport);
 
-  if (globals::COLLISION_DEBUG) collision_tree->debug_render(renderer, delta, viewport);
+  if (globals::COLLISION_DEBUG) moving_collision_tree->debug_render(renderer, delta, viewport);
+  if (globals::COLLISION_DEBUG) stationary_collision_tree->debug_render(renderer, delta, viewport);
 }
 
-void Scene::add_child_object(std::shared_ptr<GameObject> obj)
+void Scene::register_collideable(std::shared_ptr<GameObject> obj, bool will_move)
 {
-  obj->set_quadtree(collision_tree);
+  obj->set_quadtrees(moving_collision_tree, stationary_collision_tree);
 
-  add_child(obj);
-  scene_objects.push_back(obj);
+  if (will_move)
+  {
+    moving_scene_objects.push_back(obj);
+  }
+  else
+  {
+    must_update_stationary_tree = true;
+    stationary_scene_objects.push_back(obj);
+  }
 }

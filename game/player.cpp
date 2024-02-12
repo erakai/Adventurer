@@ -2,8 +2,8 @@
 
 using namespace adv;
 
-Player::Player(adv::Point pos, adv::Color color, int side_length) :
-  Box(pos, color, side_length)
+Player::Player(int speed, adv::Point pos, adv::Color color, int side_length) :
+  Box(speed, pos, color, side_length)
 {
   std::function<void(input::KeyEventType e)> input = [this] (input::KeyEventType k) 
     { handle_input(k);};

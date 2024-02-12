@@ -12,7 +12,7 @@
 class Box: public adv::Entity
 {
   public:
-    Box(adv::Point pos, adv::Color color, int side_length);
+    Box(int speed, adv::Point pos, adv::Color color, int side_length);
 
     void render(SDL_Renderer* renderer, long delta, adv::Rect viewport) override;
 

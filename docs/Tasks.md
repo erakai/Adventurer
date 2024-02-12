@@ -15,3 +15,7 @@ https://gamedev.stackexchange.com/questions/74858/how-can-i-improve-my-collision
 https://gamedev.stackexchange.com/questions/77701/how-to-handle-collisions-without-ugly-conditionals-and-type-checking
 
 https://stackoverflow.com/questions/41946007/efficient-and-well-explained-implementation-of-a-quadtree-for-2d-collision-det
+
+
+- need to allow stationary collision tree
+- figure out how to allow children to a node to be added to correct quadtree

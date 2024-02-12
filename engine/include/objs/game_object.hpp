@@ -25,11 +25,14 @@ class GameObject: public Node, public Positioned
     std::vector<std::shared_ptr<GameObject>> check_collisions(Point pos);
 
     Collider get_collider();
-    void set_quadtree(std::shared_ptr<QuadTree> quadtree);
+    void set_quadtrees(std::shared_ptr<QuadTree> moving, std::shared_ptr<QuadTree> stationary);
+    std::vector<std::shared_ptr<Positioned>> get_possible_collisions();
 
   private:
     Collider collider;
-    std::shared_ptr<QuadTree> parent_quadtree;
+
+    std::shared_ptr<QuadTree> moving_tree;
+    std::shared_ptr<QuadTree> stationary_tree;
 };
 
 };

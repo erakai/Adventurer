@@ -49,7 +49,9 @@ void Game::run(void)
       ms_counter = ms_counter - 1000; 
       frames_per_second = frames_in_last_second;
       frames_in_last_second = 0;
+      if (globals::PRINT_FPS_DEBUG) logger::log("FPS: " + std::to_string(frames_per_second));
     }
+
 
     update(delta);
     render(delta);

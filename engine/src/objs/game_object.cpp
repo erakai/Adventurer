@@ -18,9 +18,10 @@ Collider GameObject::get_collider()
   return collider;
 }
 
-void GameObject::set_quadtree(std::shared_ptr<QuadTree> quadtree)
+void GameObject::set_quadtrees(std::shared_ptr<QuadTree> moving, std::shared_ptr<QuadTree> stationary)
 {
-  parent_quadtree = quadtree;
+  moving_tree = moving;
+  stationary_tree = stationary;
 }
 
 std::vector<std::shared_ptr<GameObject>> GameObject::check_collisions()
@@ -28,12 +29,21 @@ std::vector<std::shared_ptr<GameObject>> GameObject::check_collisions()
   return check_collisions(pos());
 }
 
+std::vector<std::shared_ptr<Positioned>> GameObject::get_possible_collisions()
+{
+  std::vector<std::shared_ptr<Positioned>> a = moving_tree->retrieve_nearby(*this);
+  std::vector<std::shared_ptr<Positioned>> b = stationary_tree->retrieve_nearby(*this);
+
+  a.insert(a.end(), b.begin(), b.end());
+
+  return a; 
+}
+
 std::vector<std::shared_ptr<GameObject>> GameObject::check_collisions(Point pos)
 {
-  std::vector<std::shared_ptr<Positioned>> possible_collisions =
-    parent_quadtree->retrieve_nearby(*this);
+  std::vector<std::shared_ptr<Positioned>> possible_collisions = get_possible_collisions();
 
-  if (globals::COLLISION_DEBUG) logger::log("Checking against " + std::to_string(possible_collisions.size()));
+  //if (globals::COLLISION_DEBUG) logger::log("Checking against " + std::to_string(possible_collisions.size()));
   
   std::vector<std::shared_ptr<GameObject>> actual_collisions;
   for (auto &obj: possible_collisions)

@@ -1,7 +1,7 @@
 #include "box.hpp"
 
-Box::Box(adv::Point pos, adv::Color color, int side_length) :
-  Entity(1500, adv::Rect(pos.x(), pos.y(), pos.x() + side_length, pos.y() + side_length)),
+Box::Box(int speed, adv::Point pos, adv::Color color, int side_length) :
+  Entity(speed, adv::Rect(pos.x(), pos.y(), pos.x() + side_length, pos.y() + side_length)),
   side_length(side_length / adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL),
   color(color)
 {
