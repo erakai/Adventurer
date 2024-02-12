@@ -27,6 +27,7 @@ class Game
     void render(long delta);
     void close();
 
+    int fps();
     std::shared_ptr<Scene> scene();
     void add_scene(std::shared_ptr<Scene> scene);
     void set_scene(std::string name);
@@ -49,6 +50,11 @@ class Game
 
     // Map of all scenes in the game
     std::map<std::string, std::shared_ptr<Scene>> scene_map;
+
+    // Frames per second
+    int frames_per_second = 0;
+    long ms_counter = 0;
+    int frames_in_last_second = 0;
 };
 
 };

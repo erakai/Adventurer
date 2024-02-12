@@ -12,7 +12,8 @@
 namespace adv
 {
 
-// https://code.tutsplus.com/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374t
+// TODO: Optimize by not using a vector in every QuadTree node
+
 class QuadTree  
 {
   public:
@@ -25,7 +26,10 @@ class QuadTree
     std::vector<std::shared_ptr<Positioned>> retrieve_nearby(const Positioned obj);
 
     void debug_render(SDL_Renderer* renderer, long delta, Rect viewport) {
-      SDL_Rect outlineRect = { bounds.x1() / 10, bounds.y1() / 10, bounds.width() / 10, bounds.height() / 10 };
+      SDL_Rect outlineRect = { bounds.x1() / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
+                               bounds.y1() / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
+                               bounds.width() / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
+                               bounds.height() / globals::WORLD_DIST_PER_DISPLAY_PIXEL };
       SDL_SetRenderDrawColor( renderer , 0x00, 0xFF, 0x00, 0xFF );        
       SDL_RenderDrawRect( renderer, &outlineRect );
 

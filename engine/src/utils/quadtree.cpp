@@ -81,7 +81,7 @@ void QuadTree::insert(std::shared_ptr<Positioned> obj)
   }
   else if ((objects.size() > globals::MAX_OBJECTS_PER_QUADTREE_NODE) && (level >= globals::MAX_QUADTREE_LEVELS))
   {
-    logger::log("Could not add game object to QuadTree - maximum depth exceeded");
+    logger::log("Forced to exceed maximum objects per QuadTree - level: " + std::to_string(level));
   }
 }
 
@@ -98,7 +98,7 @@ int QuadTree::get_index(Positioned obj)
   if ((ox < bounds.center_x()) && (ox + obj.size().width() < bounds.center_x()))
   {
     if (top_quad) index = 0;
-    else if (bottom_quad) index = 1;
+    else if (bottom_quad) index = 2;
   }
   else if (ox > bounds.center_x())
   {

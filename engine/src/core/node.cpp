@@ -4,10 +4,20 @@ using namespace adv;
 
 void Node::update_children(long delta)
 {
-  for (auto &n: children)
+  auto it = children.begin();
+  while (it != children.end())
   {
-    n->update(delta);
-    n->update_children(delta);
+    if (it->get()->marked_for_death)
+    {
+      it = children.erase(it);
+    }
+    else
+    {
+      auto n = it->get();
+      n->update(delta);
+      n->update_children(delta);
+      it++;
+    }
   }
 }
 
@@ -30,4 +40,14 @@ void Node::remove_child(std::shared_ptr<Node> n)
   children.erase(
     std::remove(children.begin(), children.end(), n), children.end()
   );
+}
+
+void Node::kill()
+{
+  marked_for_death = true;
+}
+
+bool Node::is_marked_for_death()
+{
+  return marked_for_death;
 }

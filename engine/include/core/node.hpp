@@ -21,10 +21,14 @@ class Node
     void render_children(SDL_Renderer* renderer, long delta, Rect viewport);
     void add_child(std::shared_ptr<Node> n);
     void remove_child(std::shared_ptr<Node> n);
+
+    void kill();
+    bool is_marked_for_death();
   
   private:
     std::vector<std::shared_ptr<Node>> children;
 
+    bool marked_for_death;
 };
 
 };

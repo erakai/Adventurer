@@ -42,6 +42,15 @@ void Game::run(void)
       delta += sleep_for;
     }
 
+    ms_counter += delta;
+    frames_in_last_second += 1;
+    if (ms_counter >= 1000)
+    {
+      ms_counter = ms_counter - 1000; 
+      frames_per_second = frames_in_last_second;
+      frames_in_last_second = 0;
+    }
+
     update(delta);
     render(delta);
 
@@ -65,6 +74,11 @@ void Game::update(long delta)
 void Game::render(long delta)
 {
   display.render_scene(current_scene, delta, Rect(0, 0, conf.screen_width, conf.screen_height));
+}
+
+int Game::fps()
+{
+  return frames_per_second;
 }
 
 std::shared_ptr<Scene> Game::scene()

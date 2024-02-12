@@ -32,6 +32,8 @@ std::vector<std::shared_ptr<GameObject>> GameObject::check_collisions(Point pos)
 {
   std::vector<std::shared_ptr<Positioned>> possible_collisions =
     parent_quadtree->retrieve_nearby(*this);
+
+  if (globals::COLLISION_DEBUG) logger::log("Checking against " + std::to_string(possible_collisions.size()));
   
   std::vector<std::shared_ptr<GameObject>> actual_collisions;
   for (auto &obj: possible_collisions)

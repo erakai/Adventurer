@@ -1,11 +1,13 @@
 # Tasks
 
 - [x] make red box unable to walk through green box
+- [x] fps tracker
 - [ ] way to have objects/nodes kill themselves
 - [ ] make particle system generate many many boxes
 - [ ] sound manager
 - [ ] animation player
 - [ ] ui library
+- [ ] resource / texture / spritesheet loader
 
 
 https://gamedev.stackexchange.com/questions/74858/how-can-i-improve-my-collision-detections-performance

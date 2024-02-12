@@ -17,11 +17,11 @@ int main(int argv, char** args)
   game.scene()->add_child_object(player);
 
   srand(time(NULL));
-  for (int i = 0; i < 40; i++)
+  for (int i = 0; i < 20; i++)
   {
-    std::shared_ptr<Box> box = std::shared_ptr<Box>(new Box(adv::Point(rand() % 12700 + 610, rand() % 7100 + 610),
+    std::shared_ptr<Box> box = std::shared_ptr<Box>(new Box(adv::Point(rand() % 12300 + 200, rand() % 6700 + 200),
                                                             {0x00, 0x00, 0xFF},
-                                                            rand() % 700 + 100));
+                                                            rand() % 500 + 50));
     game.scene()->add_child_object(box);
   }
 
