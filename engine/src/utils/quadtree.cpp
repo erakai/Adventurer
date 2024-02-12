@@ -127,6 +127,10 @@ void QuadTree::retrieve(
   {
     nodes[index]->retrieve(return_objs, obj);
   }
+  else if (has_split)
+  {
+    for (auto &n: nodes) n->retrieve(return_objs, obj);
+  }
 
   return_objs.insert(return_objs.end(), objects.begin(), objects.end());
 }

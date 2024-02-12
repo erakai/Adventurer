@@ -16,6 +16,8 @@ void Scene::update(long delta)
 void Scene::render(SDL_Renderer* renderer, long delta, Rect viewport)
 {
   render_children(renderer, delta, viewport);
+
+  if (globals::DEBUG) collision_tree->debug_render(renderer, delta, viewport);
 }
 
 void Scene::add_child_object(std::shared_ptr<GameObject> obj)
