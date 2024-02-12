@@ -2,20 +2,12 @@
 
 using namespace adv;
 
-Player::Player(int side_length) : Entity(2000, Rect(100, 100, side_length, side_length)), side_length(side_length)
+Player::Player(adv::Point pos, adv::Color color, int side_length) :
+  Box(pos, color, side_length)
 {
   std::function<void(input::KeyEventType e)> input = [this] (input::KeyEventType k) 
     { handle_input(k);};
   input::key_hook(input);
-}
-
-void Player::render(SDL_Renderer* renderer, long delta, Rect viewport)
-{
-  update_display_position(viewport);
-
-  SDL_Rect fillRect = { display_pos().x(), display_pos().y(), side_length, side_length };
-  SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );        
-  SDL_RenderFillRect( renderer, &fillRect );
 }
 
 void Player::handle_input(input::KeyEventType e)

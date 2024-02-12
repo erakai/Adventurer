@@ -1,18 +1,14 @@
 #pragma once
 
-#include "objs/entity.hpp"
-#include "core/input.hpp"
+#include "box.hpp"
 
 #include <iostream>
 
-class Player: public adv::Entity
+class Player: public Box
 {
   public:
-    Player(int side_length);
+    Player(adv::Point pos, adv::Color color, int side_length);
 
-    void render(SDL_Renderer* renderer, long delta, adv::Rect viewport) override;
     void handle_input(adv::input::KeyEventType e);
 
-  private:
-    int side_length;
 };

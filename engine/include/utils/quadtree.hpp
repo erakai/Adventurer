@@ -1,6 +1,6 @@
 #pragma once
 
-#include "objs/game_object.hpp"
+#include "objs/positioned.hpp"
 #include "globals.hpp"
 #include "rect.hpp"
 #include "globals.hpp"
@@ -21,18 +21,18 @@ class QuadTree
       level(level), bounds(bounds) {};
 
     void clear();
-    void insert(std::shared_ptr<GameObject> obj);
-    std::vector<std::shared_ptr<GameObject>> retrieve_nearby(const GameObject obj);
+    void insert(std::shared_ptr<Positioned> obj);
+    std::vector<std::shared_ptr<Positioned>> retrieve_nearby(const Positioned obj);
   
   private:
     void split();
-    int get_index(GameObject obj);
-    void retrieve(std::vector<std::shared_ptr<GameObject>> &return_objs,
-                  const GameObject obj);
+    int get_index(Positioned obj);
+    void retrieve(std::vector<std::shared_ptr<Positioned>> &return_objs,
+                  const Positioned obj);
 
     int level = 0;
     Rect bounds;
-    std::vector<std::shared_ptr<GameObject>> objects;
+    std::vector<std::shared_ptr<Positioned>> objects;
     bool has_split = false;
     std::shared_ptr<QuadTree> nodes[4] = {};
 

@@ -14,6 +14,8 @@ void QuadTree::clear()
       n = nullptr;
     }
   }
+
+  has_split = false;
 }
 
 void QuadTree::split()
@@ -41,7 +43,7 @@ void QuadTree::split()
   has_split = true;
 }
 
-void QuadTree::insert(std::shared_ptr<GameObject> obj)
+void QuadTree::insert(std::shared_ptr<Positioned> obj)
 {
   if (has_split)
   {
@@ -49,66 +51,78 @@ void QuadTree::insert(std::shared_ptr<GameObject> obj)
     if (index != -1)
     {
       nodes[index]->insert(obj);
+      return;
     }
-
-    return;
   }
 
-  if (objects.size() + 1 < globals::MAX_OBJECTS_PER_QUADTREE_NODE)
+  objects.push_back(obj);
+
+  if ((objects.size() > globals::MAX_OBJECTS_PER_QUADTREE_NODE) &&
+      (level < globals::MAX_QUADTREE_LEVELS))
   {
-    objects.push_back(obj);
-  }
-  else if (level < globals::MAX_QUADTREE_LEVELS)
-  {
-    split();
-    for (auto &obj: objects)
+    if (!has_split) split();
+
+    int i = 0;
+    while (i < objects.size())
     {
+      auto obj = objects.at(i);
       int index = get_index(*obj);
-      if (index != -1) nodes[index]->insert(obj);
+
+      if (index != -1)
+      {
+        nodes[index]->insert(obj);
+        objects.erase(objects.begin() + i);
+      }
+      else
+      {
+        i++;
+      }
     }
-    objects.clear();
   }
-  else
+  else if ((objects.size() > globals::MAX_OBJECTS_PER_QUADTREE_NODE) && (level >= globals::MAX_QUADTREE_LEVELS))
   {
     logger::log("Could not add game object to QuadTree - maximum depth exceeded");
   }
 }
 
-int QuadTree::get_index(GameObject obj)
+int QuadTree::get_index(Positioned obj)
 {
   int index = -1;
   int ox = obj.pos().x();
   int oy = obj.pos().y();
 
-  bool top_quad = (oy < bounds.center_y());
+  bool top_quad = (oy < bounds.center_y()) &&
+                  (oy + obj.size().height() < bounds.center_y());
+  bool bottom_quad = (oy > bounds.center_y());
 
-  if (ox < bounds.center_x())
+  if ((ox < bounds.center_x()) && (ox + obj.size().width() < bounds.center_x()))
   {
     if (top_quad) index = 0;
-    else index = 1;
+    else if (bottom_quad) index = 1;
   }
-  else
+  else if (ox > bounds.center_x())
   {
     if (top_quad) index = 1;
-    else index = 3;
+    else if (bottom_quad) index = 3;
   }
 
   return index;
 }
 
-std::vector<std::shared_ptr<GameObject>> QuadTree::retrieve_nearby(
-  const GameObject obj)
+std::vector<std::shared_ptr<Positioned>> QuadTree::retrieve_nearby(
+  const Positioned obj)
 {
-  std::vector<std::shared_ptr<GameObject>> return_objs;
+  std::vector<std::shared_ptr<Positioned>> return_objs;
   retrieve(return_objs, obj);
   return return_objs;
 }
 
 void QuadTree::retrieve(
-  std::vector<std::shared_ptr<GameObject>> &return_objs,
-  GameObject obj)
+  std::vector<std::shared_ptr<Positioned>> &return_objs,
+  Positioned obj)
 {
   int index = get_index(obj);
+
   if (index != -1 && has_split)
   {
     nodes[index]->retrieve(return_objs, obj);

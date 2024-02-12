@@ -5,7 +5,11 @@ using namespace adv;
 Game::Game(Config conf) : 
   conf(conf), display(conf.screen_width, conf.screen_height, conf.title)
 {
-  current_scene = std::make_shared<Scene>(conf.title, Rect(0, 0, conf.screen_width, conf.screen_height));
+  current_scene = std::make_shared<Scene>(conf.title, 
+    Rect(0, 0,
+      conf.screen_width * globals::WORLD_DIST_PER_DISPLAY_PIXEL,
+      conf.screen_height * globals::WORLD_DIST_PER_DISPLAY_PIXEL
+    ));
 }
 
 void Game::run(void)

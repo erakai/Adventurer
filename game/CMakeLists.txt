@@ -3,7 +3,8 @@ project (adventurer-game)
 # Determine source list
 set(GAME_SOURCES
    player.cpp
-   main.cpp)
+   main.cpp
+   box.cpp)
 
 # The binary
 add_executable(${PROJECT_NAME} ${GAME_SOURCES})
