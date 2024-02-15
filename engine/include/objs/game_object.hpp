@@ -1,7 +1,7 @@
 #pragma once
 
 #include "collider.hpp"
-#include "positioned.hpp"
+#include "world/positioned.hpp"
 #include "core/node.hpp"
 #include "utils/point.hpp"
 #include "utils/globals.hpp"

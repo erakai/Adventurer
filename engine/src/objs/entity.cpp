@@ -16,18 +16,23 @@ void Entity::move(long delta)
   dir *= moved;
 
   Point new_position(pos().x() + dir.x, pos().y() + dir.y);
-  Point only_x(pos().x() + dir.x, pos().y());
-  Point only_y(pos().x(), pos().y() + dir.y);
   if (check_collisions(new_position).size() == 0)
   {
     pos().x(pos().x() + dir.x);
     pos().y(pos().y() + dir.y);
+    return;
   }
-  else if (check_collisions(only_x).size() == 0)
+
+  Point only_x(pos().x() + dir.x, pos().y());
+  Point only_y(pos().x(), pos().y() + dir.y);
+  auto x_objs = check_collisions(only_x);
+  auto y_objs = check_collisions(only_y);
+
+  if (x_objs.size() == 0)
   {
     pos().x(pos().x() + dir.x);
   }
-  else if ( check_collisions(only_y).size() == 0)
+  else if (y_objs.size() == 0)
   {
     pos().y(pos().y() + dir.y);
   }

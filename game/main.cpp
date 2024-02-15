@@ -13,16 +13,19 @@ int main(int argv, char** args)
   conf.title = "Some Squares";
   adv::Game game(conf);
 
-  std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(1000, adv::Point(0, 0), {0xFF, 0x00, 0x00}, 40));
+  std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(5000, adv::Point(0, 0), {0xFF, 0x00, 0x00}, 500));
   game.scene()->add_child(player);
   game.scene()->register_collideable(player, true);
 
   srand(time(NULL));
-  for (int i = 0; i < 20000; i++)
+  for (int i = 0; i < 15; i++)
   {
-    std::shared_ptr<Box> box = std::shared_ptr<Box>(new Box(0, adv::Point(rand() % conf.screen_width + 40, rand() % conf.screen_height + 40),
+    int size = 700;
+    std::shared_ptr<Box> box = std::shared_ptr<Box>(new Box(0, adv::Point(
+                                                            rand() % (conf.screen_width * 10 - size) + size,
+                                                            rand() % (conf.screen_height * 10 - size) + size),
                                                             {0x00, 0x00, 0xFF},
-                                                            rand() % 40 + 10));
+                                                            rand() % 700 + 200));
     game.scene()->add_child(box);
     game.scene()->register_collideable(box, false);
   }

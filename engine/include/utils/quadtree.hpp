@@ -1,6 +1,6 @@
 #pragma once
 
-#include "objs/positioned.hpp"
+#include "world/positioned.hpp"
 #include "globals.hpp"
 #include "rect.hpp"
 #include "globals.hpp"

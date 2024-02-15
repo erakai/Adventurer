@@ -6,8 +6,8 @@ namespace adv
 namespace globals
 {
 
-const bool COLLISION_DEBUG = true;
-const bool PRINT_FPS_DEBUG = true;
+const bool COLLISION_DEBUG = false;
+const bool PRINT_FPS_DEBUG = false;
 
 const int WORLD_DIST_PER_DISPLAY_PIXEL = 10;
 
