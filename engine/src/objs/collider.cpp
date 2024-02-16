@@ -18,8 +18,8 @@ bool Collider::check_collision(Point my_pos, Collider other)
     for (auto& second_box: other.boxes())
     {
       BoundingBox box2 = other.adjust_box_to_owner(second_box);
-      bool collision = (box.x2 >= box2.x && box2.x2 >= box.x) &&
-                       (box.y2 >= box2.y && box2.y2 >= box.y);
+      bool collision = (box.x2 > box2.x && box2.x2 > box.x) &&
+                       (box.y2 > box2.y && box2.y2 > box.y);
       if (collision) return collision;
     }
   }

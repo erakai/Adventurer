@@ -28,7 +28,7 @@ class Node
   private:
     std::vector<std::shared_ptr<Node>> children;
 
-    bool marked_for_death;
+    bool marked_for_death = false;
 };
 
 };

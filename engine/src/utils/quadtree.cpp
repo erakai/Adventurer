@@ -62,7 +62,7 @@ void QuadTree::insert(std::shared_ptr<Positioned> obj)
   {
     if (!has_split) split();
 
-    int i = 0;
+    std::size_t i = 0;
     while (i < objects.size())
     {
       auto obj = objects.at(i);

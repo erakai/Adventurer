@@ -47,6 +47,9 @@ bool adv::input::poll_event_loop()
     {
       switch (e.key.keysym.sym)
       {
+        case SDLK_ESCAPE:
+          return false;
+
         case SDLK_UP: case SDLK_w:
           run_key_hooks(UP_MOVE_PRESS);
           break;

@@ -43,3 +43,10 @@ void Player::handle_input(input::KeyEventType e)
       break;
   }
 }
+
+void Player::update(long delta)
+{
+  Entity::update(delta);
+
+  // logger::log("Pos: " + std::to_string(pos().x()) + ", " + std::to_string(pos().y()));
+}

@@ -7,6 +7,7 @@ set(LIB_SOURCES
   src/core/input.cpp
   src/core/node.cpp
   src/display/display.cpp
+  src/particles/particle_system.cpp
   src/objs/game_object.cpp
   src/objs/entity.cpp
   src/objs/collider.cpp
