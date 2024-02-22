@@ -1,8 +1,6 @@
 #include "core/input.hpp"
 #include "SDL_events.h"
 
-#include <map>
-
 using namespace adv::input;
 
 std::unordered_map<KeyEventType, std::vector<std::function<void()>>>
@@ -50,6 +48,9 @@ bool adv::input::poll_event_loop()
       return false;
     } else if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
       switch (e.key.keysym.sym) {
+      case SDLK_ESCAPE:
+        return false;
+
       case SDLK_UP:
       case SDLK_w:
         run_key_hooks(UP_MOVE_PRESS);

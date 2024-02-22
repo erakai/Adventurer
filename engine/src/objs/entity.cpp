@@ -27,9 +27,64 @@ void Entity::move(long delta)
 
   if (x_objs.size() == 0) {
     pos().x(pos().x() + dir.x);
-  } else if (y_objs.size() == 0) {
+  }
+
+  if (y_objs.size() == 0) {
     pos().y(pos().y() + dir.y);
   }
+
+  // TODO: Make these checks use bounding boxes instead of the other object's
+  // general size rect if (x_objs.size() > 0)
+  // {
+  //   if (dir.x < 0)
+  //   {
+  //     int max_x = 0;
+  //     for (auto &obj: x_objs)
+  //     {
+  //       int new_pos = (pos().x() - (obj->pos().x() + obj->size().width()));
+  //       if (max_x == 0 || new_pos < max_x) max_x = new_pos;
+  //     }
+
+  //     if (max_x != 0) pos().x(pos().x() - max_x);
+  //   }
+  //   else if (dir.x > 0)
+  //   {
+  //     int min_x = 0;
+  //     for (auto &obj: x_objs)
+  //     {
+  //       int new_pos = (obj->pos().x() - (pos().x() + size().width()));
+  //       if (min_x == 0 || new_pos < min_x) min_x = new_pos;
+  //     }
+
+  //     if (min_x != 0) pos().x(pos().x() + min_x);
+  //   }
+  // }
+
+  // if (y_objs.size() > 0)
+  // {
+  //   if (dir.y < 0)
+  //   {
+  //     int max_y = 0;
+  //     for (auto &obj: y_objs)
+  //     {
+  //       int new_pos = (pos().y() - (obj->pos().y() + obj->size().height()));
+  //       if (max_y == 0 || new_pos < max_y) max_y = new_pos;
+  //     }
+
+  //     if (max_y != 0) pos().y(pos().y() - max_y);
+  //   }
+  //   else if (dir.y > 0)
+  //   {
+  //     int min_y = 0;
+  //     for (auto &obj: y_objs)
+  //     {
+  //       int new_pos = (obj->pos().y() - (pos().y() + size().height()));
+  //       if (min_y == 0 || new_pos < min_y) min_y = new_pos;
+  //     }
+
+  //     if (min_y != 0) pos().y(pos().y() + min_y);
+  //   }
+  // }
 };
 
 Vector2f &Entity::vel() { return velocity; }

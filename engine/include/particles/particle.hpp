@@ -8,6 +8,8 @@ namespace adv
 class Particle : public Positioned
 {
 public:
+  bool active = false;
+
   int start_x = 0;
   int start_y = 0;
 
