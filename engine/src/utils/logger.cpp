@@ -1,4 +1,8 @@
 #include "utils/logger.hpp"
+#include "SDL_error.h"
+#include <filesystem>
+#include <format>
+#include <iostream>
 
 using namespace adv::logger;
 using namespace std::chrono;
@@ -9,11 +13,8 @@ void adv::logger::log(std::string message, const std::source_location loc)
 {
   std::filesystem::path path(loc.file_name());
 
-  std::cout << "[" << get_current_time()
-            << " " << path.filename().string()
-            << "(" << loc.line()
-            << ":" << loc.column()
-            << ")]: " << message
+  std::cout << "[" << get_current_time() << " " << path.filename().string()
+            << "(" << loc.line() << ":" << loc.column() << ")]: " << message
             << std::endl;
 }
 
@@ -33,5 +34,6 @@ std::string adv::logger::get_current_time()
   auto s = duration_cast<seconds>(dur -= m);
   auto ms = duration_cast<milliseconds>(dur -= s);
 
-  return std::format("{:02d}:{:02d}:{:02d}:{:04d}", h.count(), m.count(), s.count(), ms.count());
+  return std::format("{:02d}:{:02d}:{:02d}:{:04d}", h.count(), m.count(),
+                     s.count(), ms.count());
 }

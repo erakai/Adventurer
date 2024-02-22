@@ -1,22 +1,20 @@
 #include "display/display.hpp"
+#include "SDL.h"
+#include "utils/logger.hpp"
 
 using namespace adv;
 
 Display::Display(int screen_width, int screen_height, std::string title)
 {
-  if (SDL_Init(SDL_INIT_TIMER |
-               SDL_INIT_VIDEO |
-               SDL_INIT_AUDIO) < 0)
-  {
+  if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
     logger::log_sdl("Error initializing SDL!");
     return;
   }
 
-  SDL_CreateWindowAndRenderer(screen_width, screen_height, 
-                              SDL_WINDOW_SHOWN, &window, &renderer);
+  SDL_CreateWindowAndRenderer(screen_width, screen_height, SDL_WINDOW_SHOWN,
+                              &window, &renderer);
 
-  if (window == nullptr || renderer == nullptr)
-  {
+  if (window == nullptr || renderer == nullptr) {
     logger::log_sdl("Error creating window and renderer!");
     return;
   }
@@ -37,7 +35,8 @@ Display::~Display()
   SDL_Quit();
 }
 
-void Display::render_scene(std::shared_ptr<Scene> scene, const long delta, const Rect camera_pos)
+void Display::render_scene(std::shared_ptr<Scene> scene, const long delta,
+                           const Rect camera_pos)
 {
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
   SDL_RenderClear(renderer);

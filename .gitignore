@@ -4,6 +4,7 @@ external/
 Makefile
 
 .vscode/
+.cache/
 
 .DS_Store
 **/*/.DS_STORE

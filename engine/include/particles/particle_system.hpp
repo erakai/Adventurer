@@ -1,26 +1,22 @@
 #pragma once
 
 #include "particle.hpp"
+#include <vector>
 
 namespace adv
 {
 
 class ParticleSystem
 {
-  public:
+public:
+private:
+  bool active = true;
 
+  std::vector<Particle> particles;
+  int current_particle_count = 0;
 
-
-  private:
-    bool active = true;
-
-    std::vector<Particle> particles;
-    int current_particle_count = 0;
-
-    Point source_position;
-    Point position_variance;
-
-
+  Point source_position;
+  Point position_variance;
 };
 
-}
+} // namespace adv

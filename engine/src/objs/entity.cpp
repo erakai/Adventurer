@@ -2,22 +2,19 @@
 
 using namespace adv;
 
-void Entity::update(long delta)
-{
-  move(delta);
-}
+void Entity::update(long delta) { move(delta); }
 
 void Entity::move(long delta)
 {
-  if (velocity.mag() == 0) return;
+  if (velocity.mag() == 0)
+    return;
   Vector2f dir = velocity.normalized();
 
   float moved = (speed / 1000.0) * delta;
   dir *= moved;
 
   Point new_position(pos().x() + dir.x, pos().y() + dir.y);
-  if (check_collisions(new_position).size() == 0)
-  {
+  if (check_collisions(new_position).size() == 0) {
     pos().x(pos().x() + dir.x);
     pos().y(pos().y() + dir.y);
     return;
@@ -28,18 +25,11 @@ void Entity::move(long delta)
   auto x_objs = check_collisions(only_x);
   auto y_objs = check_collisions(only_y);
 
-  if (x_objs.size() == 0)
-  {
+  if (x_objs.size() == 0) {
     pos().x(pos().x() + dir.x);
-  }
-  else if (y_objs.size() == 0)
-  {
+  } else if (y_objs.size() == 0) {
     pos().y(pos().y() + dir.y);
   }
-
 };
 
-Vector2f& Entity::vel()
-{
-  return velocity;
-}
+Vector2f &Entity::vel() { return velocity; }

@@ -1,10 +1,7 @@
 #pragma once
 
-#include "SDL_events.h"
-
-#include <map>
-#include <vector>
 #include <functional>
+#include <vector>
 
 namespace adv
 {
@@ -12,9 +9,7 @@ namespace adv
 namespace input
 {
 
-
-enum KeyEventType
-{
+enum KeyEventType {
   LEFT_MOVE_PRESS,
   RIGHT_MOVE_PRESS,
   UP_MOVE_PRESS,
@@ -26,7 +21,8 @@ enum KeyEventType
 };
 
 // Callbacks for specific key events
-extern std::unordered_map<KeyEventType, std::vector<std::function<void()>>> key_callbacks;
+extern std::unordered_map<KeyEventType, std::vector<std::function<void()>>>
+    key_callbacks;
 
 // Callbacks for every key event
 extern std::vector<std::function<void(KeyEventType k)>> general_key_callbacks;
@@ -42,6 +38,6 @@ void run_before_input_hooks();
 void run_key_hooks(KeyEventType e);
 bool poll_event_loop();
 
-};
+}; // namespace input
 
-};
+}; // namespace adv
