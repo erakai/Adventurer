@@ -10,21 +10,17 @@ namespace adv
 class ParticleSystem : public Node
 {
 public:
-  ParticleSystem(){};
+  ParticleSystem(size_t max_particles);
   virtual ~ParticleSystem();
-
-  // API for derived class
-  virtual void init_with_particles(int particle_num);
-  virtual void reset_particle_count(int particle_num);
-  virtual bool is_paused() const;
-  virtual void pause_emitting();
-  virtual void resume_emitting();
 
   void render(SDL_Renderer *renderer, long delta, Rect viewport) override;
   void update(long delta) override;
+  void emit(ParticleProps props);
 
-  void is_full();
   void reset_system();
+  bool is_full() const;
+  void toggle_pause();
+  bool is_paused() const;
 
 protected:
   bool active = true;

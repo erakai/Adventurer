@@ -31,8 +31,8 @@ public:
 
   int width() const { return std::abs(p2.x() - p1.x()); }
   int height() const { return std::abs(p2.y() - p1.y()); }
-  float center_x() const { return (x1() + (width() / 2)); }
-  float center_y() const { return (y1() + (height() / 2)); }
+  float center_x() const { return (x1() + (width() / 2.0)); }
+  float center_y() const { return (y1() + (height() / 2.0)); }
 
   bool operator==(const Rect &rhs) const
   {
