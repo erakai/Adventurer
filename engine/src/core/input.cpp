@@ -11,7 +11,7 @@ std::vector<std::function<void(void)>> adv::input::before_input_callbacks;
 std::vector<std::function<void(MouseEventType m, int mouse_x, int mouse_y)>>
     adv::input::mouse_callbacks;
 
-std::unordered_map<MouseEventType, bool> adv::input::mouse_button_states;
+std::unordered_map<MouseButton, bool> adv::input::mouse_button_states;
 
 void adv::input::key_hook(KeyEventType e, std::function<void()> func)
 {
@@ -67,17 +67,28 @@ bool adv::input::poll_event_loop()
     }
     else if (e.type == SDL_MOUSEBUTTONDOWN)
     {
-      if (e.button.button == SDL_BUTTON_LEFT)
+      switch (e.button.button)
       {
+      case (SDL_BUTTON_LEFT):
         mouse_button_states[LEFT_MOUSE_BUTTON] = true;
-        run_mouse_hooks(LEFT_MOUSE_BUTTON, e.motion.x, e.motion.y);
+        run_mouse_hooks(LEFT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
+        break;
+      case (SDL_BUTTON_RIGHT):
+        mouse_button_states[RIGHT_MOUSE_BUTTON] = true;
+        run_mouse_hooks(RIGHT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
+        break;
       }
     }
     else if (e.type == SDL_MOUSEBUTTONUP)
     {
-      if (e.button.button == SDL_BUTTON_LEFT)
+      switch (e.button.button)
       {
+      case (SDL_BUTTON_LEFT):
         mouse_button_states[LEFT_MOUSE_BUTTON] = false;
+        break;
+      case (SDL_BUTTON_RIGHT):
+        mouse_button_states[RIGHT_MOUSE_BUTTON] = false;
+        break;
       }
     }
     else if (e.type == SDL_MOUSEMOTION)
@@ -85,7 +96,17 @@ bool adv::input::poll_event_loop()
       for (auto &it : mouse_button_states)
       {
         if (it.second)
-          run_mouse_hooks(it.first, e.motion.x, e.motion.y);
+        {
+          switch (it.first)
+          {
+          case LEFT_MOUSE_BUTTON:
+            run_mouse_hooks(LEFT_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
+            break;
+          case RIGHT_MOUSE_BUTTON:
+            run_mouse_hooks(RIGHT_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
+            break;
+          }
+        }
       }
     }
     else if (e.type == SDL_KEYDOWN && e.key.repeat == 0)

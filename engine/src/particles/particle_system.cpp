@@ -1,7 +1,9 @@
 #include "particles/particle_system.hpp"
 #include "SDL_rect.h"
 #include "SDL_render.h"
+#include "particles/particle.hpp"
 #include <cmath>
+#include <iostream>
 
 using namespace adv;
 
@@ -57,12 +59,25 @@ void ParticleSystem::update(long delta)
     if (!particle.active)
       continue;
 
-    particle.rotation += (particle.delta_rotation * delta);
-    particle.velocity = particle.velocity + (particle.accel / 1000.0 * delta);
+    if (particle.mode == PARTICLE_GRAVITY)
+    {
+      particle.velocity = particle.velocity + (particle.accel / 1000.0 * delta);
 
-    Point &position = particle.pos();
-    position.x(position.x() + (particle.velocity.x / 1000.0 * delta));
-    position.y(position.y() + (particle.velocity.y / 1000.0 * delta));
+      Point &position = particle.pos();
+      position.x(position.x() + (particle.velocity.x / 1000.0 * delta));
+      position.y(position.y() + (particle.velocity.y / 1000.0 * delta));
+    }
+    else if (particle.mode == PARTICLE_ROTATION)
+    {
+      particle.radius += (particle.radius_delta / 1000.0 * delta);
+      particle.theta += (particle.theta_delta / 1000.0 * delta);
+      if (particle.theta > 2 * M_PI)
+      {
+        particle.theta = particle.theta - (2 * M_PI);
+      }
+
+      update_rotating_particle_pos(particle);
+    }
 
     particle.time_alive += delta;
 
@@ -75,13 +90,28 @@ void ParticleSystem::emit(ParticleProps props)
 {
   Particle &particle = particle_pool.at(next_free_particle);
 
+  particle.mode = props.mode;
   particle.active = true;
-  particle.pos().x(vary(props.start_pos.x(), props.pos_variation.x()));
-  particle.pos().y(vary(props.start_pos.y(), props.pos_variation.y()));
 
-  particle.velocity.x = vary(props.velocity.x, props.velocity_variation.x);
-  particle.velocity.y = vary(props.velocity.y, props.velocity_variation.y);
-  particle.accel = props.accel;
+  if (props.mode == PARTICLE_GRAVITY)
+  {
+    particle.pos().x(vary(props.start_pos.x(), props.pos_variation.x()));
+    particle.pos().y(vary(props.start_pos.y(), props.pos_variation.y()));
+
+    particle.velocity.x = vary(props.velocity.x, props.velocity_variation.x);
+    particle.velocity.y = vary(props.velocity.y, props.velocity_variation.y);
+    particle.accel = props.accel;
+  }
+  else if (props.mode == PARTICLE_ROTATION)
+  {
+    particle.origin = props.start_pos;
+    particle.radius = props.start_radius;
+    particle.radius_delta =
+        vary(props.radius_delta, props.radius_delta_variation);
+    particle.theta = props.start_theta;
+    particle.theta_delta = vary(props.theta_delta, props.theta_delta_variation);
+    update_rotating_particle_pos(particle);
+  }
 
   particle.s_color_r = props.start_color.r;
   particle.s_color_g = props.start_color.g;
@@ -97,9 +127,6 @@ void ParticleSystem::emit(ParticleProps props)
 
   particle.time_alive = 0;
   particle.lifetime = props.lifetime;
-
-  particle.rotation = props.rotation;
-  particle.delta_rotation = props.delta_rotation;
 
   next_free_particle = (++next_free_particle) % particle_pool.size();
 }
@@ -132,4 +159,13 @@ bool ParticleSystem::is_paused() const
 float ParticleSystem::vary(float start, float variance)
 {
   return start + (variance * (((rand() % 200) - 100) * 0.01));
+}
+
+void ParticleSystem::update_rotating_particle_pos(Particle &particle)
+{
+  float radius = particle.radius;
+  float theta = particle.theta;
+
+  particle.pos().x(particle.origin.x() + radius * cos(theta));
+  particle.pos().y(particle.origin.y() + radius * sin(theta));
 }

@@ -1,11 +1,8 @@
 #include "core/config.hpp"
 #include "core/game.hpp"
 
-#include "fire_system.hpp"
+#include "particle_example.hpp"
 #include "player.hpp"
-#include "snow_system.hpp"
-
-#include <time.h>
 
 int main(int argv, char **args)
 {
@@ -19,10 +16,9 @@ int main(int argv, char **args)
   game.scene()->add_child(player);
   game.scene()->register_collideable(player, true);
 
-  std::shared_ptr<FireSystem> psystem = std::make_shared<FireSystem>(1000);
+  std::shared_ptr<ParticleExample> psystem =
+      std::make_shared<ParticleExample>(2000);
   game.scene()->add_child(psystem);
-  std::shared_ptr<SnowSystem> ssystem = std::make_shared<SnowSystem>(1000);
-  game.scene()->add_child(ssystem);
 
   // srand(time(NULL));
   // for (int i = 0; i < 50; i++)

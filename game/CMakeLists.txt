@@ -4,8 +4,7 @@ project (adventurer-game)
 set(GAME_SOURCES
    player.cpp
    main.cpp
-   fire_system.cpp
-   snow_system.cpp
+   particle_example.cpp
    box.cpp)
 
 # The binary

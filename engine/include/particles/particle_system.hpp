@@ -30,6 +30,7 @@ protected:
 
 private:
   float vary(float start, float variance);
+  void update_rotating_particle_pos(Particle &particle);
 };
 
 } // namespace adv

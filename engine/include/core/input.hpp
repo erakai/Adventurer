@@ -21,9 +21,18 @@ enum KeyEventType
   DOWN_MOVE_RELEASE,
 };
 
-enum MouseEventType
+enum MouseButton
 {
   LEFT_MOUSE_BUTTON,
+  RIGHT_MOUSE_BUTTON,
+};
+
+enum MouseEventType
+{
+  LEFT_MOUSE_BUTTON_PRESS,
+  LEFT_MOUSE_BUTTON_DRAG,
+  RIGHT_MOUSE_BUTTON_PRESS,
+  RIGHT_MOUSE_BUTTON_DRAG
 };
 
 // Callbacks for specific key events
@@ -41,7 +50,7 @@ extern std::vector<
     std::function<void(MouseEventType m, int mouse_x, int mouse_y)>>
     mouse_callbacks;
 
-extern std::unordered_map<MouseEventType, bool> mouse_button_states;
+extern std::unordered_map<MouseButton, bool> mouse_button_states;
 
 void before_input_hook(std::function<void()> func);
 void key_hook(KeyEventType e, std::function<void()> func);

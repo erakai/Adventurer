@@ -3,7 +3,7 @@
 - [x] make red box unable to walk through green box
 - [x] fps tracker
 - [x] way to have objects/nodes kill themselves
-- [ ] make particle system generate many many boxes
+- [x] make particle system generate many many boxes
 - [ ] camera - moving, zooming in and out
 - [ ] sound manager
 - [ ] animation player - need to be able to tie callbacks, hitboxes, etc to anims

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 namespace adv
 {
 
@@ -18,6 +20,12 @@ public:
   bool operator==(const Point &rhs) const
   {
     return _x == rhs._x && _y == rhs._y;
+  }
+
+  friend std::ostream &operator<<(std::ostream &os, const Point &v)
+  {
+    os << "(" << v.x() << ", " << v.y() << ")";
+    return os;
   }
 
 private:
