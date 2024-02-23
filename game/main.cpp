@@ -1,8 +1,9 @@
 #include "core/config.hpp"
 #include "core/game.hpp"
 
-#include "box.hpp"
+#include "fire_system.hpp"
 #include "player.hpp"
+#include "snow_system.hpp"
 
 #include <time.h>
 
@@ -18,23 +19,29 @@ int main(int argv, char **args)
   game.scene()->add_child(player);
   game.scene()->register_collideable(player, true);
 
-  srand(time(NULL));
-  for (int i = 0; i < 150; i++) {
-    int size = 60 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL;
-    std::shared_ptr<Box> box = std::shared_ptr<Box>(new Box(
-        0,
-        adv::Point(rand() % (conf.screen_width *
-                                 adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL -
-                             size) +
-                       size,
-                   rand() % (conf.screen_height *
-                                 adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL -
-                             size) +
-                       size),
-        {0x00, 0x00, 0xFF}, rand() % size + (size / 4)));
-    game.scene()->add_child(box);
-    game.scene()->register_collideable(box, false);
-  }
+  std::shared_ptr<FireSystem> psystem = std::make_shared<FireSystem>(1000);
+  game.scene()->add_child(psystem);
+  std::shared_ptr<SnowSystem> ssystem = std::make_shared<SnowSystem>(1000);
+  game.scene()->add_child(ssystem);
+
+  // srand(time(NULL));
+  // for (int i = 0; i < 50; i++)
+  // {
+  //   int size = 60 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL;
+  //   std::shared_ptr<Box> box = std::shared_ptr<Box>(new Box(
+  //       0,
+  //       adv::Point(rand() % (conf.screen_width *
+  //                                adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL -
+  //                            size) +
+  //                      size,
+  //                  rand() % (conf.screen_height *
+  //                                adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL -
+  //                            size) +
+  //                      size),
+  //       {0x00, 0x00, 0xFF}, rand() % size + (size / 4)));
+  //   game.scene()->add_child(box);
+  //   game.scene()->register_collideable(box, false);
+  // }
 
   game.run();
 

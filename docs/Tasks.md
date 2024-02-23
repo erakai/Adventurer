@@ -30,3 +30,5 @@ eventually collision updates:
 - implement other optimizations from stack overflow post
 - when moving, move the maximum distance if moving your velocity causes a collision
   - need to use colliders instead of size rect
+
+https://github.com/ocornut/imgui/wiki/Getting-Started#example-if-you-are-using-sdl2--openglwebgl

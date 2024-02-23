@@ -65,6 +65,9 @@ public:
     return *this;
   }
 
+  Vector2f operator*(const float a) { return Vector2f(x * a, y * a); }
+  Vector2f operator/(const float a) { return Vector2f(x / a, y / a); }
+
   Vector2f operator+(const Vector2f &b) { return Vector2f(x + b.x, y + b.y); }
 
   Vector2f operator-(const Vector2f &b) { return Vector2f(x - b.x, y - b.y); }

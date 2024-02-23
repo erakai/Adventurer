@@ -8,6 +8,10 @@ std::unordered_map<KeyEventType, std::vector<std::function<void()>>>
 std::vector<std::function<void(KeyEventType k)>>
     adv::input::general_key_callbacks;
 std::vector<std::function<void(void)>> adv::input::before_input_callbacks;
+std::vector<std::function<void(MouseEventType m, int mouse_x, int mouse_y)>>
+    adv::input::mouse_callbacks;
+
+std::unordered_map<MouseEventType, bool> adv::input::mouse_button_states;
 
 void adv::input::key_hook(KeyEventType e, std::function<void()> func)
 {
@@ -17,6 +21,12 @@ void adv::input::key_hook(KeyEventType e, std::function<void()> func)
 void adv::input::key_hook(std::function<void(KeyEventType k)> func)
 {
   general_key_callbacks.push_back(func);
+}
+
+void adv::input::mouse_hook(
+    std::function<void(MouseEventType m, int mouse_x, int mouse_y)> func)
+{
+  mouse_callbacks.push_back(func);
 }
 
 void adv::input::before_input_hook(std::function<void()> func)
@@ -32,6 +42,12 @@ void adv::input::run_key_hooks(KeyEventType e)
     f(e);
 }
 
+void adv::input::run_mouse_hooks(MouseEventType e, int mouse_x, int mouse_y)
+{
+  for (auto &f : mouse_callbacks)
+    f(e, mouse_x, mouse_y);
+}
+
 void adv::input::run_before_input_hooks()
 {
   for (auto &f : before_input_callbacks)
@@ -43,11 +59,39 @@ bool adv::input::poll_event_loop()
   run_before_input_hooks();
 
   SDL_Event e;
-  while (SDL_PollEvent(&e)) {
-    if (e.type == SDL_QUIT) {
+  while (SDL_PollEvent(&e))
+  {
+    if (e.type == SDL_QUIT)
+    {
       return false;
-    } else if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
-      switch (e.key.keysym.sym) {
+    }
+    else if (e.type == SDL_MOUSEBUTTONDOWN)
+    {
+      if (e.button.button == SDL_BUTTON_LEFT)
+      {
+        mouse_button_states[LEFT_MOUSE_BUTTON] = true;
+        run_mouse_hooks(LEFT_MOUSE_BUTTON, e.motion.x, e.motion.y);
+      }
+    }
+    else if (e.type == SDL_MOUSEBUTTONUP)
+    {
+      if (e.button.button == SDL_BUTTON_LEFT)
+      {
+        mouse_button_states[LEFT_MOUSE_BUTTON] = false;
+      }
+    }
+    else if (e.type == SDL_MOUSEMOTION)
+    {
+      for (auto &it : mouse_button_states)
+      {
+        if (it.second)
+          run_mouse_hooks(it.first, e.motion.x, e.motion.y);
+      }
+    }
+    else if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+    {
+      switch (e.key.keysym.sym)
+      {
       case SDLK_ESCAPE:
         return false;
 
@@ -71,8 +115,11 @@ bool adv::input::poll_event_loop()
         run_key_hooks(RIGHT_MOVE_PRESS);
         break;
       }
-    } else if (e.type == SDL_KEYUP && e.key.repeat == 0) {
-      switch (e.key.keysym.sym) {
+    }
+    else if (e.type == SDL_KEYUP && e.key.repeat == 0)
+    {
+      switch (e.key.keysym.sym)
+      {
       case SDLK_UP:
       case SDLK_w:
         run_key_hooks(UP_MOVE_RELEASE);

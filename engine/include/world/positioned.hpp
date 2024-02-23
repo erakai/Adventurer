@@ -11,7 +11,10 @@ class Positioned
 {
 public:
   Positioned() : position(Point(0, 0)), display_position(Point(0, 0)) {}
-
+  Positioned(Point pos) : position(pos), display_position(Point(0, 0))
+  {
+    update_display_position(Rect(0, 0, 0, 0));
+  }
   Positioned(Point pos, Rect size) : position(pos), size_rect(size)
   {
     update_display_position(Rect(0, 0, 0, 0));

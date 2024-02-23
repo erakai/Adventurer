@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/scene.hpp"
+#include "utils/color.hpp"
 #include "utils/rect.hpp"
 
 #include <memory>
@@ -12,7 +13,8 @@ namespace adv
 class Display
 {
 public:
-  Display(int screen_width, int screen_height, std::string title);
+  Display(int screen_width, int screen_height, std::string title,
+          Color clear_color);
   ~Display();
 
   void render_scene(std::shared_ptr<Scene> scene, const long delta,
@@ -20,6 +22,7 @@ public:
   bool is_initialized() { return initialized; }
 
 private:
+  Color clear_color;
   bool initialized = false;
 
   SDL_Window *window = nullptr;

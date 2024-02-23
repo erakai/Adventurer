@@ -4,9 +4,12 @@
 
 using namespace adv;
 
-Display::Display(int screen_width, int screen_height, std::string title)
+Display::Display(int screen_width, int screen_height, std::string title,
+                 Color clear_color)
+    : clear_color(clear_color)
 {
-  if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+  if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+  {
     logger::log_sdl("Error initializing SDL!");
     return;
   }
@@ -14,7 +17,8 @@ Display::Display(int screen_width, int screen_height, std::string title)
   SDL_CreateWindowAndRenderer(screen_width, screen_height, SDL_WINDOW_SHOWN,
                               &window, &renderer);
 
-  if (window == nullptr || renderer == nullptr) {
+  if (window == nullptr || renderer == nullptr)
+  {
     logger::log_sdl("Error creating window and renderer!");
     return;
   }
@@ -38,7 +42,8 @@ Display::~Display()
 void Display::render_scene(std::shared_ptr<Scene> scene, const long delta,
                            const Rect camera_pos)
 {
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(renderer, clear_color.r, clear_color.g, clear_color.b,
+                         clear_color.opacity);
   SDL_RenderClear(renderer);
 
   scene->render(renderer, delta, camera_pos);

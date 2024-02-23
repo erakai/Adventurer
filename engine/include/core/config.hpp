@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utils/color.hpp"
 #include <string>
 
 namespace adv
@@ -14,6 +15,8 @@ public:
   int screen_height = 720;
 
   int frames_per_second = 144;
+
+  Color bg_color = {33, 37, 54};
 };
 
 }; // namespace adv
