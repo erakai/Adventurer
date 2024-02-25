@@ -3,7 +3,6 @@
 #include "SDL_render.h"
 #include "particles/particle.hpp"
 #include <cmath>
-#include <iostream>
 
 using namespace adv;
 
@@ -105,10 +104,10 @@ void ParticleSystem::emit(ParticleProps props)
   else if (props.mode == PARTICLE_ROTATION)
   {
     particle.origin = props.start_pos;
-    particle.radius = props.start_radius;
+    particle.radius = vary(props.start_radius, props.start_radius_variation);
     particle.radius_delta =
         vary(props.radius_delta, props.radius_delta_variation);
-    particle.theta = props.start_theta;
+    particle.theta = vary(props.start_theta, props.start_theta_variation);
     particle.theta_delta = vary(props.theta_delta, props.theta_delta_variation);
     update_rotating_particle_pos(particle);
   }
@@ -126,9 +125,9 @@ void ParticleSystem::emit(ParticleProps props)
   particle.e_size = props.end_size;
 
   particle.time_alive = 0;
-  particle.lifetime = props.lifetime;
+  particle.lifetime = vary(props.lifetime, props.lifetime_variation);
 
-  next_free_particle = (++next_free_particle) % particle_pool.size();
+  next_free_particle = (next_free_particle + 1) % particle_pool.size();
 }
 
 void ParticleSystem::reset_system()
@@ -158,6 +157,8 @@ bool ParticleSystem::is_paused() const
 
 float ParticleSystem::vary(float start, float variance)
 {
+  if (variance == 0)
+    return start;
   return start + (variance * (((rand() % 200) - 100) * 0.01));
 }
 

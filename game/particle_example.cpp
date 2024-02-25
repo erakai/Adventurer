@@ -22,6 +22,7 @@ ParticleExample::ParticleExample(size_t max_particles)
   fire_props.start_size = 20;
   fire_props.end_size = 5;
   fire_props.lifetime = 4000;
+  fire_props.lifetime_variation = 1500;
 
   snow_props.mode = adv::PARTICLE_GRAVITY;
   snow_props.velocity = adv::Vector2f(0, 800);
@@ -36,12 +37,14 @@ ParticleExample::ParticleExample(size_t max_particles)
 
   magic_props.mode = adv::PARTICLE_ROTATION;
   magic_props.pos_variation = adv::Point(350, 350);
-  magic_props.start_radius = 0;
+  magic_props.start_radius = 200;
+  magic_props.start_radius_variation = 50;
   magic_props.radius_delta = 800;
   magic_props.radius_delta_variation = 200;
-  magic_props.start_theta = M_PI / 4;
+  magic_props.start_theta = 0;
+  magic_props.start_theta_variation = 2 * M_PI;
   magic_props.theta_delta = M_PI;
-  magic_props.theta_delta_variation = M_PI / 4;
+  magic_props.theta_delta_variation = M_PI;
   magic_props.start_color = {80, 25, 117};
   magic_props.end_color = {255, 255, 255};
   magic_props.start_size = 15;

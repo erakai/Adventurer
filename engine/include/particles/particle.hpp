@@ -11,7 +11,7 @@ namespace adv
 enum ParticleMode
 {
   PARTICLE_GRAVITY,
-  PARTICLE_ROTATION
+  PARTICLE_ROTATION,
 };
 
 struct ParticleProps
@@ -28,9 +28,11 @@ struct ParticleProps
 
   // Rotation Props
   float start_radius;
+  float start_radius_variation;
   float radius_delta;
   float radius_delta_variation;
   float start_theta;
+  float start_theta_variation;
   float theta_delta;
   float theta_delta_variation;
 
@@ -42,6 +44,7 @@ struct ParticleProps
   float size_variation;
 
   long lifetime = 1000; // ms
+  long lifetime_variation = 0;
 };
 
 class Particle : public Positioned
