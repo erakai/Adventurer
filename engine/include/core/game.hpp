@@ -2,6 +2,7 @@
 
 #include "config.hpp"
 #include "display/display.hpp"
+#include "display/camera.hpp"
 #include "scene.hpp"
 
 #include <chrono>
@@ -27,6 +28,8 @@ public:
   void add_scene(std::shared_ptr<Scene> scene);
   void set_scene(std::string name);
 
+  void set_camera(std::shared_ptr<Camera> cam);
+
 private:
   // Controls game loop
   bool running;
@@ -39,6 +42,7 @@ private:
 
   // Control actually rendering and display
   Display display;
+  std::shared_ptr<Camera> camera;
 
   // Current scene that is being shown and needs updating
   std::shared_ptr<Scene> current_scene;

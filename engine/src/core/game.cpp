@@ -77,8 +77,15 @@ void Game::update(long delta)
 
 void Game::render(long delta)
 {
-  display.render_scene(current_scene, delta,
-                       Rect(0, 0, conf.screen_width, conf.screen_height));
+  if (camera == nullptr)
+  {
+    display.render_scene(current_scene, delta,
+                        Rect(0, 0, conf.screen_width, conf.screen_height));
+  }
+  else
+  {
+    display.render_scene(current_scene, delta, camera->get_viewport());
+  }
 }
 
 int Game::fps()
@@ -106,4 +113,9 @@ void Game::set_scene(std::string name)
   {
     logger::log("Invalid scene: " + name);
   }
+}
+
+void Game::set_camera(std::shared_ptr<Camera> cam)
+{
+  camera = cam;
 }

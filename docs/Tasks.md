@@ -30,4 +30,4 @@ eventually collision updates:
 
 - make current scene a global variable ?  
 - make render() in entity call like renderself() or something if its within viewport after updating draw pos
-
+- also make mouse_x/mouse_y generally accessible from input, give input access to camera and adjust to window as well
