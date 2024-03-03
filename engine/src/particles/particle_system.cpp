@@ -24,7 +24,22 @@ void ParticleSystem::render(SDL_Renderer *renderer, long delta, Rect viewport)
     if (!particle.active)
       continue;
 
-    particle.update_display_position(viewport);
+    if (!particle.ignore_camera_movement)
+    {
+      particle.update_display_position(viewport);
+      if (!(particle.display_pos().x() + particle.size().width() > 0 &&
+            particle.display_pos().x() < viewport.width() &&
+            particle.display_pos().y() + particle.size().height() > 0 &&
+            particle.display_pos().y() < viewport.height()))
+      {
+        continue;
+      }
+    }
+    else
+    {
+      particle.update_display_position(
+          Rect(0, 0, viewport.width(), viewport.height()));
+    }
 
     float life_ratio =
         (particle.time_alive / static_cast<double>(particle.lifetime));
@@ -102,6 +117,7 @@ void ParticleSystem::emit(ParticleProps props)
 
   particle.mode = props.mode;
   particle.active = true;
+  particle.ignore_camera_movement = props.ignore_camera_movement;
 
   if (props.mode == PARTICLE_GRAVITY || props.mode == PARTICLE_BOTH)
   {

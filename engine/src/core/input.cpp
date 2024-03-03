@@ -1,5 +1,7 @@
 #include "core/input.hpp"
 #include "SDL_events.h"
+#include "display/camera.hpp"
+#include "utils/globals.hpp"
 
 using namespace adv::input;
 
@@ -12,6 +14,12 @@ std::vector<std::function<void(MouseEventType m, int mouse_x, int mouse_y)>>
     adv::input::mouse_callbacks;
 
 std::unordered_map<MouseButton, bool> adv::input::mouse_button_states;
+std::shared_ptr<adv::Camera> adv::input::camera;
+
+void adv::input::add_camera(std::shared_ptr<adv::Camera> cam)
+{
+  camera = cam;
+}
 
 void adv::input::key_hook(KeyEventType e, std::function<void()> func)
 {
@@ -44,6 +52,15 @@ void adv::input::run_key_hooks(KeyEventType e)
 
 void adv::input::run_mouse_hooks(MouseEventType e, int mouse_x, int mouse_y)
 {
+  if (camera != nullptr)
+  {
+    Rect viewport = camera->get_viewport();
+    mouse_x =
+        mouse_x + (viewport.x1() / adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL);
+    mouse_y =
+        mouse_y + (viewport.y1() / adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL);
+  }
+
   for (auto &f : mouse_callbacks)
     f(e, mouse_x, mouse_y);
 }

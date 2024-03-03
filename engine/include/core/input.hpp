@@ -1,5 +1,7 @@
 #pragma once
 
+#include "display/camera.hpp"
+
 #include <functional>
 #include <vector>
 
@@ -51,6 +53,9 @@ extern std::vector<
     mouse_callbacks;
 
 extern std::unordered_map<MouseButton, bool> mouse_button_states;
+extern std::shared_ptr<Camera> camera;
+
+void add_camera(std::shared_ptr<Camera> cam);
 
 void before_input_hook(std::function<void()> func);
 void key_hook(KeyEventType e, std::function<void()> func);

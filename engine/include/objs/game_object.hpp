@@ -20,6 +20,9 @@ public:
   GameObject(Rect rect);
   virtual ~GameObject() {}
 
+  void render(SDL_Renderer *renderer, long delta, Rect viewport) override;
+  virtual void render_self(SDL_Renderer *renderer, Point draw_pos) = 0;
+
   std::vector<std::shared_ptr<GameObject>> check_collisions();
   std::vector<std::shared_ptr<GameObject>> check_collisions(Point pos);
 

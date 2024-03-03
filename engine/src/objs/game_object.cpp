@@ -13,7 +13,23 @@ GameObject::GameObject(Rect rect)
 {
 }
 
-Collider GameObject::get_collider() { return collider; }
+void GameObject::render(SDL_Renderer *renderer, long delta, Rect viewport)
+{
+  update_display_position(viewport);
+
+  if (display_pos().x() + size().width() > 0 &&
+      display_pos().x() < viewport.width() &&
+      display_pos().y() + size().height() > 0 &&
+      display_pos().y() < viewport.height())
+  {
+    render_self(renderer, display_pos());
+  }
+}
+
+Collider GameObject::get_collider()
+{
+  return collider;
+}
 
 void GameObject::set_quadtrees(std::shared_ptr<QuadTree> moving,
                                std::shared_ptr<QuadTree> stationary)
@@ -48,11 +64,13 @@ std::vector<std::shared_ptr<GameObject>> GameObject::check_collisions(Point pos)
   // std::to_string(possible_collisions.size()));
 
   std::vector<std::shared_ptr<GameObject>> actual_collisions;
-  for (auto &obj : possible_collisions) {
+  for (auto &obj : possible_collisions)
+  {
     std::shared_ptr<GameObject> collideable =
         std::dynamic_pointer_cast<GameObject>(obj);
     if (collideable != nullptr && (this) != (collideable.get()) &&
-        collider.check_collision(pos, collideable->get_collider())) {
+        collider.check_collision(pos, collideable->get_collider()))
+    {
       actual_collisions.push_back(collideable);
     }
   }

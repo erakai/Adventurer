@@ -4,13 +4,14 @@
 - [x] fps tracker
 - [x] way to have objects/nodes kill themselves
 - [x] make particle system generate many many boxes
-- [ ] camera - moving, zooming in and out
+- [x] camera - moving, zooming in and out
+- [ ] resource / texture / spritesheet loader
 - [ ] sound manager
 - [ ] animation player - need to be able to tie callbacks, hitboxes, etc to anims
 - [ ] ui library
-- [ ] resource / texture / spritesheet loader
 
 Possible tools?
+
 - [ ] level designer / tile mapper
 - [ ] anim editor
 
@@ -23,11 +24,13 @@ https://discourse.libsdl.org/t/creating-an-easily-distributable-executable-file/
 https://github.com/ocornut/imgui/wiki/Getting-Started#example-if-you-are-using-sdl2--openglwebgl
 
 eventually collision updates:
+
 - remove vector from quadtree and have top level allocate all memory
 - implement other optimizations from stack overflow post
 - when moving, move the maximum distance if moving your velocity causes a collision
+
   - need to use colliders instead of size rect
 
-- make current scene a global variable ?  
+- make current scene a global variable ?
 - make render() in entity call like renderself() or something if its within viewport after updating draw pos
 - also make mouse_x/mouse_y generally accessible from input, give input access to camera and adjust to window as well

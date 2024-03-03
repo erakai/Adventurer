@@ -18,6 +18,7 @@ enum ParticleMode
 struct ParticleProps
 {
   ParticleMode mode = PARTICLE_GRAVITY;
+  bool ignore_camera_movement = false;
 
   Point start_pos;
   Point pos_variation;
@@ -52,6 +53,7 @@ class Particle : public Positioned
 {
 public:
   bool active = false;
+  bool ignore_camera_movement = false;
   ParticleMode mode = PARTICLE_GRAVITY;
 
   // Gravity

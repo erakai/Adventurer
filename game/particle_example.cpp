@@ -25,6 +25,7 @@ ParticleExample::ParticleExample(size_t max_particles)
   fire_props.lifetime_variation = 1500;
 
   snow_props.mode = adv::PARTICLE_GRAVITY;
+  snow_props.ignore_camera_movement = true;
   snow_props.velocity = adv::Vector2f(0, 800);
   snow_props.velocity_variation = adv::Vector2f(0, 20);
   snow_props.start_pos = adv::Point(7400, -50);
@@ -71,7 +72,7 @@ void ParticleExample::update(long delta)
   if (ms_since_last_particle > 200)
   {
     ms_since_last_particle = 0;
-    emit(snow_props);
+    // emit(snow_props);
   }
 }
 

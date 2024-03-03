@@ -80,7 +80,7 @@ void Game::render(long delta)
   if (camera == nullptr)
   {
     display.render_scene(current_scene, delta,
-                        Rect(0, 0, conf.screen_width, conf.screen_height));
+                         Rect(0, 0, conf.screen_width, conf.screen_height));
   }
   else
   {
@@ -118,4 +118,5 @@ void Game::set_scene(std::string name)
 void Game::set_camera(std::shared_ptr<Camera> cam)
 {
   camera = cam;
+  input::add_camera(cam);
 }

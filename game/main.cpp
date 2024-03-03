@@ -1,6 +1,6 @@
 #include "core/config.hpp"
-#include "display/camera.hpp"
 #include "core/game.hpp"
+#include "display/camera.hpp"
 
 #include "particle_example.hpp"
 #include "player.hpp"
@@ -14,19 +14,17 @@ int main(int argv, char **args)
   adv::Game game(conf);
 
   std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(
-      200 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL, adv::Point(0, 0),
+      400 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL, adv::Point(0, 0),
       {0xFF, 0x00, 0x00}, 38 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL));
   game.scene()->add_child(player);
   game.scene()->register_collideable(player, true);
 
   std::shared_ptr<ParticleExample> psystem =
-      std::make_shared<ParticleExample>(2000);
+      std::make_shared<ParticleExample>(5000);
   game.scene()->add_child(psystem);
 
   std::shared_ptr<adv::Camera> cam = std::make_shared<adv::Camera>(
-    adv::CameraType::CENTERED_FOLLOW,
-    conf.screen_width * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-    conf.screen_height * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL);
+      adv::CameraType::CENTERED_FOLLOW, conf.screen_width, conf.screen_height);
   cam->attach(player);
   game.set_camera(cam);
 
