@@ -16,14 +16,11 @@ Possible tools?
 
 https://www.youtube.com/watch?v=GK0jHlv3e3w
 https://github.com/scarsty/SDL2-particles/blob/master/ParticleSystem.h
-
 https://gamedev.stackexchange.com/questions/74858/how-can-i-improve-my-collision-detections-performance
-
 https://gamedev.stackexchange.com/questions/77701/how-to-handle-collisions-without-ugly-conditionals-and-type-checking
-
 https://stackoverflow.com/questions/41946007/efficient-and-well-explained-implementation-of-a-quadtree-for-2d-collision-det
-
 https://discourse.libsdl.org/t/creating-an-easily-distributable-executable-file/24413/8
+https://github.com/ocornut/imgui/wiki/Getting-Started#example-if-you-are-using-sdl2--openglwebgl
 
 eventually collision updates:
 - remove vector from quadtree and have top level allocate all memory
@@ -31,4 +28,6 @@ eventually collision updates:
 - when moving, move the maximum distance if moving your velocity causes a collision
   - need to use colliders instead of size rect
 
-https://github.com/ocornut/imgui/wiki/Getting-Started#example-if-you-are-using-sdl2--openglwebgl
+- make current scene a global variable ?  
+- make render() in entity call like renderself() or something if its within viewport after updating draw pos
+

@@ -71,10 +71,21 @@ void ParticleSystem::update(long delta)
       particle.radius += (particle.radius_delta / 1000.0 * delta);
       particle.theta += (particle.theta_delta / 1000.0 * delta);
       if (particle.theta > 2 * M_PI)
-      {
         particle.theta = particle.theta - (2 * M_PI);
-      }
 
+      update_rotating_particle_pos(particle);
+    }
+    else if (particle.mode == PARTICLE_BOTH)
+    {
+      particle.velocity = particle.velocity + (particle.accel / 1000.0 * delta);
+      particle.origin.x(
+          (particle.origin.x() + (particle.velocity.x / 1000.0 * delta)));
+      particle.origin.y(
+          (particle.origin.y() + (particle.velocity.y / 1000.0 * delta)));
+      particle.radius += (particle.radius_delta / 1000.0 * delta);
+      particle.theta += (particle.theta_delta / 1000.0 * delta);
+      if (particle.theta > 2 * M_PI)
+        particle.theta = particle.theta - (2 * M_PI);
       update_rotating_particle_pos(particle);
     }
 
@@ -92,7 +103,7 @@ void ParticleSystem::emit(ParticleProps props)
   particle.mode = props.mode;
   particle.active = true;
 
-  if (props.mode == PARTICLE_GRAVITY)
+  if (props.mode == PARTICLE_GRAVITY || props.mode == PARTICLE_BOTH)
   {
     particle.pos().x(vary(props.start_pos.x(), props.pos_variation.x()));
     particle.pos().y(vary(props.start_pos.y(), props.pos_variation.y()));
@@ -101,7 +112,8 @@ void ParticleSystem::emit(ParticleProps props)
     particle.velocity.y = vary(props.velocity.y, props.velocity_variation.y);
     particle.accel = props.accel;
   }
-  else if (props.mode == PARTICLE_ROTATION)
+
+  if (props.mode == PARTICLE_ROTATION || props.mode == PARTICLE_BOTH)
   {
     particle.origin = props.start_pos;
     particle.radius = vary(props.start_radius, props.start_radius_variation);

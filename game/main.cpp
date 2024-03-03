@@ -17,7 +17,7 @@ int main(int argv, char **args)
   game.scene()->register_collideable(player, true);
 
   std::shared_ptr<ParticleExample> psystem =
-      std::make_shared<ParticleExample>(2000);
+      std::make_shared<ParticleExample>(20000);
   game.scene()->add_child(psystem);
 
   srand(time(NULL));

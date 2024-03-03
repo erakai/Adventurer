@@ -12,6 +12,7 @@ enum ParticleMode
 {
   PARTICLE_GRAVITY,
   PARTICLE_ROTATION,
+  PARTICLE_BOTH
 };
 
 struct ParticleProps

@@ -16,5 +16,6 @@ private:
   adv::ParticleProps fire_props;
   adv::ParticleProps snow_props;
   adv::ParticleProps magic_props;
+  adv::ParticleProps lightning_props;
   long ms_since_last_particle = 0;
 };
