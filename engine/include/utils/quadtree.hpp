@@ -16,8 +16,8 @@ namespace adv
 class QuadTree
 {
 public:
-  QuadTree(Rect bounds) : bounds(bounds){};
-  QuadTree(int level, Rect bounds) : level(level), bounds(bounds){};
+  QuadTree(Rect world_bounds) : bounds(world_bounds){};
+  QuadTree(int level, Rect world_bounds) : level(level), bounds(world_bounds){};
 
   void clear();
   void insert(std::shared_ptr<Positioned> obj);
@@ -27,8 +27,8 @@ public:
   void debug_render(SDL_Renderer *renderer, long delta, Rect viewport)
   {
     SDL_Rect outlineRect = {
-        bounds.x1() / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-        bounds.y1() / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
+        (bounds.x1() - viewport.x1()) / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
+        (bounds.y1() - viewport.y1()) / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
         bounds.width() / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
         bounds.height() / globals::WORLD_DIST_PER_DISPLAY_PIXEL};
     SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);

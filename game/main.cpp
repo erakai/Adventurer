@@ -11,6 +11,8 @@ int main(int argv, char **args)
 {
   adv::Config conf;
   conf.title = "Some Squares";
+  conf.starting_scene_world_height *= 4;
+  conf.starting_scene_world_width *= 4;
   adv::Game game(conf);
 
   std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(
@@ -29,16 +31,16 @@ int main(int argv, char **args)
   game.set_camera(cam);
 
   srand(time(NULL));
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 100; i++)
   {
     int size = 60 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL;
     std::shared_ptr<Box> box = std::shared_ptr<Box>(new Box(
         0,
-        adv::Point(rand() % (conf.screen_width *
+        adv::Point(rand() % (4 * conf.screen_width *
                                  adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL -
                              size) +
                        size,
-                   rand() % (conf.screen_height *
+                   rand() % (4 * conf.screen_height *
                                  adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL -
                              size) +
                        size),

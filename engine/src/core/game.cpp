@@ -12,8 +12,7 @@ Game::Game(Config conf)
 {
   current_scene = std::make_shared<Scene>(
       conf.title,
-      Rect(0, 0, conf.screen_width * globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-           conf.screen_height * globals::WORLD_DIST_PER_DISPLAY_PIXEL));
+      Rect(0, 0, conf.starting_scene_world_width, conf.starting_scene_world_height));
 }
 
 void Game::run(void)

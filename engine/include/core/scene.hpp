@@ -15,10 +15,10 @@ namespace adv
 class Scene : public Node
 {
 public:
-  Scene(std::string name, Rect bounds) : title(name), bounds(bounds)
+  Scene(std::string name, Rect scene_size) : title(name), scene_size(scene_size)
   {
-    moving_collision_tree = std::make_shared<QuadTree>(bounds);
-    stationary_collision_tree = std::make_shared<QuadTree>(bounds);
+    moving_collision_tree = std::make_shared<QuadTree>(scene_size);
+    stationary_collision_tree = std::make_shared<QuadTree>(scene_size);
     logger::log("Scene (\"" + name + "\") created");
   }
 
@@ -37,7 +37,7 @@ private:
 
   std::string title;
 
-  Rect bounds;
+  Rect scene_size;
 
   std::shared_ptr<QuadTree> stationary_collision_tree;
   std::shared_ptr<QuadTree> moving_collision_tree;
