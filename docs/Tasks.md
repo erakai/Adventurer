@@ -5,7 +5,9 @@
 - [x] way to have objects/nodes kill themselves
 - [x] make particle system generate many many boxes
 - [x] camera - moving, zooming in and out
+- [ ] rewrite mouse input so drag/hold are handled
 - [ ] resource / texture / spritesheet loader
+- [ ] add layers to rendering
 - [ ] sound manager
 - [ ] animation player - need to be able to tie callbacks, hitboxes, etc to anims
 - [ ] ui library
@@ -34,3 +36,7 @@ eventually collision updates:
 - make current scene a global variable ?
 - make render() in entity call like renderself() or something if its within viewport after updating draw pos
 - also make mouse_x/mouse_y generally accessible from input, give input access to camera and adjust to window as well
+
+- bug where game object doesn't correctly collision with object in different quadtree
+  - need to rewrite quadtree to be able to check a specific point, not just an object, and then get_possible_collisions(pos + velocity) instead in move()
+  - low priority

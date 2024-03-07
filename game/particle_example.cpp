@@ -6,8 +6,9 @@
 #include "utils/globals.hpp"
 #include "utils/vector2f.hpp"
 
-ParticleExample::ParticleExample(size_t max_particles)
-    : adv::ParticleSystem(max_particles)
+ParticleExample::ParticleExample(size_t max_particles,
+                                 std::shared_ptr<Player> p)
+    : adv::ParticleSystem(max_particles), player(p)
 {
   auto func = [this](adv::input::MouseEventType m, int mouse_x, int mouse_y)
   { on_click(m, mouse_x, mouse_y); };
@@ -16,7 +17,7 @@ ParticleExample::ParticleExample(size_t max_particles)
   fire_props.mode = adv::PARTICLE_GRAVITY;
   fire_props.velocity = adv::Vector2f(0, -200);
   fire_props.velocity_variation = adv::Vector2f(1, 40);
-  fire_props.pos_variation = adv::Point(1800, 800);
+  fire_props.pos_variation = adv::Point(800, 800);
   fire_props.start_color = {201, 15, 12};
   fire_props.end_color = {250, 108, 47};
   fire_props.start_size = 15;
@@ -69,10 +70,13 @@ void ParticleExample::update(long delta)
 {
   ParticleSystem::update(delta);
   ms_since_last_particle += delta;
-  if (ms_since_last_particle > 200)
+  if (ms_since_last_particle > 100)
   {
     ms_since_last_particle = 0;
     // emit(snow_props);
+    fire_props.start_pos = player->center();
+    for (int i = 0; i < 4; i++)
+      emit(fire_props);
   }
 }
 

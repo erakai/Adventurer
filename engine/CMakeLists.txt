@@ -8,6 +8,7 @@ set(LIB_SOURCES
   src/core/node.cpp
   src/display/display.cpp
   src/display/camera.cpp
+  src/display/texture.cpp
   src/particles/particle_system.cpp
   src/objs/game_object.cpp
   src/objs/entity.cpp

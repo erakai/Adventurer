@@ -23,6 +23,11 @@ public:
   virtual ~Positioned() {}
 
   Point &pos() { return position; }
+  Point center() const
+  {
+    return Point(position.x() + size_rect.width() / 2,
+                 position.y() + size_rect.height() / 2);
+  }
 
   Point &display_pos() { return display_position; }
 

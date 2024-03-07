@@ -22,7 +22,7 @@ int main(int argv, char **args)
   game.scene()->register_collideable(player, true);
 
   std::shared_ptr<ParticleExample> psystem =
-      std::make_shared<ParticleExample>(5000);
+      std::make_shared<ParticleExample>(20000, player);
   game.scene()->add_child(psystem);
 
   std::shared_ptr<adv::Camera> cam = std::make_shared<adv::Camera>(

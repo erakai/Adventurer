@@ -1,42 +1,48 @@
 #pragma once
 
+#include "SDL_render.h"
 #include "utils/color.hpp"
 #include "utils/point.hpp"
-#include "utils/Rect.hpp"
-#include "SDL_Render.h"
+#include "utils/rect.hpp"
 
-#include <string>
 #include <memory>
-#include <map>
+#include <string>
+#include <unordered_map>
 
 namespace adv
 {
 
 class Texture
 {
-  public:
-    Texture(std::string name);
+public:
+  Texture(std::string name, int w, int h);
+  Texture(std::string name, int w, int h, SDL_Renderer *renderer,
+          std::string fp);
+  ~Texture();
 
-    void render(SDL_Renderer* renderer, Point display_pos, std::string sprite = "none");
-  
-    bool load_from_file(std::string file_path);
-    void set_color(Color c);
+  void render(SDL_Renderer *renderer, Point display_pos,
+              std::string sprite = "none");
 
-    bool register_sprite(std::string name, Rect src_rect);
+  bool load_from_file(SDL_Renderer *renderer, std::string file_path);
+  void set_color(Color c);
+  void resize(int new_w, int new_h);
 
-    std::string get_name();
-    int get_width();
-    int get_height();
+  bool register_sprite(std::string name, SDL_Rect src_rect);
 
-  public:
-    std::shared_ptr<SDL_Texture> texture;
+  std::string get_name();
+  bool is_loaded();
+  int get_width();
+  int get_height();
 
-    std::unordered_map<std::string, Rect> sprites;
+public:
+  SDL_Texture *texture;
 
-    std::string name;
-    int width;
-    int height;
-  
+  std::unordered_map<std::string, SDL_Rect> sprites;
+
+  std::string name;
+  bool loaded;
+  int width;
+  int height;
 };
 
-}
+} // namespace adv
