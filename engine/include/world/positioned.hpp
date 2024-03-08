@@ -33,16 +33,13 @@ public:
   Dimension &size() { return size_dim; }
   Dimension display_size()
   {
-    return {size().w / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-            size().h / globals::WORLD_DIST_PER_DISPLAY_PIXEL};
+    return {size().w / globals::SUBPIXELS, size().h / globals::SUBPIXELS};
   }
 
   void update_display_position(Rect camera_pos)
   {
-    display_position.x((position.x() - camera_pos.x1()) /
-                       globals::WORLD_DIST_PER_DISPLAY_PIXEL);
-    display_position.y((position.y() - camera_pos.y1()) /
-                       globals::WORLD_DIST_PER_DISPLAY_PIXEL);
+    display_position.x((position.x() - camera_pos.x1()) / globals::SUBPIXELS);
+    display_position.y((position.y() - camera_pos.y1()) / globals::SUBPIXELS);
   }
 
 private:

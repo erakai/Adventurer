@@ -18,8 +18,8 @@ int main(int argv, char **args)
   // Create Scene =============================================================
   std::shared_ptr<adv::Scene> scene = std::make_shared<adv::Scene>(
       "Test",
-      adv::Rect(0, 0, 1280 * 4 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-                720 * 4 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL),
+      adv::Rect(0, 0, 1280 * 4 * adv::globals::SUBPIXELS,
+                720 * 4 * adv::globals::SUBPIXELS),
       std::make_shared<TestResource>());
 
   // Create Game ==============================================================
@@ -27,15 +27,7 @@ int main(int argv, char **args)
 
   // Create Player ============================================================
   std::shared_ptr<Player> player = std::shared_ptr<Player>(
-      new Player(400 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-                 adv::Point(20000, 20000)));
-  game.scene()->add_child(player);
-  game.scene()->register_collideable(player, true);
-
-  // Create Particle System ===================================================
-  std::shared_ptr<ParticleExample> psystem =
-      std::make_shared<ParticleExample>(20000, player);
-  game.scene()->add_child(psystem);
+      new Player(400 * adv::globals::SUBPIXELS, adv::Point(20000, 20000)));
 
   // Create Camera ============================================================
   std::shared_ptr<adv::Camera> cam = std::make_shared<adv::Camera>(
@@ -47,22 +39,27 @@ int main(int argv, char **args)
   srand(time(NULL));
   for (int i = 0; i < 100; i++)
   {
-    int size = 60 * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL;
+    int size = 150 * adv::globals::SUBPIXELS;
     std::shared_ptr<Box> box = std::shared_ptr<Box>(new Box(
         0,
-        adv::Point(rand() % (4 * conf.screen_width *
-                                 adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL -
-                             size) +
-                       size,
-                   rand() % (4 * conf.screen_height *
-                                 adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL -
-                             size) +
-                       size),
+        adv::Point(
+            rand() % (4 * conf.screen_width * adv::globals::SUBPIXELS - size) +
+                size,
+            rand() % (4 * conf.screen_height * adv::globals::SUBPIXELS - size) +
+                size),
         {0x00, 0x00, 0xFF}, rand() % size + (size / 4)));
     game.scene()->add_child(box);
     game.scene()->register_collideable(box, false);
   }
 
+  // Create Particle System ===================================================
+  std::shared_ptr<ParticleExample> psystem =
+      std::make_shared<ParticleExample>(20000, player);
+  game.scene()->add_child(psystem);
+
+  // Add player last so they render on top
+  game.scene()->add_child(player);
+  game.scene()->register_collideable(player, true);
   game.run();
 
   return 0;

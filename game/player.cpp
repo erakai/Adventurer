@@ -5,7 +5,7 @@
 using namespace adv;
 
 Player::Player(int speed, adv::Point pos)
-    : Entity(speed, adv::Rect(pos.x(), pos.y(), {450, 600}))
+    : Entity(speed, adv::Rect(pos.x(), pos.y(), {390, 646}))
 {
   std::function<void(input::KeyEventType e)> input =
       [this](input::KeyEventType k) { handle_input(k); };
@@ -14,9 +14,8 @@ Player::Player(int speed, adv::Point pos)
 
 void Player::render_self(SDL_Renderer *renderer, adv::Point draw_pos)
 {
-  SDL_Rect clip = {350, 0, 1220, 1920};
   adv::CURRENT_SCENE->res()->textures["player"].render(
-      renderer, adv::Rect(draw_pos.x(), draw_pos.y(), display_size()), clip);
+      renderer, adv::Rect(draw_pos.x(), draw_pos.y(), display_size()), "still");
 }
 
 void Player::handle_input(input::KeyEventType e)

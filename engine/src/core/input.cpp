@@ -55,10 +55,8 @@ void adv::input::run_mouse_hooks(MouseEventType e, int mouse_x, int mouse_y)
   if (camera != nullptr)
   {
     Rect viewport = camera->get_viewport();
-    mouse_x =
-        mouse_x + (viewport.x1() / adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL);
-    mouse_y =
-        mouse_y + (viewport.y1() / adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL);
+    mouse_x = mouse_x + (viewport.x1() / adv::globals::SUBPIXELS);
+    mouse_y = mouse_y + (viewport.y1() / adv::globals::SUBPIXELS);
   }
 
   for (auto &f : mouse_callbacks)

@@ -26,15 +26,15 @@ public:
 
   void debug_render(SDL_Renderer *renderer, long delta, Rect viewport)
   {
-    SDL_Rect outlineRect = {
-        (bounds.x1() - viewport.x1()) / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-        (bounds.y1() - viewport.y1()) / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-        bounds.width() / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-        bounds.height() / globals::WORLD_DIST_PER_DISPLAY_PIXEL};
+    SDL_Rect outlineRect = {(bounds.x1() - viewport.x1()) / globals::SUBPIXELS,
+                            (bounds.y1() - viewport.y1()) / globals::SUBPIXELS,
+                            bounds.width() / globals::SUBPIXELS,
+                            bounds.height() / globals::SUBPIXELS};
     SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
     SDL_RenderDrawRect(renderer, &outlineRect);
 
-    if (has_split) {
+    if (has_split)
+    {
       for (auto &n : nodes)
         n->debug_render(renderer, delta, viewport);
     }

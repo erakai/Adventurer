@@ -19,8 +19,8 @@ class Camera : public Node
 {
 public:
   Camera(CameraType mode, int width, int height)
-      : mode(mode), width(width * globals::WORLD_DIST_PER_DISPLAY_PIXEL),
-        height(height * globals::WORLD_DIST_PER_DISPLAY_PIXEL)
+      : mode(mode), width(width * globals::SUBPIXELS),
+        height(height * globals::SUBPIXELS)
   {
   }
 

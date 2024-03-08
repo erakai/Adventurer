@@ -15,8 +15,8 @@ class GameObject : public Node, public Positioned
 {
 public:
   GameObject() : collider(pos()) {}
-  GameObject(Point position, int width, int height);
-  GameObject(Rect collider);
+  GameObject(Point position, Dimension size);
+  GameObject(Rect pos_and_collision_rect);
   virtual ~GameObject() {}
 
   void render(SDL_Renderer *renderer, long delta, Rect viewport) override;

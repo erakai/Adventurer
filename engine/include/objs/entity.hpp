@@ -11,6 +11,8 @@ class Entity : public GameObject
 public:
   Entity() {}
   Entity(int speed) : speed(speed){};
+  Entity(int speed, Point pos, Dimension size)
+      : GameObject(pos, size), speed(speed){};
   Entity(int speed, Rect rect) : GameObject(rect), speed(speed){};
   virtual ~Entity() {}
 

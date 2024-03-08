@@ -83,9 +83,8 @@ void ParticleExample::update(long delta)
 void ParticleExample::on_click(adv::input::MouseEventType m, int mouse_x,
                                int mouse_y)
 {
-  adv::Point start_pos =
-      adv::Point(mouse_x * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL,
-                 mouse_y * adv::globals::WORLD_DIST_PER_DISPLAY_PIXEL);
+  adv::Point start_pos = adv::Point(mouse_x * adv::globals::SUBPIXELS,
+                                    mouse_y * adv::globals::SUBPIXELS);
 
   if (m == adv::input::LEFT_MOUSE_BUTTON_PRESS ||
       m == adv::input::LEFT_MOUSE_BUTTON_DRAG)

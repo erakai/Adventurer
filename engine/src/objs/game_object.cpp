@@ -4,8 +4,8 @@
 
 using namespace adv;
 
-GameObject::GameObject(Point position, int width, int height)
-    : Positioned(position, {width, height}), collider(pos())
+GameObject::GameObject(Point position, Dimension size)
+    : Positioned(position, size), collider(pos())
 {
 }
 
@@ -23,12 +23,11 @@ void GameObject::render(SDL_Renderer *renderer, long delta, Rect viewport)
       display_pos().x() < viewport.width() &&
       display_pos().y() + size().h > 0 && display_pos().y() < viewport.height())
   {
+    render_self(renderer, display_pos());
     if (globals::COLLISION_DEBUG)
     {
       collider.debug_render(renderer, display_pos());
     }
-
-    render_self(renderer, display_pos());
   }
 }
 
