@@ -1,5 +1,6 @@
 #include "display/display.hpp"
 #include "SDL.h"
+#include "SDL_image.h"
 #include "utils/logger.hpp"
 
 using namespace adv;
@@ -11,6 +12,12 @@ Display::Display(int screen_width, int screen_height, std::string title,
   if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
   {
     logger::log_sdl("Error initializing SDL!");
+    return;
+  }
+
+  if (IMG_Init(IMG_INIT_PNG) < 0)
+  {
+    logger::log_sdl("Error initializing SDL_image!");
     return;
   }
 

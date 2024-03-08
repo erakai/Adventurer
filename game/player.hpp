@@ -1,12 +1,13 @@
 #pragma once
 
-#include "box.hpp"
 #include "core/input.hpp"
+#include "objs/entity.hpp"
 
-class Player : public Box
+class Player : public adv::Entity
 {
 public:
-  Player(int speed, adv::Point pos, adv::Color color, int side_length);
+  Player(int speed, adv::Point pos);
   void handle_input(adv::input::KeyEventType e);
-  void update(long delta) override;
+
+  void render_self(SDL_Renderer *renderer, adv::Point draw_pos) override;
 };

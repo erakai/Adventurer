@@ -1,5 +1,7 @@
 #include "box.hpp"
+#include "core/game.hpp"
 #include "utils/globals.hpp"
+#include "utils/rect.hpp"
 
 Box::Box(int speed, adv::Point pos, adv::Color color, int side_length)
     : Entity(speed, adv::Rect(pos.x(), pos.y(), pos.x() + side_length,
@@ -11,7 +13,6 @@ Box::Box(int speed, adv::Point pos, adv::Color color, int side_length)
 
 void Box::render_self(SDL_Renderer *renderer, adv::Point draw_pos)
 {
-  SDL_Rect fillRect = {draw_pos.x(), draw_pos.y(), side_length, side_length};
-  SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.opacity);
-  SDL_RenderFillRect(renderer, &fillRect);
+  adv::CURRENT_SCENE->res()->textures["box"].render(
+      renderer, adv::Rect(draw_pos.x(), draw_pos.y(), display_size()));
 }

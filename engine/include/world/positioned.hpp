@@ -15,7 +15,7 @@ public:
   {
     update_display_position(Rect(0, 0, 0, 0));
   }
-  Positioned(Point pos, Rect size) : position(pos), size_rect(size)
+  Positioned(Point pos, Dimension size) : position(pos), size_dim(size)
   {
     update_display_position(Rect(0, 0, 0, 0));
   }
@@ -25,13 +25,17 @@ public:
   Point &pos() { return position; }
   Point center() const
   {
-    return Point(position.x() + size_rect.width() / 2,
-                 position.y() + size_rect.height() / 2);
+    return Point(position.x() + size_dim.w / 2, position.y() + size_dim.h / 2);
   }
 
   Point &display_pos() { return display_position; }
 
-  Rect &size() { return size_rect; }
+  Dimension &size() { return size_dim; }
+  Dimension display_size()
+  {
+    return {size().w / globals::WORLD_DIST_PER_DISPLAY_PIXEL,
+            size().h / globals::WORLD_DIST_PER_DISPLAY_PIXEL};
+  }
 
   void update_display_position(Rect camera_pos)
   {
@@ -45,7 +49,7 @@ private:
   Point position;
   Point display_position;
 
-  Rect size_rect;
+  Dimension size_dim;
 };
 
 } // namespace adv

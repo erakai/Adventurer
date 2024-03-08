@@ -1,8 +1,8 @@
 #pragma once
 
 #include "config.hpp"
-#include "display/display.hpp"
 #include "display/camera.hpp"
+#include "display/display.hpp"
 #include "scene.hpp"
 
 #include <chrono>
@@ -13,10 +13,13 @@ using namespace std;
 namespace adv
 {
 
+// :(
+extern std::shared_ptr<Scene> CURRENT_SCENE;
+
 class Game
 {
 public:
-  Game(Config conf);
+  Game(Config conf, std::shared_ptr<Scene> first_scene);
 
   void run(void);
   void update(long delta);
@@ -43,9 +46,6 @@ private:
   // Control actually rendering and display
   Display display;
   std::shared_ptr<Camera> camera;
-
-  // Current scene that is being shown and needs updating
-  std::shared_ptr<Scene> current_scene;
 
   // Map of all scenes in the game
   std::map<std::string, std::shared_ptr<Scene>> scene_map;

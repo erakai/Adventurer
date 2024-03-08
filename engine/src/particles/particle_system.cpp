@@ -27,9 +27,9 @@ void ParticleSystem::render(SDL_Renderer *renderer, long delta, Rect viewport)
     if (!particle.ignore_camera_movement)
     {
       particle.update_display_position(viewport);
-      if (!(particle.display_pos().x() + particle.size().width() > 0 &&
+      if (!(particle.display_pos().x() + particle.size().w > 0 &&
             particle.display_pos().x() < viewport.width() &&
-            particle.display_pos().y() + particle.size().height() > 0 &&
+            particle.display_pos().y() + particle.size().h > 0 &&
             particle.display_pos().y() < viewport.height()))
       {
         continue;

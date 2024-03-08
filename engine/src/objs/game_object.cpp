@@ -1,15 +1,17 @@
 #include "objs/game_object.hpp"
+#include "core/game.hpp"
+#include "utils/globals.hpp"
 
 using namespace adv;
 
 GameObject::GameObject(Point position, int width, int height)
-    : Positioned(position, Rect(0, 0, width, height)), collider(pos())
+    : Positioned(position, {width, height}), collider(pos())
 {
 }
 
-GameObject::GameObject(Rect rect)
-    : Positioned(rect.tl(), Rect(0, 0, rect.width(), rect.height())),
-      collider(pos(), {{0, 0, rect.width(), rect.height()}})
+GameObject::GameObject(Rect collider)
+    : Positioned(collider.tl(), {collider.width(), collider.height()}),
+      collider(pos(), {{0, 0, collider.width(), collider.height()}})
 {
 }
 
@@ -17,11 +19,15 @@ void GameObject::render(SDL_Renderer *renderer, long delta, Rect viewport)
 {
   update_display_position(viewport);
 
-  if (display_pos().x() + size().width() > 0 &&
+  if (display_pos().x() + size().w > 0 &&
       display_pos().x() < viewport.width() &&
-      display_pos().y() + size().height() > 0 &&
-      display_pos().y() < viewport.height())
+      display_pos().y() + size().h > 0 && display_pos().y() < viewport.height())
   {
+    if (globals::COLLISION_DEBUG)
+    {
+      collider.debug_render(renderer, display_pos());
+    }
+
     render_self(renderer, display_pos());
   }
 }
@@ -29,13 +35,6 @@ void GameObject::render(SDL_Renderer *renderer, long delta, Rect viewport)
 Collider GameObject::get_collider()
 {
   return collider;
-}
-
-void GameObject::set_quadtrees(std::shared_ptr<QuadTree> moving,
-                               std::shared_ptr<QuadTree> stationary)
-{
-  moving_tree = moving;
-  stationary_tree = stationary;
 }
 
 std::vector<std::shared_ptr<GameObject>> GameObject::check_collisions()
@@ -46,9 +45,9 @@ std::vector<std::shared_ptr<GameObject>> GameObject::check_collisions()
 std::vector<std::shared_ptr<Positioned>> GameObject::get_possible_collisions()
 {
   std::vector<std::shared_ptr<Positioned>> a =
-      moving_tree->retrieve_nearby(*this);
+      CURRENT_SCENE->get_moving_collision_tree()->retrieve_nearby(*this);
   std::vector<std::shared_ptr<Positioned>> b =
-      stationary_tree->retrieve_nearby(*this);
+      CURRENT_SCENE->get_stationary_collision_tree()->retrieve_nearby(*this);
 
   a.insert(a.end(), b.begin(), b.end());
 

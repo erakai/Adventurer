@@ -38,5 +38,8 @@ eventually collision updates:
 - also make mouse_x/mouse_y generally accessible from input, give input access to camera and adjust to window as well
 
 - bug where game object doesn't correctly collision with object in different quadtree
+
   - need to rewrite quadtree to be able to check a specific point, not just an object, and then get_possible_collisions(pos + velocity) instead in move()
   - low priority
+
+- layered rendering easy: just create a map of vectors with objects in scene with layers as the key

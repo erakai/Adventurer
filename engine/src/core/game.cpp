@@ -2,17 +2,19 @@
 #include "core/input.hpp"
 #include "utils/logger.hpp"
 
+#include <memory>
 #include <thread>
 
 using namespace adv;
 
-Game::Game(Config conf)
+std::shared_ptr<Scene> adv::CURRENT_SCENE;
+
+Game::Game(Config conf, std::shared_ptr<Scene> first_scene)
     : conf(conf),
       display(conf.screen_width, conf.screen_height, conf.title, conf.bg_color)
 {
-  current_scene = std::make_shared<Scene>(
-      conf.title,
-      Rect(0, 0, conf.starting_scene_world_width, conf.starting_scene_world_height));
+  add_scene(first_scene);
+  set_scene(first_scene->name());
 }
 
 void Game::run(void)
@@ -71,19 +73,19 @@ void Game::close()
 void Game::update(long delta)
 {
   running = input::poll_event_loop();
-  current_scene->update(delta);
+  CURRENT_SCENE->update(delta);
 }
 
 void Game::render(long delta)
 {
   if (camera == nullptr)
   {
-    display.render_scene(current_scene, delta,
+    display.render_scene(CURRENT_SCENE, delta,
                          Rect(0, 0, conf.screen_width, conf.screen_height));
   }
   else
   {
-    display.render_scene(current_scene, delta, camera->get_viewport());
+    display.render_scene(CURRENT_SCENE, delta, camera->get_viewport());
   }
 }
 
@@ -94,7 +96,7 @@ int Game::fps()
 
 std::shared_ptr<Scene> Game::scene()
 {
-  return current_scene;
+  return CURRENT_SCENE;
 }
 
 void Game::add_scene(std::shared_ptr<Scene> scene)
@@ -106,7 +108,9 @@ void Game::set_scene(std::string name)
 {
   if (scene_map.find(name) != scene_map.end())
   {
-    current_scene = scene_map[name];
+    logger::log("Changed scene to: \"" + name + "\"");
+    CURRENT_SCENE = scene_map[name];
+    CURRENT_SCENE->load_resources(display.get_renderer());
   }
   else
   {

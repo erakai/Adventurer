@@ -8,8 +8,10 @@ void QuadTree::clear()
 {
   objects.clear();
 
-  if (has_split) {
-    for (auto &n : nodes) {
+  if (has_split)
+  {
+    for (auto &n : nodes)
+    {
       n->clear();
       n = nullptr;
     }
@@ -45,9 +47,11 @@ void QuadTree::split()
 
 void QuadTree::insert(std::shared_ptr<Positioned> obj)
 {
-  if (has_split) {
+  if (has_split)
+  {
     int index = get_index(*obj);
-    if (index != -1) {
+    if (index != -1)
+    {
       nodes[index]->insert(obj);
       return;
     }
@@ -56,24 +60,31 @@ void QuadTree::insert(std::shared_ptr<Positioned> obj)
   objects.push_back(obj);
 
   if ((objects.size() > globals::MAX_OBJECTS_PER_QUADTREE_NODE) &&
-      (level < globals::MAX_QUADTREE_LEVELS)) {
+      (level < globals::MAX_QUADTREE_LEVELS))
+  {
     if (!has_split)
       split();
 
     std::size_t i = 0;
-    while (i < objects.size()) {
+    while (i < objects.size())
+    {
       auto obj = objects.at(i);
       int index = get_index(*obj);
 
-      if (index != -1) {
+      if (index != -1)
+      {
         nodes[index]->insert(obj);
         objects.erase(objects.begin() + i);
-      } else {
+      }
+      else
+      {
         i++;
       }
     }
-  } else if ((objects.size() > globals::MAX_OBJECTS_PER_QUADTREE_NODE) &&
-             (level >= globals::MAX_QUADTREE_LEVELS)) {
+  }
+  else if ((objects.size() > globals::MAX_OBJECTS_PER_QUADTREE_NODE) &&
+           (level >= globals::MAX_QUADTREE_LEVELS))
+  {
     logger::log("Forced to exceed maximum objects per QuadTree - level: " +
                 std::to_string(level));
   }
@@ -85,17 +96,19 @@ int QuadTree::get_index(Positioned obj)
   int ox = obj.pos().x();
   int oy = obj.pos().y();
 
-  bool top_quad = (oy < bounds.center_y()) &&
-                  (oy + obj.size().height() < bounds.center_y());
+  bool top_quad =
+      (oy < bounds.center_y()) && (oy + obj.size().h < bounds.center_y());
   bool bottom_quad = (oy > bounds.center_y());
 
-  if ((ox < bounds.center_x()) &&
-      (ox + obj.size().width() < bounds.center_x())) {
+  if ((ox < bounds.center_x()) && (ox + obj.size().w < bounds.center_x()))
+  {
     if (top_quad)
       index = 0;
     else if (bottom_quad)
       index = 2;
-  } else if (ox > bounds.center_x()) {
+  }
+  else if (ox > bounds.center_x())
+  {
     if (top_quad)
       index = 1;
     else if (bottom_quad)
@@ -118,9 +131,12 @@ void QuadTree::retrieve(std::vector<std::shared_ptr<Positioned>> &return_objs,
 {
   int index = get_index(obj);
 
-  if (index != -1 && has_split) {
+  if (index != -1 && has_split)
+  {
     nodes[index]->retrieve(return_objs, obj);
-  } else if (has_split) {
+  }
+  else if (has_split)
+  {
     for (auto &n : nodes)
       n->retrieve(return_objs, obj);
   }

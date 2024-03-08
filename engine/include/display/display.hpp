@@ -21,6 +21,8 @@ public:
                     const Rect camera_pos);
   bool is_initialized() { return initialized; }
 
+  SDL_Renderer *get_renderer() { return renderer; }
+
 private:
   Color clear_color;
   bool initialized = false;

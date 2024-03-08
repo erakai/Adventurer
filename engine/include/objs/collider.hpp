@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SDL_render.h"
 #include "utils/point.hpp"
 
 #include <vector>
@@ -7,7 +8,8 @@
 namespace adv
 {
 
-struct BoundingBox {
+struct BoundingBox
+{
   int x;
   int y;
   int x2;
@@ -27,6 +29,8 @@ public:
       : owner_pos(pos), _layer(layer), _boxes(boxes)
   {
   }
+
+  void debug_render(SDL_Renderer *renderer, Point draw_pos);
 
   bool check_collision(Collider other);
   bool check_collision(Point my_pos, Collider other);
