@@ -15,11 +15,12 @@ class Display
 public:
   Display(int screen_width, int screen_height, std::string title,
           Color clear_color);
-  ~Display();
 
   void render_scene(std::shared_ptr<Scene> scene, const long delta,
                     const Rect camera_pos);
   bool is_initialized() { return initialized; }
+
+  void close();
 
   SDL_Renderer *get_renderer() { return renderer; }
 
@@ -29,6 +30,8 @@ private:
 
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
+
+  void initialize_imgui();
 };
 
 }; // namespace adv

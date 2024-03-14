@@ -48,8 +48,8 @@ private:
 
   Dimension size_dim;
 
-  bool can_collide = false;
-  bool moveable = false;
+  // bool can_collide = false;
+  // bool moveable = false;
 };
 
 } // namespace adv

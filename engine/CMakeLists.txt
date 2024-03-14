@@ -35,3 +35,6 @@ if (WIN32 AND NOT MSVC)
 else()
   target_link_libraries(${PROJECT_NAME} PRIVATE ${ADV_SDL_LINK_M})
 endif()
+
+# Link to ImGui for debugging ui
+target_link_libraries(${PROJECT_NAME} PUBLIC ImGui)

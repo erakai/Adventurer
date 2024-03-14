@@ -74,7 +74,7 @@ void Collider::debug_render(SDL_Renderer *renderer, Point draw_pos)
     SDL_Rect box = {draw_pos.x() - 1, draw_pos.y() - 1,
                     ((bb.x2 - bb.x) / globals::SUBPIXELS) + 2,
                     ((bb.y2 - bb.y) / globals::SUBPIXELS) + 2};
-    SDL_SetRenderDrawColor(renderer, 43, 117, 50, 50);
+    SDL_SetRenderDrawColor(renderer, 43, 117, 50, 100);
     SDL_RenderFillRect(renderer, &box);
   }
 }

@@ -1,7 +1,11 @@
 #include "display/display.hpp"
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_video.h"
 #include "utils/logger.hpp"
+
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_sdlrenderer2.h"
 
 using namespace adv;
 
@@ -30,14 +34,38 @@ Display::Display(int screen_width, int screen_height, std::string title,
     return;
   }
 
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
   SDL_SetWindowTitle(window, title.c_str());
+
+  initialize_imgui();
 
   initialized = true;
   logger::log("Display initialized");
 }
 
-Display::~Display()
+void Display::initialize_imgui()
 {
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO &io = ImGui::GetIO();
+  io.ConfigFlags |=
+      ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+  io.ConfigFlags |=
+      ImGuiConfigFlags_NavEnableGamepad;            // Enable Gamepad Controls
+  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // IF using Docking Branch
+
+  ImGui::StyleColorsDark();
+
+  ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
+  ImGui_ImplSDLRenderer2_Init(renderer);
+}
+
+void Display::close()
+{
+  ImGui_ImplSDLRenderer2_Shutdown();
+  ImGui_ImplSDL2_Shutdown();
+  ImGui::DestroyContext();
+
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   renderer = nullptr;

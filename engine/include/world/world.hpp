@@ -1,14 +1,14 @@
 #pragma once
 
-#include "core/node.hpp"
-#include "utils/serializable.hpp"
 #include "chunk.hpp"
+#include "core/node.hpp"
 #include "utils/globals.hpp"
+#include "utils/serializable.hpp"
 
 namespace adv
 {
 
-class World: public Node, public Serializable
+class World : public Node, public Serializable
 {
 public:
   World(std::string filepath);
@@ -16,9 +16,9 @@ public:
   void attach(std::shared_ptr<GameObject> adv);
 
   void register_object(std::shared_ptr<GameObject> obj);
-  Chunk& find_chunk(Point p);
+  Chunk &find_chunk(Point p);
 
-  void update(long delta) override; 
+  void update(long delta) override;
   void render(SDL_Renderer *renderer, long delta, Rect viewport) override;
 
   void read(std::string filepath) override;
@@ -36,4 +36,4 @@ private:
   void move_objects_between_chunks();
 };
 
-}
+} // namespace adv

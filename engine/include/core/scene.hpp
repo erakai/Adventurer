@@ -36,7 +36,7 @@ private:
   std::string title;
   Rect scene_size;
 
-  std::shared_ptr<SceneResource> resources;
+  std::shared_ptr<SceneResource> resources = nullptr;
 
   std::vector<std::shared_ptr<GameObject>> moving_scene_objects;
   std::vector<std::shared_ptr<GameObject>> stationary_scene_objects;

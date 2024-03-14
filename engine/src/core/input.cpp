@@ -3,6 +3,8 @@
 #include "display/camera.hpp"
 #include "utils/globals.hpp"
 
+#include "imgui_impl_sdl2.h"
+
 using namespace adv::input;
 
 std::unordered_map<KeyEventType, std::vector<std::function<void()>>>
@@ -76,6 +78,9 @@ bool adv::input::poll_event_loop()
   SDL_Event e;
   while (SDL_PollEvent(&e))
   {
+    // First forward event to ImGui
+    ImGui_ImplSDL2_ProcessEvent(&e);
+
     if (e.type == SDL_QUIT)
     {
       return false;

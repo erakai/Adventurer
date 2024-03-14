@@ -34,11 +34,11 @@ find_package(SDL2_image REQUIRED)
 set(ADV_SDL_INCLUDE
   PUBLIC include/
   PUBLIC ${SDL2_INCLUDE_DIRS}
-  PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS}  
+  PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS}
 )
 
 set(ADV_SDL_LINK_W
-  PUBLIC ${SDL2_LIBRARIES} SDL2_image::SDL2_image mingw32  
+  PUBLIC ${SDL2_LIBRARIES} SDL2_image::SDL2_image mingw32
 )
 
 set(ADV_SDL_LINK_M
@@ -46,5 +46,7 @@ set(ADV_SDL_LINK_M
 )
 
 # Create core components
+add_subdirectory(external)
 add_subdirectory(game)
 add_subdirectory(engine)
+add_subdirectory(tools)

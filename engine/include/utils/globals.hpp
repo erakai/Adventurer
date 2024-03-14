@@ -6,7 +6,7 @@ namespace adv
 namespace globals
 {
 
-const bool COLLISION_DEBUG = true;
+const bool COLLISION_DEBUG = false;
 const bool PRINT_FPS_DEBUG = false;
 
 const int SUBPIXELS = 10;

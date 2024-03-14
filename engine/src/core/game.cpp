@@ -5,6 +5,10 @@
 #include <memory>
 #include <thread>
 
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_sdlrenderer2.h"
+
 using namespace adv;
 
 std::shared_ptr<Scene> adv::CURRENT_SCENE;
@@ -57,6 +61,10 @@ void Game::run(void)
     }
 
     update(delta);
+
+    ImGui::Render();
+    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+
     render(delta);
 
     last_frame = current_frame;
@@ -68,11 +76,18 @@ void Game::run(void)
 void Game::close()
 {
   logger::log("Shutting down...");
+  display.close();
 }
 
 void Game::update(long delta)
 {
   running = input::poll_event_loop();
+
+  ImGui_ImplSDLRenderer2_NewFrame();
+  ImGui_ImplSDL2_NewFrame();
+  ImGui::NewFrame();
+  ImGui::ShowDemoWindow();
+
   CURRENT_SCENE->update(delta);
 }
 

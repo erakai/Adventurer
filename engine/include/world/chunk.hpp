@@ -1,11 +1,11 @@
 #pragma once
 
 #include "core/node.hpp"
-#include "utils/serializable.hpp"
-#include "utils/globals.hpp"
 #include "objs/game_object.hpp"
-#include "utils/quadtree.hpp"
 #include "tile_resource.hpp"
+#include "utils/globals.hpp"
+#include "utils/quadtree.hpp"
+#include "utils/serializable.hpp"
 
 #include <string>
 #include <vector>
@@ -19,7 +19,7 @@ struct ChunkIndex
   uint16_t location_in_file = 0;
 };
 
-class Chunk: public Node, public Serializable
+class Chunk : public Node, public Serializable
 {
 public:
   Chunk(Rect bounds, ChunkIndex index);
@@ -27,14 +27,14 @@ public:
   void register_object(std::shared_ptr<GameObject> obj);
   std::vector<std::shared_ptr<GameObject>> possible_collisions(GameObject obj);
 
-  void update(long delta) override; 
+  void update(long delta) override;
   void render(SDL_Renderer *renderer, long delta, Rect viewport) override;
 
   void read(std::string filepath) override;
   void write(std::string filepath) override;
 
 private:
-  uint8_t tile_map[globals::TILES_PER_CHUNK][globals::TILES_PER_CHUNK] = {0};
+  uint8_t tile_map[globals::TILES_PER_CHUNK][globals::TILES_PER_CHUNK] = {{0}};
 
   std::vector<std::shared_ptr<GameObject>> moveable_objs;
   std::vector<std::shared_ptr<GameObject>> stationary_objs;
@@ -52,4 +52,4 @@ private:
   bool valid = false;
 };
 
-}
+} // namespace adv

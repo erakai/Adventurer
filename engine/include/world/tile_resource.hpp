@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/serializable.hpp"
+
 #include <string>
 #include <unordered_map>
 
@@ -15,7 +16,7 @@ struct Tile
   bool impassable = false;
 };
 
-class TileResource: public Serializable
+class TileResource : public Serializable
 {
 public:
   std::unordered_map<uint8_t, Tile> tiles;
@@ -24,4 +25,4 @@ public:
   void write(std::string filepath) override;
 };
 
-}
+} // namespace adv

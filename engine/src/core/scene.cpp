@@ -89,7 +89,8 @@ void Scene::register_collideable(std::shared_ptr<GameObject> obj,
 
 void Scene::load_resources(SDL_Renderer *renderer)
 {
-  resources->load_textures(renderer);
+  if (resources)
+    resources->load_textures(renderer);
 }
 
 std::shared_ptr<QuadTree> Scene::get_stationary_collision_tree()
