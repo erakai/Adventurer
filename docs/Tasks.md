@@ -5,8 +5,10 @@
 - [x] way to have objects/nodes kill themselves
 - [x] make particle system generate many many boxes
 - [x] camera - moving, zooming in and out
+- [x] resource / texture / spritesheet loader
+- [ ] rewrite world system to allow for tile maps
 - [ ] rewrite mouse input so drag/hold are handled
-- [ ] resource / texture / spritesheet loader
+- [ ] pathfinding (https://gamedev.stackexchange.com/questions/58963/pathfinding-with-2d-non-grid-based-movement-over-uniform-terrain)
 - [ ] add layers to rendering
 - [ ] sound manager
 - [ ] animation player - need to be able to tie callbacks, hitboxes, etc to anims
@@ -43,3 +45,5 @@ eventually collision updates:
   - low priority
 
 - layered rendering easy: just create a map of vectors with objects in scene with layers as the key
+
+- maybe use flood fill to optimize adding rects to stationary quadtree when tiles next to each other are both impassable

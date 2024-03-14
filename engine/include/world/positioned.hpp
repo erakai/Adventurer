@@ -47,6 +47,9 @@ private:
   Point display_position;
 
   Dimension size_dim;
+
+  bool can_collide = false;
+  bool moveable = false;
 };
 
 } // namespace adv

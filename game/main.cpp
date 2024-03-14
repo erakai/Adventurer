@@ -8,12 +8,17 @@
 #include "player.hpp"
 #include "test_resource.hpp"
 
+#include "world/chunk.hpp"
+#include "world/world.hpp"
+
 #include "SDL.h"
 #include "utils/globals.hpp"
 
 int main(int argv, char **args)
 {
   adv::Config conf;
+  conf.screen_height = 1080;
+  conf.screen_width = 1920;
 
   // Create Scene =============================================================
   std::shared_ptr<adv::Scene> scene = std::make_shared<adv::Scene>(

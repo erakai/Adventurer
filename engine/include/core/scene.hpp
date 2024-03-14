@@ -21,8 +21,6 @@ public:
 
   void load_resources(SDL_Renderer *renderer);
 
-  std::vector<std::shared_ptr<Positioned>>
-  get_possible_collisions(GameObject obj);
   std::shared_ptr<QuadTree> get_stationary_collision_tree();
   std::shared_ptr<QuadTree> get_moving_collision_tree();
 
