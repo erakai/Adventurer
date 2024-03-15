@@ -60,11 +60,13 @@ void Game::run(void)
         logger::log("FPS: " + std::to_string(frames_per_second));
     }
 
+    running = input::poll_event_loop();
+
+    ImGui_ImplSDLRenderer2_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
     update(delta);
-
-    ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
-
     render(delta);
 
     last_frame = current_frame;
@@ -81,13 +83,6 @@ void Game::close()
 
 void Game::update(long delta)
 {
-  running = input::poll_event_loop();
-
-  ImGui_ImplSDLRenderer2_NewFrame();
-  ImGui_ImplSDL2_NewFrame();
-  ImGui::NewFrame();
-  ImGui::ShowDemoWindow();
-
   CURRENT_SCENE->update(delta);
 }
 

@@ -3,7 +3,9 @@ project (tools)
 # worldedit ===================================================================
 set(WE_SOURCES
   worldedit/main.cpp
-  worldedit/ui/sidebar.cpp
+  worldedit/components/sidebar.cpp
+  worldedit/views/editor.cpp
+  worldedit/views/creator.cpp
 )
 add_executable(worldedit ${WE_SOURCES})
 

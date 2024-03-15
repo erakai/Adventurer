@@ -13,8 +13,8 @@ class Node
 {
 public:
   virtual ~Node() {}
-  virtual void update(long delta) {}
-  virtual void render(SDL_Renderer *renderer, long delta, Rect viewport) {}
+  virtual void update(long delta);
+  virtual void render(SDL_Renderer *renderer, long delta, Rect viewport);
 
   void update_children(long delta);
   void render_children(SDL_Renderer *renderer, long delta, Rect viewport);
