@@ -74,9 +74,9 @@ void ParticleExample::update(long delta)
   {
     ms_since_last_particle = 0;
     // emit(snow_props);
-    fire_props.start_pos = player->center();
-    for (int i = 0; i < 4; i++)
-      emit(fire_props);
+    // fire_props.start_pos = player->center();
+    // for (int i = 0; i < 4; i++)
+    //   emit(fire_props);
   }
 }
 
@@ -87,14 +87,14 @@ void ParticleExample::on_click(adv::input::MouseEventType m, int mouse_x,
                                     mouse_y * adv::globals::SUBPIXELS);
 
   if (m == adv::input::LEFT_MOUSE_BUTTON_PRESS ||
-      m == adv::input::LEFT_MOUSE_BUTTON_DRAG)
+      m == adv::input::LEFT_MOUSE_BUTTON_DRAG_HOLD)
   {
     fire_props.start_pos = start_pos;
     for (int i = 0; i < 30; i++)
       emit(fire_props);
   }
   else if (m == adv::input::RIGHT_MOUSE_BUTTON_PRESS ||
-           m == adv::input::RIGHT_MOUSE_BUTTON_DRAG)
+           m == adv::input::RIGHT_MOUSE_BUTTON_DRAG_HOLD)
   {
     magic_props.start_pos = start_pos;
     for (int i = 0; i < 60; i++)

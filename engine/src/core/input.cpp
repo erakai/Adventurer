@@ -15,6 +15,8 @@ std::vector<std::function<void(void)>> adv::input::before_input_callbacks;
 std::vector<std::function<void(MouseEventType m, int mouse_x, int mouse_y)>>
     adv::input::mouse_callbacks;
 
+int adv::input::mouse_x, adv::input::mouse_y;
+
 std::unordered_map<MouseButton, bool> adv::input::mouse_button_states;
 std::shared_ptr<adv::Camera> adv::input::camera;
 
@@ -73,6 +75,7 @@ void adv::input::run_before_input_hooks()
 
 bool adv::input::poll_event_loop()
 {
+  ImGuiIO &io = ImGui::GetIO();
   run_before_input_hooks();
 
   SDL_Event e;
@@ -85,34 +88,41 @@ bool adv::input::poll_event_loop()
     {
       return false;
     }
-    else if (e.type == SDL_MOUSEBUTTONDOWN)
+
+    if (!io.WantCaptureMouse)
     {
-      switch (e.button.button)
+
+      if (e.type == SDL_MOUSEBUTTONDOWN)
       {
-      case (SDL_BUTTON_LEFT):
-        mouse_button_states[LEFT_MOUSE_BUTTON] = true;
-        run_mouse_hooks(LEFT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
-        break;
-      case (SDL_BUTTON_RIGHT):
-        mouse_button_states[RIGHT_MOUSE_BUTTON] = true;
-        run_mouse_hooks(RIGHT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
-        break;
+        switch (e.button.button)
+        {
+        case (SDL_BUTTON_LEFT):
+          mouse_button_states[LEFT_MOUSE_BUTTON] = true;
+          run_mouse_hooks(LEFT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
+          break;
+        case (SDL_BUTTON_RIGHT):
+          mouse_button_states[RIGHT_MOUSE_BUTTON] = true;
+          run_mouse_hooks(RIGHT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
+          break;
+        }
       }
-    }
-    else if (e.type == SDL_MOUSEBUTTONUP)
-    {
-      switch (e.button.button)
+      else if (e.type == SDL_MOUSEBUTTONUP)
       {
-      case (SDL_BUTTON_LEFT):
-        mouse_button_states[LEFT_MOUSE_BUTTON] = false;
-        break;
-      case (SDL_BUTTON_RIGHT):
-        mouse_button_states[RIGHT_MOUSE_BUTTON] = false;
-        break;
+        switch (e.button.button)
+        {
+        case (SDL_BUTTON_LEFT):
+          mouse_button_states[LEFT_MOUSE_BUTTON] = false;
+          break;
+        case (SDL_BUTTON_RIGHT):
+          mouse_button_states[RIGHT_MOUSE_BUTTON] = false;
+          break;
+        }
       }
-    }
-    else if (e.type == SDL_MOUSEMOTION)
-    {
+      else if (e.type == SDL_MOUSEMOTION)
+      {
+        mouse_x = e.motion.x;
+        mouse_y = e.motion.y;
+      }
       for (auto &it : mouse_button_states)
       {
         if (it.second)
@@ -120,66 +130,78 @@ bool adv::input::poll_event_loop()
           switch (it.first)
           {
           case LEFT_MOUSE_BUTTON:
-            run_mouse_hooks(LEFT_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
+            run_mouse_hooks(LEFT_MOUSE_BUTTON_DRAG_HOLD, mouse_x, mouse_y);
             break;
           case RIGHT_MOUSE_BUTTON:
-            run_mouse_hooks(RIGHT_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
+            run_mouse_hooks(RIGHT_MOUSE_BUTTON_DRAG_HOLD, mouse_x, mouse_y);
             break;
           }
         }
       }
     }
-    else if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+
+    if (!io.WantCaptureKeyboard)
     {
-      switch (e.key.keysym.sym)
+      if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
       {
-      case SDLK_ESCAPE:
-        return false;
+        switch (e.key.keysym.sym)
+        {
+        case SDLK_ESCAPE:
+          return false;
 
-      case SDLK_UP:
-      case SDLK_w:
-        run_key_hooks(UP_MOVE_PRESS);
-        break;
+        case SDLK_UP:
+        case SDLK_w:
+          run_key_hooks(UP_MOVE_PRESS);
+          break;
 
-      case SDLK_DOWN:
-      case SDLK_s:
-        run_key_hooks(DOWN_MOVE_PRESS);
-        break;
+        case SDLK_DOWN:
+        case SDLK_s:
+          run_key_hooks(DOWN_MOVE_PRESS);
+          break;
 
-      case SDLK_LEFT:
-      case SDLK_a:
-        run_key_hooks(LEFT_MOVE_PRESS);
-        break;
+        case SDLK_LEFT:
+        case SDLK_a:
+          run_key_hooks(LEFT_MOVE_PRESS);
+          break;
 
-      case SDLK_RIGHT:
-      case SDLK_d:
-        run_key_hooks(RIGHT_MOVE_PRESS);
-        break;
+        case SDLK_RIGHT:
+        case SDLK_d:
+          run_key_hooks(RIGHT_MOVE_PRESS);
+          break;
+
+        case SDLK_o:
+          run_key_hooks(DEBUG_PRESS);
+          break;
+        }
       }
-    }
-    else if (e.type == SDL_KEYUP && e.key.repeat == 0)
-    {
-      switch (e.key.keysym.sym)
+      else if (e.type == SDL_KEYUP && e.key.repeat == 0)
       {
-      case SDLK_UP:
-      case SDLK_w:
-        run_key_hooks(UP_MOVE_RELEASE);
-        break;
+        switch (e.key.keysym.sym)
+        {
+        case SDLK_UP:
+        case SDLK_w:
+          run_key_hooks(UP_MOVE_RELEASE);
+          break;
 
-      case SDLK_DOWN:
-      case SDLK_s:
-        run_key_hooks(DOWN_MOVE_RELEASE);
-        break;
+        case SDLK_DOWN:
+        case SDLK_s:
+          run_key_hooks(DOWN_MOVE_RELEASE);
+          break;
 
-      case SDLK_LEFT:
-      case SDLK_a:
-        run_key_hooks(LEFT_MOVE_RELEASE);
-        break;
+        case SDLK_LEFT:
+        case SDLK_a:
+          run_key_hooks(LEFT_MOVE_RELEASE);
+          break;
 
-      case SDLK_RIGHT:
-      case SDLK_d:
-        run_key_hooks(RIGHT_MOVE_RELEASE);
-        break;
+        case SDLK_RIGHT:
+        case SDLK_d:
+          run_key_hooks(RIGHT_MOVE_RELEASE);
+          break;
+
+        case SDLK_o:
+          run_key_hooks(DEBUG_RELEASE);
+          break;
+        }
       }
     }
   }

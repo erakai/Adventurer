@@ -21,6 +21,8 @@ enum KeyEventType
   RIGHT_MOVE_RELEASE,
   UP_MOVE_RELEASE,
   DOWN_MOVE_RELEASE,
+  DEBUG_PRESS,
+  DEBUG_RELEASE,
 };
 
 enum MouseButton
@@ -32,9 +34,9 @@ enum MouseButton
 enum MouseEventType
 {
   LEFT_MOUSE_BUTTON_PRESS,
-  LEFT_MOUSE_BUTTON_DRAG,
+  LEFT_MOUSE_BUTTON_DRAG_HOLD,
   RIGHT_MOUSE_BUTTON_PRESS,
-  RIGHT_MOUSE_BUTTON_DRAG
+  RIGHT_MOUSE_BUTTON_DRAG_HOLD
 };
 
 // Callbacks for specific key events
@@ -54,6 +56,8 @@ extern std::vector<
 
 extern std::unordered_map<MouseButton, bool> mouse_button_states;
 extern std::shared_ptr<Camera> camera;
+
+extern int mouse_x, mouse_y;
 
 void add_camera(std::shared_ptr<Camera> cam);
 

@@ -82,6 +82,7 @@ void Display::render_scene(std::shared_ptr<Scene> scene, const long delta,
   SDL_RenderClear(renderer);
 
   scene->render(renderer, delta, camera_pos);
+  debug_window.render(renderer, delta, camera_pos);
 
   ImGui::Render();
   ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());

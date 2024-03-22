@@ -6,17 +6,17 @@ namespace adv
 namespace globals
 {
 
-const bool COLLISION_DEBUG = false;
-const bool PRINT_FPS_DEBUG = false;
+extern bool COLLISION_DEBUG;
+extern bool PRINT_FPS_DEBUG;
 
-const int SUBPIXELS = 10;
+extern int SUBPIXELS;
 
-const int MAX_OBJECTS_PER_QUADTREE_NODE = 15;
-const int MAX_QUADTREE_LEVELS = 15;
+extern int MAX_OBJECTS_PER_QUADTREE_NODE;
+extern int MAX_QUADTREE_LEVELS;
 
-const int CHUNK_RENDER_DISTANCE = 5;
-const int TILES_PER_CHUNK = 64;
-const int TILE_SIZE = 16 * SUBPIXELS;
+extern int CHUNK_RENDER_DISTANCE;
+extern int TILES_PER_CHUNK;
+extern int TILE_SIZE;
 
 }; // namespace globals
 

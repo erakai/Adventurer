@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/scene.hpp"
+#include "debug/globaldebug.hpp"
 #include "utils/color.hpp"
 #include "utils/rect.hpp"
 
@@ -30,6 +31,9 @@ private:
 
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
+
+  // Debug Nodes
+  GlobalDebugWindow debug_window;
 
   void initialize_imgui();
 };

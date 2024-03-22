@@ -6,6 +6,7 @@ set(LIB_SOURCES
   src/core/scene.cpp
   src/core/input.cpp
   src/core/node.cpp
+  src/debug/globaldebug.cpp
   src/display/display.cpp
   src/display/camera.cpp
   src/display/texture.cpp
@@ -13,6 +14,7 @@ set(LIB_SOURCES
   src/objs/game_object.cpp
   src/objs/entity.cpp
   src/objs/collider.cpp
+  src/utils/globals.cpp
   src/utils/logger.cpp
   src/utils/quadtree.cpp
 )
