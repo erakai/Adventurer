@@ -41,9 +41,9 @@ void Game::run(void)
         chrono::system_clock::now().time_since_epoch());
 
     long delta = (current_frame - last_frame).count();
-    long sleep_for = (1000 / conf.frames_per_second) - delta;
+    long sleep_for = (1000.0 / globals::FPS) - delta;
 
-    if (sleep_for > 0 && conf.frames_per_second != -1)
+    if (sleep_for > 0 && globals::FPS != -1)
     {
       std::this_thread::sleep_for(std::chrono::milliseconds(sleep_for));
       delta += sleep_for;

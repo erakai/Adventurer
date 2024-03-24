@@ -10,9 +10,9 @@ Scene::Scene(std::string name, Rect scene_size,
   resources = res;
 }
 
-Scene::Scene(std::string name, Rect scene_size)
-    : title(name), scene_size(scene_size)
+Scene::Scene(std::string name, Rect size) : title(name)
 {
+  scene_size = size;
   moving_collision_tree = std::make_shared<QuadTree>(scene_size);
   stationary_collision_tree = std::make_shared<QuadTree>(scene_size);
 }

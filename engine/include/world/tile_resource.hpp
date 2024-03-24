@@ -2,6 +2,7 @@
 
 #include "utils/serializable.hpp"
 
+#include <functional>
 #include <string>
 #include <unordered_map>
 
@@ -14,6 +15,8 @@ struct Tile
   std::string sprite_name = "none";
 
   bool impassable = false;
+
+  bool operator==(const Tile &other) const = default;
 };
 
 class TileResource : public Serializable
@@ -26,3 +29,19 @@ public:
 };
 
 } // namespace adv
+
+// https://stackoverflow.com/questions/25594644/warning-specialization-of-template-in-different-namespace
+namespace std
+{
+template <> struct std::hash<adv::Tile>
+{
+  std::size_t operator()(const adv::Tile &k) const
+  {
+    std::size_t res = 17;
+    res = res * 31 + hash<string>()(k.texture_name);
+    res = res * 31 + hash<string>()(k.sprite_name);
+    res = res * 31 + hash<bool>()(k.impassable);
+    return res;
+  }
+};
+} // namespace std

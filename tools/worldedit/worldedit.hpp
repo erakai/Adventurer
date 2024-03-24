@@ -12,7 +12,7 @@ enum class State
 class WorldEdit : public adv::Game
 {
 public:
-  WorldEdit();
+  using adv::Game::Game;
 
   void state_update(State new_state);
 

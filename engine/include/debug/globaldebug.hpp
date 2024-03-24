@@ -13,7 +13,6 @@ public:
 private:
   void render_self(SDL_Renderer *renderer) override;
 
-  void handle_debug_press();
   void handle_debug_release();
 
   bool visible = false;

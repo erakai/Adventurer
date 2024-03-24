@@ -4,6 +4,7 @@ project (tools)
 set(WE_SOURCES
   worldedit/main.cpp
   worldedit/components/sidebar.cpp
+  worldedit/components/tiler.cpp
   worldedit/views/editor.cpp
   worldedit/views/creator.cpp
 )

@@ -22,6 +22,13 @@ public:
     return _x == rhs._x && _y == rhs._y;
   }
 
+  Point operator+=(const Point a)
+  {
+    _x += a._x;
+    _y += a._y;
+    return *this;
+  }
+
   friend std::ostream &operator<<(std::ostream &os, const Point &v)
   {
     os << "(" << v.x() << ", " << v.y() << ")";

@@ -102,7 +102,7 @@ bool adv::input::poll_event_loop()
           break;
         case (SDL_BUTTON_RIGHT):
           mouse_button_states[RIGHT_MOUSE_BUTTON] = true;
-          run_mouse_hooks(RIGHT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
+          run_mouse_hooks(RIGHT_MOUSE_BUTTON_RELEASE, e.motion.x, e.motion.y);
           break;
         }
       }
@@ -112,9 +112,11 @@ bool adv::input::poll_event_loop()
         {
         case (SDL_BUTTON_LEFT):
           mouse_button_states[LEFT_MOUSE_BUTTON] = false;
+          run_mouse_hooks(LEFT_MOUSE_BUTTON_RELEASE, e.motion.x, e.motion.y);
           break;
         case (SDL_BUTTON_RIGHT):
           mouse_button_states[RIGHT_MOUSE_BUTTON] = false;
+          run_mouse_hooks(RIGHT_MOUSE_BUTTON_RELEASE, e.motion.x, e.motion.y);
           break;
         }
       }
@@ -122,20 +124,17 @@ bool adv::input::poll_event_loop()
       {
         mouse_x = e.motion.x;
         mouse_y = e.motion.y;
-      }
-      for (auto &it : mouse_button_states)
-      {
-        if (it.second)
+
+        switch (e.button.button)
         {
-          switch (it.first)
-          {
-          case LEFT_MOUSE_BUTTON:
-            run_mouse_hooks(LEFT_MOUSE_BUTTON_DRAG_HOLD, mouse_x, mouse_y);
-            break;
-          case RIGHT_MOUSE_BUTTON:
-            run_mouse_hooks(RIGHT_MOUSE_BUTTON_DRAG_HOLD, mouse_x, mouse_y);
-            break;
-          }
+        case (SDL_BUTTON_LEFT):
+          if (mouse_button_states[LEFT_MOUSE_BUTTON])
+            run_mouse_hooks(LEFT_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
+          break;
+        case (SDL_BUTTON_RIGHT):
+          if (mouse_button_states[RIGHT_MOUSE_BUTTON])
+            run_mouse_hooks(RIGHT_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
+          break;
         }
       }
     }
@@ -202,6 +201,22 @@ bool adv::input::poll_event_loop()
           run_key_hooks(DEBUG_RELEASE);
           break;
         }
+      }
+    }
+  }
+
+  for (auto &it : mouse_button_states)
+  {
+    if (it.second)
+    {
+      switch (it.first)
+      {
+      case LEFT_MOUSE_BUTTON:
+        run_mouse_hooks(LEFT_MOUSE_BUTTON_HOLD, mouse_x, mouse_y);
+        break;
+      case RIGHT_MOUSE_BUTTON:
+        run_mouse_hooks(RIGHT_MOUSE_BUTTON_HOLD, mouse_x, mouse_y);
+        break;
       }
     }
   }
