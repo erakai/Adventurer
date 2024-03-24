@@ -109,6 +109,11 @@ std::shared_ptr<Scene> Game::scene()
   return CURRENT_SCENE;
 }
 
+Display &Game::get_display()
+{
+  return display;
+}
+
 void Game::add_scene(std::shared_ptr<Scene> scene)
 {
   scene_map[scene->name()] = scene;

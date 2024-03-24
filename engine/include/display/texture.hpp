@@ -23,7 +23,9 @@ public:
   void render(SDL_Renderer *renderer, Rect display_rect, SDL_Rect clip);
 
   bool load_from_file(SDL_Renderer *renderer, std::string file_path);
+
   void set_color(Color c);
+  void reset_color();
 
   bool register_sprite(std::string name, SDL_Rect src_rect);
 

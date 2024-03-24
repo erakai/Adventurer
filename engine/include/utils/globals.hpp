@@ -17,7 +17,7 @@ extern int MAX_QUADTREE_LEVELS;
 
 extern int CHUNK_RENDER_DISTANCE;
 const int TILES_PER_CHUNK = 64;
-const int TILE_SIZE = 16 * globals::SUBPIXELS;
+const int TILE_SIZE = 16;
 
 }; // namespace globals
 

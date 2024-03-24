@@ -26,12 +26,12 @@ public:
 
   void debug_render(SDL_Renderer *renderer, long delta, Rect viewport)
   {
-    SDL_Rect outlineRect = {(bounds.x1() - viewport.x1()) / globals::SUBPIXELS,
-                            (bounds.y1() - viewport.y1()) / globals::SUBPIXELS,
-                            bounds.width() / globals::SUBPIXELS,
-                            bounds.height() / globals::SUBPIXELS};
+    SDL_Rect outline_rect = {(bounds.x1() - viewport.x1()) / globals::SUBPIXELS,
+                             (bounds.y1() - viewport.y1()) / globals::SUBPIXELS,
+                             bounds.width() / globals::SUBPIXELS,
+                             bounds.height() / globals::SUBPIXELS};
     SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-    SDL_RenderDrawRect(renderer, &outlineRect);
+    SDL_RenderDrawRect(renderer, &outline_rect);
 
     if (has_split)
     {

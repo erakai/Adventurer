@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utils/rect.hpp"
 #include <cmath>
 #include <ostream>
 
@@ -30,6 +31,16 @@ public:
     y = norm_y();
   }
   Vector2f normalized() { return Vector2f(norm_x(), norm_y()); }
+
+  float dist_to(Vector2f o)
+  {
+    return std::sqrt(((x - o.x) * (x - o.x)) - ((y - o.y) * (y - o.y)));
+  }
+
+  Dimension to_dimension()
+  {
+    return {static_cast<int>(x), static_cast<int>(y)};
+  }
 
   float dot(Vector2f other) { return x * other.x + y * other.y; }
 

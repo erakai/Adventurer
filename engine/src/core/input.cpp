@@ -7,18 +7,20 @@
 
 using namespace adv::input;
 
+std::vector<std::function<void(void)>> adv::input::before_input_callbacks;
 std::unordered_map<KeyEventType, std::vector<std::function<void()>>>
     adv::input::key_callbacks;
 std::vector<std::function<void(KeyEventType k)>>
     adv::input::general_key_callbacks;
-std::vector<std::function<void(void)>> adv::input::before_input_callbacks;
-std::vector<std::function<void(MouseEventType m, int mouse_x, int mouse_y)>>
+std::unordered_map<MouseEventType,
+                   std::vector<std::function<void(int mouse_x, int mouse_y)>>>
     adv::input::mouse_callbacks;
-
-int adv::input::mouse_x, adv::input::mouse_y;
-
+std::vector<std::function<void(MouseEventType m, int mouse_x, int mouse_y)>>
+    adv::input::general_mouse_callbacks;
 std::unordered_map<MouseButton, bool> adv::input::mouse_button_states;
 std::shared_ptr<adv::Camera> adv::input::camera;
+
+int adv::input::mouse_x, adv::input::mouse_y;
 
 void adv::input::add_camera(std::shared_ptr<adv::Camera> cam)
 {
@@ -38,7 +40,13 @@ void adv::input::key_hook(std::function<void(KeyEventType k)> func)
 void adv::input::mouse_hook(
     std::function<void(MouseEventType m, int mouse_x, int mouse_y)> func)
 {
-  mouse_callbacks.push_back(func);
+  general_mouse_callbacks.push_back(func);
+}
+
+void adv::input::mouse_hook(MouseEventType e,
+                            std::function<void(int mouse_x, int mouse_y)> func)
+{
+  mouse_callbacks[e].push_back(func);
 }
 
 void adv::input::before_input_hook(std::function<void()> func)
@@ -63,7 +71,9 @@ void adv::input::run_mouse_hooks(MouseEventType e, int mouse_x, int mouse_y)
     mouse_y = mouse_y + (viewport.y1() / adv::globals::SUBPIXELS);
   }
 
-  for (auto &f : mouse_callbacks)
+  for (auto &f : mouse_callbacks[e])
+    f(mouse_x, mouse_y);
+  for (auto &f : general_mouse_callbacks)
     f(e, mouse_x, mouse_y);
 }
 
@@ -73,6 +83,7 @@ void adv::input::run_before_input_hooks()
     f();
 }
 
+// TODO: Break this up into multiple functions
 bool adv::input::poll_event_loop()
 {
   ImGuiIO &io = ImGui::GetIO();
@@ -102,7 +113,7 @@ bool adv::input::poll_event_loop()
           break;
         case (SDL_BUTTON_RIGHT):
           mouse_button_states[RIGHT_MOUSE_BUTTON] = true;
-          run_mouse_hooks(RIGHT_MOUSE_BUTTON_RELEASE, e.motion.x, e.motion.y);
+          run_mouse_hooks(RIGHT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
           break;
         }
       }
@@ -122,9 +133,6 @@ bool adv::input::poll_event_loop()
       }
       else if (e.type == SDL_MOUSEMOTION)
       {
-        mouse_x = e.motion.x;
-        mouse_y = e.motion.y;
-
         switch (e.button.button)
         {
         case (SDL_BUTTON_LEFT):
@@ -135,6 +143,21 @@ bool adv::input::poll_event_loop()
           if (mouse_button_states[RIGHT_MOUSE_BUTTON])
             run_mouse_hooks(RIGHT_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
           break;
+        }
+
+        mouse_x = e.motion.x;
+        mouse_y = e.motion.y;
+        run_mouse_hooks(MOUSE_MOTION, e.motion.x, e.motion.y);
+      }
+      else if (e.type == SDL_MOUSEWHEEL)
+      {
+        if (e.wheel.y > 0) // scroll up
+        {
+          run_mouse_hooks(MOUSE_WHEEL_UP, e.motion.x, e.motion.y);
+        }
+        else if (e.wheel.y < 0) // scroll down
+        {
+          run_mouse_hooks(MOUSE_WHEEL_DOWN, e.motion.x, e.motion.y);
         }
       }
     }

@@ -75,6 +75,8 @@ bool Texture::load_from_file(SDL_Renderer *renderer, std::string file_path)
   filepath = file_path;
   loaded = true;
 
+  SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+
   return true;
 }
 
@@ -83,9 +85,14 @@ void Texture::set_color(Color c)
   SDL_SetTextureColorMod(texture, c.r, c.g, c.b);
   if (c.opacity != 0xFF)
   {
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     SDL_SetTextureAlphaMod(texture, c.opacity);
   }
+}
+
+void Texture::reset_color()
+{
+  SDL_SetTextureColorMod(texture, 255, 255, 255);
+  SDL_SetTextureAlphaMod(texture, 255);
 }
 
 bool Texture::register_sprite(std::string name, SDL_Rect src_rect)

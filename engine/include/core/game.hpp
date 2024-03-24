@@ -28,6 +28,7 @@ public:
 
   int fps();
   std::shared_ptr<Scene> scene();
+  Display &get_display();
   void add_scene(std::shared_ptr<Scene> scene);
   void set_scene(std::string name);
 

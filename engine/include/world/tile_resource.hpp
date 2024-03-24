@@ -15,6 +15,7 @@ struct Tile
   std::string sprite_name = "none";
 
   bool impassable = false;
+  bool valid = false;
 
   bool operator==(const Tile &other) const = default;
 };
@@ -41,6 +42,7 @@ template <> struct std::hash<adv::Tile>
     res = res * 31 + hash<string>()(k.texture_name);
     res = res * 31 + hash<string>()(k.sprite_name);
     res = res * 31 + hash<bool>()(k.impassable);
+    res = res * 31 + hash<bool>()(k.valid);
     return res;
   }
 };

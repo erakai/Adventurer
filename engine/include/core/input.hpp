@@ -33,6 +33,9 @@ enum MouseButton
 
 enum MouseEventType
 {
+  MOUSE_MOTION,
+  MOUSE_WHEEL_DOWN,
+  MOUSE_WHEEL_UP,
   LEFT_MOUSE_BUTTON_PRESS,
   LEFT_MOUSE_BUTTON_RELEASE,
   LEFT_MOUSE_BUTTON_HOLD,
@@ -54,9 +57,12 @@ extern std::vector<std::function<void(KeyEventType k)>> general_key_callbacks;
 extern std::vector<std::function<void(void)>> before_input_callbacks;
 
 // Callbacks to be run on mouse click
+extern std::unordered_map<
+    MouseEventType, std::vector<std::function<void(int mouse_x, int mouse_y)>>>
+    mouse_callbacks;
 extern std::vector<
     std::function<void(MouseEventType m, int mouse_x, int mouse_y)>>
-    mouse_callbacks;
+    general_mouse_callbacks;
 
 extern std::unordered_map<MouseButton, bool> mouse_button_states;
 extern std::shared_ptr<Camera> camera;
@@ -70,6 +76,8 @@ void key_hook(KeyEventType e, std::function<void()> func);
 void key_hook(std::function<void(KeyEventType e)> func);
 void mouse_hook(
     std::function<void(MouseEventType m, int mouse_x, int mouse_y)> func);
+void mouse_hook(MouseEventType e,
+                std::function<void(int mouse_x, int mouse_y)> func);
 
 void run_before_input_hooks();
 void run_key_hooks(KeyEventType e);
