@@ -30,19 +30,19 @@ public:
   void write(std::string filepath) override;
 
   float zoom_level = 2;
-  float min_zoom = 0.05;
+  float min_zoom = 0.2;
   float max_zoom = 10;
 
   bool show_grid = true;
   Color outline_color = {235, 177, 19};
   Color hover_color_tint = {0, 255, 0, 150};
+  Color grid_color = {237, 228, 173, 100};
 
 private:
   Point mouse_pos = {0, 0};
 
   Point world_pos;
   Dimension world_size;
-  Point displayed_tiles;
   Vector2f tile_size;
 
   Tile selected_tile;

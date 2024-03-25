@@ -5,6 +5,7 @@
 int main(int argv, char **args)
 {
   adv::Config conf;
+  conf.title = "World Editor";
   conf.screen_width = 1640;
   conf.screen_height = 924;
 

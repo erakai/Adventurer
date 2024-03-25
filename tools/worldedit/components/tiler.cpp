@@ -52,22 +52,32 @@ void Tiler::render_self(SDL_Renderer *renderer)
 
   // draw each tile within viewport to zoom
   Point tl = display_coords_to_tile({0, 0});
-  Point br = {tl.x() + displayed_tiles.x(), tl.y() + displayed_tiles.y()};
-
-  if (tl.x() < 0)
-    tl.x(0);
-  if (tl.y() < 0)
-    tl.y(0);
-
-  if (br.x() >= world_size.w)
-    br.x(world_size.w);
-  if (br.y() >= world_size.h)
-    br.y(world_size.h);
+  Point br = display_coords_to_tile({size().w + 1, size().h + 1});
 
   for (int y = tl.y(); y < br.y() + 1; y++)
   {
+    if (show_grid)
+    {
+      SDL_SetRenderDrawColor(renderer, grid_color.r, grid_color.g, grid_color.b,
+                             grid_color.opacity);
+      int line_y = world_pos.y() + (y * tile_size.y);
+      SDL_RenderDrawLine(
+          renderer, world_pos.x(), line_y,
+          world_pos.x() + static_cast<int>(tile_size.x * world_size.w), line_y);
+    }
+
     for (int x = tl.x(); x < br.x() + 1; x++)
     {
+      if (show_grid && y == tl.y())
+      {
+        SDL_SetRenderDrawColor(renderer, grid_color.r, grid_color.g,
+                               grid_color.b, grid_color.opacity);
+        int line_x = world_pos.x() + (x * tile_size.x);
+        SDL_RenderDrawLine(renderer, line_x, world_pos.y(), line_x,
+                           world_pos.y() +
+                               static_cast<int>(tile_size.y * world_size.h));
+      }
+
       if (y >= tiles.size())
         continue;
 
@@ -86,8 +96,8 @@ void Tiler::render_self(SDL_Renderer *renderer)
       if (hover_coords.x() == x && hover_coords.y() == y)
         continue;
 
-      int display_x = (x - tl.x()) * tile_size.x + world_pos.x();
-      int display_y = (y - tl.y()) * tile_size.y + world_pos.y();
+      int display_x = x * tile_size.x + world_pos.x();
+      int display_y = y * tile_size.y + world_pos.y();
 
       adv::CURRENT_SCENE->res()->textures[tile.texture_name].render(
           renderer, adv::Rect(display_x, display_y, tile_size.to_dimension()),
@@ -102,8 +112,6 @@ void Tiler::render_self(SDL_Renderer *renderer)
   SDL_SetRenderDrawColor(renderer, outline_color.r, outline_color.g,
                          outline_color.b, outline_color.opacity);
   SDL_RenderDrawRect(renderer, &outline_rect);
-
-  // draw grid
 }
 
 void Tiler::handle_mouse_input(input::MouseEventType m, int mouse_x,
@@ -111,6 +119,18 @@ void Tiler::handle_mouse_input(input::MouseEventType m, int mouse_x,
 {
   if (mouse_x > size().w)
   {
+    return;
+  }
+
+  if (m == input::MOUSE_WHEEL_DOWN)
+  {
+    adjust_zoom(-0.10);
+    return;
+  }
+
+  if (m == input::MOUSE_WHEEL_UP)
+  {
+    adjust_zoom(0.10);
     return;
   }
 
@@ -139,12 +159,6 @@ void Tiler::handle_mouse_input(input::MouseEventType m, int mouse_x,
       lmb_pressed_at.x = -1;
     }
   }
-
-  if (m == input::MOUSE_WHEEL_DOWN)
-    adjust_zoom(-0.15);
-
-  if (m == input::MOUSE_WHEEL_UP)
-    adjust_zoom(0.15);
 }
 
 void Tiler::place_tile(Tile tile, int mouse_x, int mouse_y)
@@ -165,12 +179,16 @@ void Tiler::place_tile(Tile tile, int mouse_x, int mouse_y)
 Point Tiler::display_coords_to_tile(Point coords)
 {
   int tile_x = static_cast<int>((coords.x() - world_pos.x()) / tile_size.x);
-  int tile_y = static_cast<int>((coords.y() - world_pos.y()) / tile_size.x);
+  int tile_y = static_cast<int>((coords.y() - world_pos.y()) / tile_size.y);
 
-  if (tile_x < 0 || tile_x > world_size.w)
-    return {-1, -1};
-  if (tile_y < 0 || tile_y > world_size.h)
-    return {-1, -1};
+  if (tile_x < 0)
+    tile_x = 0;
+  if (tile_x >= world_size.w)
+    tile_x = world_size.w - 1;
+  if (tile_y < 0)
+    tile_y = 0;
+  if (tile_y >= world_size.h)
+    tile_y = world_size.h - 1;
 
   return {tile_x, tile_y};
 }
@@ -187,19 +205,28 @@ void Tiler::pan(Point delta)
 
 void Tiler::adjust_zoom(float am)
 {
-  zoom_level = zoom_level + am;
+  float new_zoom = zoom_level + am;
 
-  if (zoom_level < min_zoom)
-    zoom_level = min_zoom;
-  if (zoom_level > max_zoom)
-    zoom_level = max_zoom;
+  if (new_zoom < min_zoom)
+    new_zoom = min_zoom;
+  if (new_zoom > max_zoom)
+    new_zoom = max_zoom;
 
-  tile_size = {zoom_level * globals::TILE_SIZE,
-               zoom_level * globals::TILE_SIZE};
+  if (new_zoom == zoom_level && am != 0)
+    return;
 
-  int display_tile_width = size().w / tile_size.x;
-  int display_tile_height = size().h / tile_size.y;
-  displayed_tiles = {display_tile_width, display_tile_height};
+  zoom_level = new_zoom;
+
+  // Calculate what world pos needs to be us to zoom into the mouse pos
+  Vector2f new_size = {zoom_level * globals::TILE_SIZE,
+                       zoom_level * globals::TILE_SIZE};
+
+  world_pos.x(mouse_pos.x() -
+              ((new_size.x * (mouse_pos.x() - world_pos.x())) / tile_size.x));
+  world_pos.y(mouse_pos.y() -
+              ((new_size.y * (mouse_pos.y() - world_pos.y())) / tile_size.y));
+
+  tile_size = new_size;
 }
 
 void Tiler::read(std::string filepath){};
