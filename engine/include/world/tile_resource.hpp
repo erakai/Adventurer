@@ -34,7 +34,7 @@ public:
 // https://stackoverflow.com/questions/25594644/warning-specialization-of-template-in-different-namespace
 namespace std
 {
-template <> struct std::hash<adv::Tile>
+template <> struct hash<adv::Tile>
 {
   std::size_t operator()(const adv::Tile &k) const
   {

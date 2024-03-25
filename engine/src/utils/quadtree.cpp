@@ -59,7 +59,7 @@ void QuadTree::insert(std::shared_ptr<Positioned> obj)
 
   objects.push_back(obj);
 
-  if ((objects.size() > globals::MAX_OBJECTS_PER_QUADTREE_NODE) &&
+  if ((static_cast<int>(objects.size()) > globals::MAX_OBJECTS_PER_QUADTREE_NODE) &&
       (level < globals::MAX_QUADTREE_LEVELS))
   {
     if (!has_split)
@@ -82,7 +82,7 @@ void QuadTree::insert(std::shared_ptr<Positioned> obj)
       }
     }
   }
-  else if ((objects.size() > globals::MAX_OBJECTS_PER_QUADTREE_NODE) &&
+  else if ((static_cast<int>(objects.size()) > globals::MAX_OBJECTS_PER_QUADTREE_NODE) &&
            (level >= globals::MAX_QUADTREE_LEVELS))
   {
     logger::log("Forced to exceed maximum objects per QuadTree - level: " +

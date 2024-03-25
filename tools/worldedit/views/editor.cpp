@@ -6,7 +6,7 @@ Editor::Editor()
     : adv::Scene("World Edit", {{1640, 924}}, std::make_shared<SceneResource>())
 {
   std::shared_ptr<Tiler> new_tiler =
-      std::shared_ptr<Tiler>(new Tiler({64 * 5, 64 * 5}));
+      std::shared_ptr<Tiler>(new Tiler({64 * 50, 64 * 50}));
   tiler = new_tiler;
   add_child(new_tiler);
 };

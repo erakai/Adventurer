@@ -2,6 +2,8 @@
 #include "views/editor.hpp"
 #include "worldedit.hpp"
 
+#include "SDL.h"
+
 int main(int argv, char **args)
 {
   adv::Config conf;

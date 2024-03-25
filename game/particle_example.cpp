@@ -5,6 +5,7 @@
 #include "utils/color.hpp"
 #include "utils/globals.hpp"
 #include "utils/vector2f.hpp"
+#include "utils/logger.hpp"
 
 ParticleExample::ParticleExample(size_t max_particles,
                                  std::shared_ptr<Player> p)

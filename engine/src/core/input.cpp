@@ -3,6 +3,8 @@
 #include "display/camera.hpp"
 #include "utils/globals.hpp"
 
+#include "utils/logger.hpp"
+
 #include "imgui_impl_sdl2.h"
 
 using namespace adv::input;

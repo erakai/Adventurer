@@ -78,10 +78,10 @@ void Tiler::render_self(SDL_Renderer *renderer)
                                static_cast<int>(tile_size.y * world_size.h));
       }
 
-      if (y >= tiles.size())
+      if (y >= static_cast<int>(tiles.size()))
         continue;
 
-      if (x >= tiles[y].size())
+      if (x >= static_cast<int>(tiles[y].size()))
         continue;
 
       uint8_t t = tiles[y][x];
@@ -124,13 +124,13 @@ void Tiler::handle_mouse_input(input::MouseEventType m, int mouse_x,
 
   if (m == input::MOUSE_WHEEL_DOWN)
   {
-    adjust_zoom(-0.10);
+    adjust_zoom(-0.15);
     return;
   }
 
   if (m == input::MOUSE_WHEEL_UP)
   {
-    adjust_zoom(0.10);
+    adjust_zoom(0.15);
     return;
   }
 
@@ -153,7 +153,7 @@ void Tiler::handle_mouse_input(input::MouseEventType m, int mouse_x,
   {
     if (lmb_pressed_at.x >= 0 &&
         lmb_pressed_at.dist_to(
-            {static_cast<float>(mouse_x), static_cast<float>(mouse_y)}) < 25)
+            {static_cast<float>(mouse_x), static_cast<float>(mouse_y)}) < 120)
     {
       place_tile(selected_tile, mouse_x, mouse_y);
       lmb_pressed_at.x = -1;
