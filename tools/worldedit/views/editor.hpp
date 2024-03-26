@@ -6,7 +6,7 @@
 class Editor : public adv::Scene
 {
 public:
-  Editor();
+  Editor(std::shared_ptr<SceneResource> res);
 
   std::shared_ptr<Tiler> get_tiler();
 

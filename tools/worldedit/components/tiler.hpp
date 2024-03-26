@@ -13,6 +13,12 @@
 
 using namespace adv;
 
+enum class Tool
+{
+  PAN,
+  PLACE,
+};
+
 class Tiler : public UINode, public Serializable
 {
 public:
@@ -20,22 +26,23 @@ public:
 
   void place_tile(Tile tile, int mouse_x, int mouse_y);
 
+  void set_tool(Tool tool);
   void set_selected_tile(Tile tile);
   void adjust_zoom(float am);
-  void pan(Point delta);
+  void pan(int mouse_x, int mouse_y);
 
   void handle_mouse_input(input::MouseEventType m, int mouse_x, int mouse_y);
 
   void read(std::string filepath) override;
   void write(std::string filepath) override;
 
-  float zoom_level = 2;
-  float min_zoom = 0.2;
+  float zoom_level = 0;
+  float min_zoom = 0.02;
   float max_zoom = 10;
 
   bool show_grid = true;
   Color outline_color = {235, 177, 19};
-  Color hover_color_tint = {0, 255, 0, 150};
+  Color hover_color_tint = {255, 255, 255, 150};
   Color grid_color = {237, 228, 173, 100};
 
 private:
@@ -44,10 +51,10 @@ private:
   Point world_pos;
   Dimension world_size;
   Vector2f tile_size;
+  float effective_zoom = -1;
 
-  Tile selected_tile;
-
-  Vector2f lmb_pressed_at;
+  Tile selected_tile = {"tiles", "floor", false, true};
+  Tool selected_tool = Tool::PAN;
 
   // We need a way to associate tiles and their ids with each other on the fly
   // This is a (really) really bad way to implement a "bimap"

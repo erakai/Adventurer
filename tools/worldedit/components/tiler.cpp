@@ -2,7 +2,7 @@
 #include "core/game.hpp"
 #include "core/input.hpp"
 #include "utils/globals.hpp"
-#include "utils/logger.hpp"
+#include <cmath>
 
 using namespace adv;
 
@@ -32,30 +32,17 @@ Tiler::Tiler(Dimension world_size)
 
 void Tiler::render_self(SDL_Renderer *renderer)
 {
-  // draw hovered tile
+  // Compute tile mouse is hovering over
   Point hover_coords = display_coords_to_tile(mouse_pos);
-  if (selected_tile.valid && mouse_pos.x() > 0 && hover_coords.x() >= 0)
-  {
-    Texture tex =
-        adv::CURRENT_SCENE->res()->textures[selected_tile.texture_name];
-    tex.set_color(hover_color_tint);
 
-    tex.render(
-        renderer,
-        {static_cast<int>(hover_coords.x() * tile_size.x + world_pos.x()),
-         static_cast<int>(hover_coords.y() * tile_size.y + world_pos.y()),
-         tile_size.to_dimension()},
-        selected_tile.sprite_name);
-
-    tex.reset_color();
-  }
-
-  // draw each tile within viewport to zoom
+  // Compute bounds of viewport in tile coordinates
   Point tl = display_coords_to_tile({0, 0});
   Point br = display_coords_to_tile({size().w + 1, size().h + 1});
 
+  // Begin drawing all visible tiles
   for (int y = tl.y(); y < br.y() + 1; y++)
   {
+    // Draw horizontal grid lines
     if (show_grid)
     {
       SDL_SetRenderDrawColor(renderer, grid_color.r, grid_color.g, grid_color.b,
@@ -68,6 +55,7 @@ void Tiler::render_self(SDL_Renderer *renderer)
 
     for (int x = tl.x(); x < br.x() + 1; x++)
     {
+      // Draw vertical grid lines
       if (show_grid && y == tl.y())
       {
         SDL_SetRenderDrawColor(renderer, grid_color.r, grid_color.g,
@@ -84,6 +72,7 @@ void Tiler::render_self(SDL_Renderer *renderer)
       if (x >= static_cast<int>(tiles[y].size()))
         continue;
 
+      // Render tile to screen
       uint8_t t = tiles[y][x];
 
       if (t == 0)
@@ -105,7 +94,25 @@ void Tiler::render_self(SDL_Renderer *renderer)
     }
   }
 
-  // draw border of world
+  // Draw transparent tile under mouse
+  if (selected_tile.valid && mouse_pos.x() > 0 && hover_coords.x() >= 0 &&
+      selected_tool != Tool::PAN)
+  {
+    Texture tex =
+        adv::CURRENT_SCENE->res()->textures[selected_tile.texture_name];
+    tex.set_color(hover_color_tint);
+
+    tex.render(
+        renderer,
+        {static_cast<int>(hover_coords.x() * tile_size.x + world_pos.x()),
+         static_cast<int>(hover_coords.y() * tile_size.y + world_pos.y()),
+         tile_size.to_dimension()},
+        selected_tile.sprite_name);
+
+    tex.reset_color();
+  }
+
+  // Draw overall border around world
   SDL_Rect outline_rect = {world_pos.x(), world_pos.y(),
                            static_cast<int>(tile_size.x * world_size.w),
                            static_cast<int>(tile_size.y * world_size.h)};
@@ -134,31 +141,25 @@ void Tiler::handle_mouse_input(input::MouseEventType m, int mouse_x,
     return;
   }
 
-  if (m == input::LEFT_MOUSE_BUTTON_DRAG)
+  if (m == input::MIDDLE_MOUSE_BUTTON_DRAG)
   {
-    Point delta = {mouse_x - mouse_pos.x(), mouse_y - mouse_pos.y()};
-    pan(delta);
+    pan(mouse_x, mouse_y);
+  }
+
+  switch (selected_tool)
+  {
+  case Tool::PAN:
+    if (m == input::LEFT_MOUSE_BUTTON_DRAG)
+      pan(mouse_x, mouse_y);
+    break;
+  case Tool::PLACE:
+    if (m == input::LEFT_MOUSE_BUTTON_RELEASE)
+      place_tile(selected_tile, mouse_x, mouse_y);
+    break;
   }
 
   mouse_pos.x(mouse_x);
   mouse_pos.y(mouse_y);
-
-  if (m == input::LEFT_MOUSE_BUTTON_PRESS)
-  {
-    lmb_pressed_at.x = static_cast<float>(mouse_x);
-    lmb_pressed_at.y = static_cast<float>(mouse_y);
-  }
-
-  if (m == input::LEFT_MOUSE_BUTTON_RELEASE)
-  {
-    if (lmb_pressed_at.x >= 0 &&
-        lmb_pressed_at.dist_to(
-            {static_cast<float>(mouse_x), static_cast<float>(mouse_y)}) < 120)
-    {
-      place_tile(selected_tile, mouse_x, mouse_y);
-      lmb_pressed_at.x = -1;
-    }
-  }
 }
 
 void Tiler::place_tile(Tile tile, int mouse_x, int mouse_y)
@@ -193,33 +194,43 @@ Point Tiler::display_coords_to_tile(Point coords)
   return {tile_x, tile_y};
 }
 
+void Tiler::set_tool(Tool tool)
+{
+  selected_tool = tool;
+}
+
 void Tiler::set_selected_tile(Tile tile)
 {
   selected_tile = tile;
 }
 
-void Tiler::pan(Point delta)
+void Tiler::pan(int mouse_x, int mouse_y)
 {
+  Point delta = {mouse_x - mouse_pos.x(), mouse_y - mouse_pos.y()};
   world_pos += delta;
 }
 
 void Tiler::adjust_zoom(float am)
 {
-  float new_zoom = zoom_level + am;
+  // Sigmoid function so zooming feels natural
 
-  if (new_zoom < min_zoom)
-    new_zoom = min_zoom;
-  if (new_zoom > max_zoom)
-    new_zoom = max_zoom;
+  float new_effective_zoom = (exp(zoom_level + am) / 1 + exp(zoom_level + am));
 
-  if (new_zoom == zoom_level && am != 0)
+  if (new_effective_zoom < min_zoom)
+    new_effective_zoom = min_zoom;
+  if (new_effective_zoom > max_zoom)
+    new_effective_zoom = max_zoom;
+
+  if (new_effective_zoom == effective_zoom && am != 0)
     return;
 
-  zoom_level = new_zoom;
+  effective_zoom = new_effective_zoom;
+  zoom_level = zoom_level + am;
 
-  // Calculate what world pos needs to be us to zoom into the mouse pos
-  Vector2f new_size = {zoom_level * globals::TILE_SIZE,
-                       zoom_level * globals::TILE_SIZE};
+  // Calculate what world pos needs to be for us to zoom into the mouse pos
+
+  Vector2f new_size = {effective_zoom * globals::TILE_SIZE,
+                       effective_zoom * globals::TILE_SIZE};
 
   world_pos.x(mouse_pos.x() -
               ((new_size.x * (mouse_pos.x() - world_pos.x())) / tile_size.x));

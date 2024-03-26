@@ -23,12 +23,15 @@ enum KeyEventType
   DOWN_MOVE_RELEASE,
   DEBUG_PRESS,
   DEBUG_RELEASE,
+  SPACE_PRESS,
+  SPACE_RELEASE
 };
 
 enum MouseButton
 {
   LEFT_MOUSE_BUTTON,
   RIGHT_MOUSE_BUTTON,
+  MIDDLE_MOUSE_BUTTON,
 };
 
 enum MouseEventType
@@ -44,7 +47,13 @@ enum MouseEventType
   RIGHT_MOUSE_BUTTON_RELEASE,
   RIGHT_MOUSE_BUTTON_HOLD,
   RIGHT_MOUSE_BUTTON_DRAG,
+  MIDDLE_MOUSE_BUTTON_PRESS,
+  MIDDLE_MOUSE_BUTTON_RELEASE,
+  MIDDLE_MOUSE_BUTTON_HOLD,
+  MIDDLE_MOUSE_BUTTON_DRAG,
 };
+
+extern bool YIELD_TO_IMGUI;
 
 // Callbacks for specific key events
 extern std::unordered_map<KeyEventType, std::vector<std::function<void()>>>

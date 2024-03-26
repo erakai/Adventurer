@@ -8,6 +8,8 @@
 #include <memory>
 #include <string>
 
+#define ImTextureID SDL_Texture *
+
 namespace adv
 {
 

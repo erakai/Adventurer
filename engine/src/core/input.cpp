@@ -1,5 +1,6 @@
 #include "core/input.hpp"
 #include "SDL_events.h"
+#include "SDL_keycode.h"
 #include "display/camera.hpp"
 #include "utils/globals.hpp"
 
@@ -8,6 +9,8 @@
 #include "imgui_impl_sdl2.h"
 
 using namespace adv::input;
+
+bool adv::input::YIELD_TO_IMGUI = true;
 
 std::vector<std::function<void(void)>> adv::input::before_input_callbacks;
 std::unordered_map<KeyEventType, std::vector<std::function<void()>>>
@@ -117,6 +120,10 @@ bool adv::input::poll_event_loop()
           mouse_button_states[RIGHT_MOUSE_BUTTON] = true;
           run_mouse_hooks(RIGHT_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
           break;
+        case (SDL_BUTTON_MIDDLE):
+          mouse_button_states[MIDDLE_MOUSE_BUTTON] = true;
+          run_mouse_hooks(MIDDLE_MOUSE_BUTTON_PRESS, e.motion.x, e.motion.y);
+          break;
         }
       }
       else if (e.type == SDL_MOUSEBUTTONUP)
@@ -131,6 +138,10 @@ bool adv::input::poll_event_loop()
           mouse_button_states[RIGHT_MOUSE_BUTTON] = false;
           run_mouse_hooks(RIGHT_MOUSE_BUTTON_RELEASE, e.motion.x, e.motion.y);
           break;
+        case (SDL_BUTTON_MIDDLE):
+          mouse_button_states[MIDDLE_MOUSE_BUTTON] = false;
+          run_mouse_hooks(MIDDLE_MOUSE_BUTTON_RELEASE, e.motion.x, e.motion.y);
+          break;
         }
       }
       else if (e.type == SDL_MOUSEMOTION)
@@ -144,6 +155,10 @@ bool adv::input::poll_event_loop()
         case (SDL_BUTTON_RIGHT):
           if (mouse_button_states[RIGHT_MOUSE_BUTTON])
             run_mouse_hooks(RIGHT_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
+          break;
+        case (SDL_BUTTON_MIDDLE):
+          if (mouse_button_states[MIDDLE_MOUSE_BUTTON])
+            run_mouse_hooks(MIDDLE_MOUSE_BUTTON_DRAG, e.motion.x, e.motion.y);
           break;
         }
 
@@ -196,6 +211,10 @@ bool adv::input::poll_event_loop()
         case SDLK_o:
           run_key_hooks(DEBUG_PRESS);
           break;
+
+        case SDLK_SPACE:
+          run_key_hooks(SPACE_PRESS);
+          break;
         }
       }
       else if (e.type == SDL_KEYUP && e.key.repeat == 0)
@@ -225,6 +244,10 @@ bool adv::input::poll_event_loop()
         case SDLK_o:
           run_key_hooks(DEBUG_RELEASE);
           break;
+
+        case SDLK_SPACE:
+          run_key_hooks(SPACE_RELEASE);
+          break;
         }
       }
     }
@@ -241,6 +264,9 @@ bool adv::input::poll_event_loop()
         break;
       case RIGHT_MOUSE_BUTTON:
         run_mouse_hooks(RIGHT_MOUSE_BUTTON_HOLD, mouse_x, mouse_y);
+        break;
+      case MIDDLE_MOUSE_BUTTON:
+        run_mouse_hooks(MIDDLE_MOUSE_BUTTON_HOLD, mouse_x, mouse_y);
         break;
       }
     }
