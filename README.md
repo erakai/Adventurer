@@ -2,7 +2,7 @@
 
 ## Summary
 
-Adventurer is a top down role playing game inspired by western progression fantasy, built as an exercise in learning C++ and SDL2.
+A 2D game engine built as an exercise in learning SDL2.
 
 ## Getting Started
 
