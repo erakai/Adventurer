@@ -20,3 +20,10 @@ cmake ..
 make
 ./adventurer
 ```
+
+## Videos
+
+https://github.com/user-attachments/assets/04e33062-38d1-4f0d-9367-6e263b0c9537
+
+https://github.com/user-attachments/assets/f7f5ff0b-017e-4d57-978f-6fb751746a1c
+
